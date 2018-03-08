@@ -1,6 +1,7 @@
 {
   "name": "partch",
   "version": "0.1.1",
+  "module": "index.js",
   "description": "A lightweight Web Audio API patching library.",
   "keywords": [
     "music",
