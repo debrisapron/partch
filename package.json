@@ -13,5 +13,13 @@
   "homepage": "https://github.com/debrisapron/partch",
   "repository": "github:debrisapron/partch",
   "author": "DEBRIS APRON <debrisapron@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "markdown-styles": "^3.1.10",
+    "marked": "^0.3.17",
+    "showdown": "^1.8.6"
+  },
+  "scripts": {
+    "build-docs": "rm -f index.html && rm -rf assets && generate-md --layout docs-layout --input README.md --output tmp && mv tmp/* . && mv README.html index.html && rm -r tmp"
+  }
 }

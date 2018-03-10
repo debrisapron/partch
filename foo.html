@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script type="module">
+import Partch from './index.js'
+window.P = Partch()
+
+P.Synth((frequency) => P({
+  osc: P.Osc({ frequency, type: 'sawtooth' }),
+  vcf: P.Filter(20),
+  vca: P.Gain(0),
+  env: P.Adsr({ attack: 0.01, decay: 0.1, sustain: 0.6, release: 5 })
+},
+  'osc > vcf > vca > out',
+  'env > vcf.frequencyCv',
+  'env > vca.gainCv'
+)).monitor().play(60).releaseAfter(0.5)
+</script>
+</body>
+</html>
