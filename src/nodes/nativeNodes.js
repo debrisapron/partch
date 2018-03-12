@@ -26,7 +26,12 @@ export function Const(context, config) {
 }
 
 export function Delay(context, config) {
-  return WaaNode(context, 'DelayNode', 'delayTime', true, config)
+  let params = isPlainObject(config) ? config : { delayTime: config || 0 }
+  params = { delayTime: 0, maxDelayTime: 1, ...params }
+  if (params.delayTime > params.maxDelayTime) {
+    params.maxDelayTime = params.delayTime
+  }
+  return WaaNode(context, 'DelayNode', 'delayTime', true, params)
 }
 
 export function Filter(context, config) {

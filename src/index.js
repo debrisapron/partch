@@ -1,5 +1,5 @@
 import Patch from './Patch'
-import { stopAndDisconnectAllNodes } from './helpers'
+import { resetContext } from './helpers'
 import Adsr from './nodes/Adsr'
 import * as nativeNodes from './nodes/nativeNodes'
 import * as noiseNodes from './nodes/noiseNodes'
