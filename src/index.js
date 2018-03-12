@@ -11,9 +11,10 @@ function getDefaultAudioContext() {
 }
 
 function Partch(context = getDefaultAudioContext()) {
+  context.__nodes = []
   let _Patch = Patch.bind(null, context)
   _Patch.context = context
-  _Patch.panic = stopAndDisconnectAllNodes
+  _Patch.panic = () => resetContext(context)
   Object.values(nativeNodes)
     .concat(Object.values(noiseNodes))
     .concat(Adsr, Synth)
