@@ -1,7 +1,7 @@
 {
   "name": "partch",
-  "version": "0.2.1",
-  "main": "dist/partch.js",
+  "version": "0.3.0",
+  "main": "index.js",
   "module": "src/index.js",
   "description": "A lightweight Web Audio API patching library.",
   "keywords": [
@@ -10,7 +10,6 @@
     "audio",
     "synthesis"
   ],
-  "main": "index.js",
   "homepage": "http://debrisapron.me/partch/",
   "repository": "github:debrisapron/partch",
   "author": "DEBRIS APRON <debrisapron@gmail.com>",
