@@ -35,30 +35,42 @@ function Patch(context, nodes, ...connections) {
 
   //// Patch instance methods //////////////////////////////////////////////////
 
-  function start(time = 0) {
-    Object.values(nodes).forEach((node) => node.start && node.start(time))
-    return patch
-  }
-
-  function stop(time = 0) {
-    Object.values(nodes).forEach((node) => node.stop && node.stop(time))
-    return patch
-  }
-
-  function release(time = 0) {
-    let stopTimes = Object.values(nodes)
-      .map((node) => node.release ? node.release(time) : time)
-    let stopTime = Math.max(...stopTimes)
-    stop(stopTime)
-    return patch
-  }
-
   function connect(destination) {
     return nodes.out.connect(destination)
   }
 
+  function stop(time) {
+    let currTime = context.currentTime
+    time = time || currTime
+    Object.values(nodes).forEach((node) => node.stop && node.stop(time))
+    setTimeout(
+      () => nodes.out.disconnect(),
+      (time - currTime) * 1000
+    )
+    return patch
+  }
+
+  function triggerAttack(time) {
+    Object.values(nodes).forEach((node) => {
+      node.triggerAttack && node.triggerAttack(time)
+    })
+    return patch
+  }
+
+  function triggerRelease(time) {
+    time = time || context.currentTime
+    let stopTimes = Object.values(nodes)
+      .map((node) => node.triggerRelease ? node.triggerRelease(time) : time)
+    let stopTime = Math.max(...stopTimes)
+    // TODO Instead of waiting an arbitrarily long time, we should wait until
+    // the patch is no longer making sound for a while, *then* stop it. Also it
+    // should be possible to override this behaviour.
+    stop(stopTime + 30)
+    return patch
+  }
+
   let patch = {
-    connect, context, nodes, release, start, stop,
+    connect, context, nodes, stop, triggerAttack, triggerRelease,
     input: nodes.in
   }
   partchifyNode(patch)

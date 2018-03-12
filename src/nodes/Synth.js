@@ -1,3 +1,4 @@
+import { isPlainObject } from '../helpers'
 import { Gain } from './nativeNodes'
 
 function twelveTet(nn, ref = 440) {
@@ -7,16 +8,23 @@ function twelveTet(nn, ref = 440) {
 function Synth(context, Voice) {
   let synthOut = Gain(context)
 
-  synthOut.play = (note = 69, time = 0) => {
-    let frequency = twelveTet(note)
+  synthOut.play = (config) => {
+    if (!isPlainObject(config)) {
+      config = { nn: config || 69 }
+    }
+    let { nn = 69, time = context.currentTime, dur = 0.2 } = config
+    let frequency = twelveTet(nn)
     let voice = Voice(frequency)
     voice.connect(synthOut)
-    voice.start(time)
+    voice.triggerAttack(time)
+    if (dur) {
+      voice.triggerRelease(time + dur)
+    }
     return voice
   }
 
-  synthOut.test = (dur = 0.2, note) => {
-    synthOut.monitor().play(note).releaseAfter(dur)
+  synthOut.test = (dur, note) => {
+    synthOut.monitor().play({ dur, note })
   }
 
   return synthOut

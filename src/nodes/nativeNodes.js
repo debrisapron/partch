@@ -18,6 +18,7 @@ function WaaNode(context, _constructor, defaultParam, isDest, config) {
   let node = new window[_constructor](context, params)
   if (isDest) { node.input = node }
   partchifyNode(node)
+  if (node.start) { node.start(context.currentTime) }
   return node
 }
 
@@ -44,7 +45,6 @@ export function Filter(context, config) {
       let ctrl = Const(context, 0)
       let scaler = Gain(context, AUDIBLE_RANGE_IN_CENTS)
       ctrl.connect(scaler).connect(node.detune)
-      ctrl.start()
       return ctrl.offset
     }
   })
@@ -60,7 +60,6 @@ export function Gain(context, config) {
       let ctrl = Const(context, 0)
       let shaper = Shaper(context, CV_TO_GAIN_CURVE)
       ctrl.connect(shaper).connect(node.gain)
-      ctrl.start()
       return ctrl.offset
     }
   })
@@ -76,7 +75,6 @@ export function Osc(context, config) {
       let ctrl = Const(context, 0)
       let scaler = Gain(context, AUDIBLE_RANGE_IN_CENTS)
       ctrl.connect(scaler).connect(node.detune)
-      ctrl.start()
       return ctrl.offset
     }
   })

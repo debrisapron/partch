@@ -1,13 +1,12 @@
 Next
 
-- Start all nodes on creation
 - Dedicated names for osc waveforms & filter types
 - Creation args for CV inputs
 - Instantiate sample node with URL
 - Dynamics
 - Write intro/guide
 - More recipes
-- Tests!
+- More tests
 
 Then
 

@@ -34,7 +34,7 @@ P.Synth((frequency) => P({
   'osc > vcf > vca > out',
   'env > vcf.frequencyCv',
   'env > vca.gainCv'
-)).monitor().play(60).releaseAfter(0.5)
+)).monitor().play(60)
 ```
 
 ## Introduction
@@ -169,7 +169,7 @@ Returns the new voice node.
 
 ### Node API
 
-On top of the standard Web Audio API [AudioNode](https://developer.mozilla.org/en-US/docs/Web/API/AudioNode) interface, Partch makes some enhancements. Firstly, it patches `connect` and `disconnect` so that they can handle nodes which have an `input` property. Secondly it patches `start` and `stop` (if present) so that they return the node, allowing them to be chained. Thirdly, it adds the following members:
+On top of the standard Web Audio API [AudioNode](https://developer.mozilla.org/en-US/docs/Web/API/AudioNode) interface, Partch makes some enhancements. Firstly, it patches `connect` and `disconnect` so that they can handle nodes which have an `input` property. Secondly, it adds the following members:
 
 #### node.input
 
@@ -177,25 +177,26 @@ On a native Web Audio API this is just an alias for the node itself. On a patch 
 
 #### node.monitor()
 
-Connects the patch to the `audioContext.destination`. Returns the node.
+Connects the patch to the `context.destination`. Returns the node.
 
-#### node.release([time])
+#### node.test([dur], [type])
 
-- `time` - _Integer_ - The audioContext time at which to release. Defaults to immediately.
+- `dur` - _Number_ - The duration of the test in seconds. Defaults to 0.2.
+- `type` - _String | Number_ - The type of test sound to use or the note to play. If the former, one of `bleep` or `noise`. Defaults to `bleep`.
 
-If the node is an envelope, or a patch containing an envelope, triggers the release portion of the envelope(s) at `time`, then stops the node. Returns the node.
+This is a function for quickly testing a node. Firstly it monitors the node. Then, for nodes without an input, it will simply stop it after the given duration. For nodes with a `play` method it will play for the given duration, with the type param specifying the note. For nodes with an input, it will create a sound source of the type indicated, stop the source after the given duration, and stop the node 10 seconds after.
 
-#### node.releaseAfter(interval)
+#### node.triggerAttack([time])
 
-- `interval` - _Integer_ - The time from now at which to release.
+- `time` - _Number_ - The AudioContext time at which to trigger attack. Defaults to immediately.
 
-Waits `interval` seconds from now, then calls `release` above. Returns the node.
+If the node is an envelope, or a patch containing an envelope, triggers the attack portion of the envelope(s) at `time`. Returns the node.
 
-#### node.stopAfter(interval)
+#### node.triggerRelease([time])
 
-- `interval` - _Integer_ - The time from now at which to stop.
+- `time` - _Number_ - The AudioContext time at which to trigger release. Defaults to immediately.
 
-Waits `interval` seconds from now, then stops the node. Returns the node.
+If the node is an envelope, or a patch containing an envelope, triggers the release portion of the envelope(s) at `time`. After 30 seconds has passed, it will also stop the node (this is subject to change). Returns the node.
 
 ## Cookbook
 

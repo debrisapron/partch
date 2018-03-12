@@ -12,11 +12,9 @@ function Adsr(context, config = 1) {
     level = 1
   } = params
   let node = Const(context, 0)
-  let _start = node.start
 
-  node.start = (time) => {
+  node.triggerAttack = (time) => {
     time = time || context.currentTime
-    _start(time)
     node.offset.linearRampToValueAtTime(level, time + attack)
     if (sustain < 1) {
       node.offset.linearRampToValueAtTime(
@@ -27,11 +25,15 @@ function Adsr(context, config = 1) {
     return node
   }
 
-  node.release = (time) => {
-    time = time || context.currentTime
+  node.triggerRelease = (time) => {
+    let currTime = context.currentTime
+    time = time || currTime
+    let wait = Math.max(0, (time - currTime) - 0.01)
     let stopTime = time + release
-    node.offset.linearRampToValueAtTime(0, stopTime)
-    node.stop(stopTime)
+    setTimeout(() => {
+      node.offset.linearRampToValueAtTime(0, stopTime)
+      node.stop(stopTime)
+    }, wait * 1000)
     return stopTime
   }
 

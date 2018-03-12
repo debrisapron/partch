@@ -10,23 +10,27 @@ export function isPlainObject(thing) {
 
 export function resetContext(context) {
   context.__nodes.forEach((node) => {
-    if (node.__started && !node.__stopped) { node.stop() }
+    if (node.stop && !node.__stopped) { node.stop() }
     if (node.disconnect) { node.disconnect() }
   })
   context.__nodes = []
 }
 
-export function testNode(node, dur = 0.2, type) {
-  // If the node is a destination, test sends a test sound through it, otherwise
-  // just starts & stops it.
-  node.monitor()
-  if (node.start) { node.start().stopAfter(dur) }
+export function testNode(node, dur = 0.2, type = 'bleep') {
+  // Monitor the node, and if the node is a destination, send a test sound
+  // through it, otherwise just stop it after a bit.
   if (node.input) {
+    context = node.context
     let src = type === 'noise'
-      ? WhiteNoise(node.context)
-      : Osc(node.context, { type: 'sawtooth' })
-    src.start().stopAfter(dur).connect(node)
+      ? WhiteNoise(context)
+      : Osc(context, { type: 'sawtooth' })
+    src.connect(node)
+    setTimeout(src.stop, dur * 1000)
+    setTimeout(node.stop, 10)
+  } else {
+    setTimeout(node.stop, dur * 1000)
   }
+  node.monitor()
 }
 
 // Takes a sad node and makes it better.
@@ -72,40 +76,14 @@ export function partchifyNode(node) {
     node.test = (...args) => testNode(node, ...args)
   }
 
-  // If node is a source, make start & stop return the node and add stopAfter.
-  if (node.start) {
-    node.__start = node.start
+  // If node is a source, patch stop to register its stoppedness.
+  if (node.stop) {
     node.__stop = node.stop
-    node.__started = false
     node.__stopped = false
-
-    node.start = (time) => {
-      node.__start(time)
-      node.__started = true
-      return node
-    }
 
     node.stop = (time) => {
       node.__stop(time)
       node.__stopped = true
-      return node
-    }
-
-    node.stopAfter = (interval) => {
-      let stopTime = interval + node.context.currentTime
-      let timeout = Math.abs((interval * 1000) - 10)
-      setTimeout(() => node.__stop(stopTime), timeout)
-      return node
-    }
-  }
-
-  // If node has a release function, add releaseAfter.
-  if (node.release) {
-    node.releaseAfter = (interval) => {
-      let releaseTime = interval + node.context.currentTime
-      let timeout = Math.abs((interval * 1000) - 10)
-      setTimeout(() => node.release(releaseTime), timeout)
-      return node
     }
   }
 }
