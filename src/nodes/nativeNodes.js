@@ -112,7 +112,7 @@ export function Gain(context, config) {
     }
   })
 
-  if (config.gainCv) {
+  if (config && config.gainCv) {
     node.gainCv.value = config.gainCv
   }
 
