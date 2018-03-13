@@ -3,7 +3,7 @@ Next
 - Creation args for CV inputs
 - Instantiate sample node with URL
 - Dynamics
-- Write intro/guide
+- Write proper intro/guide
 - More recipes
 - More tests
 
@@ -15,6 +15,8 @@ Then
 - Tuning base & tuning function, on library setup & per call
 - Array nodes e.g. 3 oscillators
 - More nodes:
+  - Pulse osc with pw
+  - TriSaw osc with shape
   - Moog filter
   - Granular sample node
   - FFT sample node!?!?!?
