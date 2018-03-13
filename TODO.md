@@ -1,11 +1,11 @@
 Next
 
-- Write proper intro/guide
-- More recipes
-- More tests
-
 Then
 
+- More recipes
+- More tests
+- Write more in-depth guide
+- playbackRateCv
 - Pass params to synth voices
 - Simple functions in connection strings: * / + -
 - Param aliases
