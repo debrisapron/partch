@@ -6,6 +6,8 @@
 
 A lightweight Web Audio API patching library.
 
+Please note: this is UNDER CONSTRUCTION & should not be considered stable.
+
 ## Installation
 
 First `yarn add partch` or `npm install partch --save`.
@@ -124,6 +126,12 @@ Aliases for the Filter node with different filter types.
   - `gainCv` - _Number_ The scaled amount to add to the gain. Defaults to 0.
 
 Returns a Web Audio API [GainNode](https://developer.mozilla.org/en-US/docs/Web/API/GainNode). The node has an additional AudioParam, `gainCv`, which is scaled to produce an exponential volume curve that sounds more natural to the human ear than the linear slope produced by automating the gain level. Specifically, a `gainCv` of 0.5 maps to an additional gain of 0.1.
+
+### P.load(url)
+
+- `url` - _String_ - Url to load.
+
+A helper function to load an audio buffer from a URL. Returns a promise which will either resolve to an `AudioBuffer`, or throw an error.
 
 ### P.Noise([config])
 
@@ -277,4 +285,20 @@ P({
   'wetDelay > feedback > wetDelay',
   'lfo > depth > wetDelay.delayTime'
 ).test(5, 'noise')
+```
+
+### Drumbeat
+```js
+let [kick, snare] = await Promise.all([
+  P.load('assets/audio/kick.wav'),
+  P.load('assets/audio/snare.wav')
+])
+// This is just an example! Do not use JS clocks for music!
+// Google "A Tale Of Two Clocks" to learn about sequencing with the Web Audio API.
+let i1 = setInterval(() => P.Sample(kick).monitor(), 500)
+let i2 = setInterval(() => P.Sample(snare).monitor(), 1000)
+setTimeout(() => {
+  clearInterval(i1)
+  clearInterval(i2)
+}, 4010)
 ```

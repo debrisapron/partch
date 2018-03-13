@@ -45,40 +45,43 @@
     crossorigin="anonymous"></script>
   <script src="dist/partch.js"></script>
   <script>
-    let P = Partch()
-    let _uniqueId = 0
+    (function () {
+      let P = Partch()
+      let _uniqueId = 0
+      let AsyncFunction = Object.getPrototypeOf(async function(){}).constructor
 
-    document.querySelectorAll('pre code').forEach((codeEl) => {
-      // Don't make the setup block interactive!
-      if (codeEl.textContent.includes('import')) { return }
-      let cm = createCodeMirror(codeEl)
-      insertButtonsIntoCodeMirror(cm)
-    })
-
-    function createCodeMirror(codeEl) {
-      return CodeMirror((cmEl) => {
-        codeEl.parentNode.replaceChild(cmEl, codeEl)
-      }, {
-        value: codeEl.textContent.trim(),
-        mode: 'javascript',
-        lineNumbers: true,
-        viewportMargin: Infinity
+      document.querySelectorAll('pre code').forEach((codeEl) => {
+        // Don't make the setup block interactive!
+        if (codeEl.textContent.includes('import')) { return }
+        let cm = createCodeMirror(codeEl)
+        insertButtonsIntoCodeMirror(cm)
       })
-    }
 
-    function insertButtonsIntoCodeMirror(cm) {
-      let id = `cm-ctrl-${_uniqueId++}`
-      $(`<div id="${id}" class="cm-ctrl"><button>▶</button><button>■</button></div>`)
-        .insertBefore($(cm.display.wrapper).find('.CodeMirror-scroll'))
-      $(`#${id}`).click((e) => {
-        if (e.target.textContent === '▶') {
-          window.Function('P', `'use strict';${cm.getValue()}`)(P)
-        }
-        else {
-          P.panic()
-        }
-      })
-    }
+      function createCodeMirror(codeEl) {
+        return CodeMirror((cmEl) => {
+          codeEl.parentNode.replaceChild(cmEl, codeEl)
+        }, {
+          value: codeEl.textContent.trim(),
+          mode: 'javascript',
+          lineNumbers: true,
+          viewportMargin: Infinity
+        })
+      }
+
+      function insertButtonsIntoCodeMirror(cm) {
+        let id = `cm-ctrl-${_uniqueId++}`
+        $(`<div id="${id}" class="cm-ctrl"><button>▶</button><button>■</button></div>`)
+          .insertBefore($(cm.display.wrapper).find('.CodeMirror-scroll'))
+        $(`#${id}`).click((e) => {
+          if (e.target.textContent === '▶') {
+            new AsyncFunction('P', `'use strict';${cm.getValue()}`)(P)
+          }
+          else {
+            P.panic()
+          }
+        })
+      }
+    })()
   </script>
 </body>
 </html>

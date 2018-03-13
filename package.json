@@ -32,5 +32,8 @@
     "build-bundle": "webpack",
     "build": "yarn build-bundle && yarn build-docs",
     "test": "karma start"
+  },
+  "dependencies": {
+    "audio-loader": "^1.0.3"
   }
 }

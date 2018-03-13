@@ -1,8 +1,10 @@
+import loadAudio from 'audio-loader'
 // Circular references FTW
 import { Saw } from './nodes/nativeNodes'
 import { WhiteNoise } from './nodes/noiseNodes'
 
 let _allNodes = []
+let _audioFileCache = {}
 
 export function isPlainObject(thing) {
   return typeof thing === 'object' && thing.constructor === Object
@@ -83,4 +85,12 @@ export function partchifyNode(node) {
       node.__stopped = true
     }
   }
+}
+
+export function loadAudioFile(context, url) {
+  if (_audioFileCache[url]) { return Promise.resolve(_audioFileCache[url]) }
+  let promiseOfBuffer = loadAudio(url, { context })
+  promiseOfBuffer.then((buffer) => _audioFileCache[url] = buffer)
+  _audioFileCache[url] = promiseOfBuffer
+  return promiseOfBuffer
 }
