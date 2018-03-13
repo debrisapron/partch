@@ -25,9 +25,9 @@ let P = Partch()
 then
 
 ```js
-P.Synth((frequency) => P({
-  osc: P.Osc({ frequency, type: 'sawtooth' }),
-  vcf: P.Filter(20),
+P.Synth((freq) => P({
+  osc: P.Saw(freq),
+  vcf: P.Lpf(20),
   vca: P.Gain(0),
   env: P.Adsr({ attack: 0.01, decay: 0.1, sustain: 0.6, release: 1 })
 },
@@ -105,6 +105,17 @@ Returns a Web Audio API [DelayNode](https://developer.mozilla.org/en-US/docs/Web
 
 Returns a Web Audio API [BiquadFilterNode](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode). The node has an additional AudioParam, `frequencyCv`, which is scaled to make a 0-1 input signal cover the whole audible frequency range.
 
+#### P.Apf([config])
+#### P.Bpf([config])
+#### P.HighShelf([config])
+#### P.Hpf([config])
+#### P.LowShelf([config])
+#### P.Lpf([config])
+#### P.Notch([config])
+#### P.Peak([config])
+
+Aliases for the Filter node with different filter types.
+
 ### P.Gain([config])
 
 - `config` - _Object | Number_ - Either the gain or the following config object:
@@ -130,9 +141,16 @@ Aliases for the Noise node with different color settings.
 - `config` - _Object | Number_ - Either the frequency or the following config object:
   - `frequency` - _Number_ - The oscillator frequency. Defaults to 440.
   - `detune` - _Number_ - The factor to adjust the frequency, in cents. Defaults to 0.
-  - `type` - _String_ - The oscillator waveform. One of `sine`, `square`, `sawtooth` or `triangle`. Defaults to sine.
+  - `type` - _String_ - The oscillator waveform. One of `sine`, `square`, `sawtooth` or `triangle`. Defaults to `sine`.
 
 Returns a Web Audio API [OscillatorNode](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode). The node has an additional AudioParam, `frequencyCv`, which is scaled to make a 0-1 input signal cover the whole audible frequency range.
+
+#### P.Saw([config])
+#### P.Sin([config])
+#### P.Sqr([config])
+#### P.Tri([config])
+
+Aliases for the Osc node with different waveform types.
 
 ### P.Sample([config])
 
@@ -206,7 +224,7 @@ The philosophy of Partch is to give you a small number of fundamental building b
 
 ```js
 P({
-  dry: P.Gain(),
+  dry: P.Gain(1),
   wet: P.Gain(0.5),
   delay: P.Delay(0.5),
   feedback: P.Gain(0.5)
@@ -221,15 +239,15 @@ P({
 
 ```js
 P({
-  dry: P.Gain(),
+  dry: P.Gain(1),
   wet: P.Gain(0.5),
   delay: P.Delay(0.5),
   feedback: P.Gain(0.5),
-  highCut: P.Filter(5000),
-  lowCut: P.Filter({ type: 'highpass', frequency: 80 }),
-  wow: P.Osc(0.1),
+  highCut: P.Lpf(5000),
+  lowCut: P.Hpf(80),
+  wow: P.Sin(0.1),
   wowLevel: P.Gain(0.002),
-  flutter: P.Osc(5.3),
+  flutter: P.Sin(5.3),
   flutterLevel: P.Gain(0.0001)
 },
   'in > dry > out',
@@ -243,13 +261,13 @@ P({
 ### Flanger
 ```js
 P({
-  dry: P.Gain(),
-  wet: P.Gain(),
+  dry: P.Gain(1),
+  wet: P.Gain(1),
   dryDelay: P.Delay(0.02),
   wetDelay: P.Delay(0.02),
   depth: P.Gain(0.02),
   feedback: P.Gain(0.5),
-  lfo: P.Osc(0.1)
+  lfo: P.Sin(0.1)
 },
   'in > dryDelay > dry > out',
   'in > wetDelay > wet > out',
