@@ -1,5 +1,5 @@
 // Circular references FTW
-import { Osc } from './nodes/nativeNodes'
+import { Saw } from './nodes/nativeNodes'
 import { WhiteNoise } from './nodes/noiseNodes'
 
 let _allNodes = []
@@ -20,13 +20,10 @@ export function testNode(node, dur = 0.2, type = 'bleep') {
   // Monitor the node, and if the node is a destination, send a test sound
   // through it, otherwise just stop it after a bit.
   if (node.input) {
-    context = node.context
-    let src = type === 'noise'
-      ? WhiteNoise(context)
-      : Osc(context, { type: 'sawtooth' })
+    let src = type === 'noise' ? WhiteNoise(node.context) : Saw(node.context)
     src.connect(node)
     setTimeout(src.stop, dur * 1000)
-    setTimeout(node.stop, 10)
+    setTimeout(node.stop, 10000)
   } else {
     setTimeout(node.stop, dur * 1000)
   }

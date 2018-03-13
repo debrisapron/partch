@@ -35,8 +35,12 @@ function Patch(context, nodes, ...connections) {
 
   //// Patch instance methods //////////////////////////////////////////////////
 
-  function connect(destination) {
-    return nodes.out.connect(destination)
+  function connect(...args) {
+    return nodes.out.connect(...args)
+  }
+
+  function disconnect(...args) {
+    return nodes.out.disconnect(...args)
   }
 
   function stop(time) {
@@ -70,7 +74,7 @@ function Patch(context, nodes, ...connections) {
   }
 
   let patch = {
-    connect, context, nodes, stop, triggerAttack, triggerRelease,
+    connect, disconnect, context, nodes, stop, triggerAttack, triggerRelease,
     input: nodes.in
   }
   partchifyNode(patch)

@@ -42,12 +42,24 @@
     <li class="sidebar-header-3"><a href="#p.context">P.context</a></li>
     <li class="sidebar-header-3"><a href="#p.delay([config])">P.Delay([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.filter([config])">P.Filter([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.apf([config])">P.Apf([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.bpf([config])">P.Bpf([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.highshelf([config])">P.HighShelf([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.hpf([config])">P.Hpf([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.lowshelf([config])">P.LowShelf([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.lpf([config])">P.Lpf([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.notch([config])">P.Notch([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.peak([config])">P.Peak([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.gain([config])">P.Gain([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.noise([config])">P.Noise([config])</a></li>
     <li class="sidebar-header-4"><a href="#p.brownnoise()">P.BrownNoise()</a></li>
     <li class="sidebar-header-4"><a href="#p.pinknoise()">P.PinkNoise()</a></li>
     <li class="sidebar-header-4"><a href="#p.whitenoise()">P.WhiteNoise()</a></li>
     <li class="sidebar-header-3"><a href="#p.osc([config])">P.Osc([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.saw([config])">P.Saw([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.sin([config])">P.Sin([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.sqr([config])">P.Sqr([config])</a></li>
+    <li class="sidebar-header-4"><a href="#p.tri([config])">P.Tri([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.sample([config])">P.Sample([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.shaper([config])">P.Shaper([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.synth(voice)">P.Synth(Voice)</a></li>
@@ -55,9 +67,9 @@
     <li class="sidebar-header-3"><a href="#node-api">Node API</a></li>
     <li class="sidebar-header-4"><a href="#node.input">node.input</a></li>
     <li class="sidebar-header-4"><a href="#node.monitor()">node.monitor()</a></li>
-    <li class="sidebar-header-4"><a href="#node.release([time])">node.release([time])</a></li>
-    <li class="sidebar-header-4"><a href="#node.releaseafter(interval)">node.releaseAfter(interval)</a></li>
-    <li class="sidebar-header-4"><a href="#node.stopafter(interval)">node.stopAfter(interval)</a></li>
+    <li class="sidebar-header-4"><a href="#node.test([dur],-[type])">node.test([dur], [type])</a></li>
+    <li class="sidebar-header-4"><a href="#node.triggerattack([time])">node.triggerAttack([time])</a></li>
+    <li class="sidebar-header-4"><a href="#node.triggerrelease([time])">node.triggerRelease([time])</a></li>
     <li class="sidebar-header-2"><a href="#cookbook">Cookbook</a></li>
     <li class="sidebar-header-3"><a href="#simple-delay">Simple delay</a></li>
     <li class="sidebar-header-3"><a href="#analogue-style-delay">Analogue-style delay</a></li>
@@ -76,16 +88,16 @@
 <h2 id="example"><a class="header-link" href="#example"></a>Example</h2>
 <p>First</p>
 <pre class="hljs"><code><span class="hljs-keyword">let</span> P = Partch()</code></pre><p>then</p>
-<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">frequency</span>) =&gt;</span> P({
-  <span class="hljs-attr">osc</span>: P.Osc({ frequency, <span class="hljs-attr">type</span>: <span class="hljs-string">'sawtooth'</span> }),
-  <span class="hljs-attr">vcf</span>: P.Filter(<span class="hljs-number">20</span>),
+<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">freq</span>) =&gt;</span> P({
+  <span class="hljs-attr">osc</span>: P.Saw(freq),
+  <span class="hljs-attr">vcf</span>: P.Lpf(<span class="hljs-number">20</span>),
   <span class="hljs-attr">vca</span>: P.Gain(<span class="hljs-number">0</span>),
   <span class="hljs-attr">env</span>: P.Adsr({ <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>, <span class="hljs-attr">decay</span>: <span class="hljs-number">0.1</span>, <span class="hljs-attr">sustain</span>: <span class="hljs-number">0.6</span>, <span class="hljs-attr">release</span>: <span class="hljs-number">1</span> })
 },
   <span class="hljs-string">'osc &gt; vcf &gt; vca &gt; out'</span>,
   <span class="hljs-string">'env &gt; vcf.frequencyCv'</span>,
   <span class="hljs-string">'env &gt; vca.gainCv'</span>
-)).monitor().play(<span class="hljs-number">60</span>).releaseAfter(<span class="hljs-number">0.5</span>)</code></pre><h2 id="introduction"><a class="header-link" href="#introduction"></a>Introduction</h2>
+)).monitor().play(<span class="hljs-number">60</span>)</code></pre><h2 id="introduction"><a class="header-link" href="#introduction"></a>Introduction</h2>
 <p>Partch is a library designed to simplify the creation of new instruments and FX with the Web Audio API. It has a number of elements which all work together for a pleasurable patching experience.</p>
 <ul class="list">
 <li>A terse syntax for creating native Web Audio API nodes, with sane defaults.</li>
@@ -149,6 +161,15 @@
 </li>
 </ul>
 <p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode">BiquadFilterNode</a>. The node has an additional AudioParam, <code>frequencyCv</code>, which is scaled to make a 0-1 input signal cover the whole audible frequency range.</p>
+<h4 id="p.apf([config])"><a class="header-link" href="#p.apf([config])"></a>P.Apf([config])</h4>
+<h4 id="p.bpf([config])"><a class="header-link" href="#p.bpf([config])"></a>P.Bpf([config])</h4>
+<h4 id="p.highshelf([config])"><a class="header-link" href="#p.highshelf([config])"></a>P.HighShelf([config])</h4>
+<h4 id="p.hpf([config])"><a class="header-link" href="#p.hpf([config])"></a>P.Hpf([config])</h4>
+<h4 id="p.lowshelf([config])"><a class="header-link" href="#p.lowshelf([config])"></a>P.LowShelf([config])</h4>
+<h4 id="p.lpf([config])"><a class="header-link" href="#p.lpf([config])"></a>P.Lpf([config])</h4>
+<h4 id="p.notch([config])"><a class="header-link" href="#p.notch([config])"></a>P.Notch([config])</h4>
+<h4 id="p.peak([config])"><a class="header-link" href="#p.peak([config])"></a>P.Peak([config])</h4>
+<p>Aliases for the Filter node with different filter types.</p>
 <h3 id="p.gain([config])"><a class="header-link" href="#p.gain([config])"></a>P.Gain([config])</h3>
 <ul class="list">
 <li><code>config</code> - <em>Object | Number</em> - Either the gain or the following config object:<ul class="list">
@@ -174,11 +195,16 @@
 <li><code>config</code> - <em>Object | Number</em> - Either the frequency or the following config object:<ul class="list">
 <li><code>frequency</code> - <em>Number</em> - The oscillator frequency. Defaults to 440.</li>
 <li><code>detune</code> - <em>Number</em> - The factor to adjust the frequency, in cents. Defaults to 0.</li>
-<li><code>type</code> - <em>String</em> - The oscillator waveform. One of <code>sine</code>, <code>square</code>, <code>sawtooth</code> or <code>triangle</code>. Defaults to sine.</li>
+<li><code>type</code> - <em>String</em> - The oscillator waveform. One of <code>sine</code>, <code>square</code>, <code>sawtooth</code> or <code>triangle</code>. Defaults to <code>sine</code>.</li>
 </ul>
 </li>
 </ul>
 <p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode">OscillatorNode</a>. The node has an additional AudioParam, <code>frequencyCv</code>, which is scaled to make a 0-1 input signal cover the whole audible frequency range.</p>
+<h4 id="p.saw([config])"><a class="header-link" href="#p.saw([config])"></a>P.Saw([config])</h4>
+<h4 id="p.sin([config])"><a class="header-link" href="#p.sin([config])"></a>P.Sin([config])</h4>
+<h4 id="p.sqr([config])"><a class="header-link" href="#p.sqr([config])"></a>P.Sqr([config])</h4>
+<h4 id="p.tri([config])"><a class="header-link" href="#p.tri([config])"></a>P.Tri([config])</h4>
+<p>Aliases for the Osc node with different waveform types.</p>
 <h3 id="p.sample([config])"><a class="header-link" href="#p.sample([config])"></a>P.Sample([config])</h3>
 <ul class="list">
 <li><code>config</code> - <em>Object | AudioBuffer</em> - Either the buffer or the following config object:<ul class="list">
@@ -213,31 +239,32 @@
 </ul>
 <p>Returns the new voice node.</p>
 <h3 id="node-api"><a class="header-link" href="#node-api"></a>Node API</h3>
-<p>On top of the standard Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioNode">AudioNode</a> interface, Partch makes some enhancements. Firstly, it patches <code>connect</code> and <code>disconnect</code> so that they can handle nodes which have an <code>input</code> property. Secondly it patches <code>start</code> and <code>stop</code> (if present) so that they return the node, allowing them to be chained. Thirdly, it adds the following members:</p>
+<p>On top of the standard Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioNode">AudioNode</a> interface, Partch makes some enhancements. Firstly, it patches <code>connect</code> and <code>disconnect</code> so that they can handle nodes which have an <code>input</code> property. Secondly, it adds the following members:</p>
 <h4 id="node.input"><a class="header-link" href="#node.input"></a>node.input</h4>
 <p>On a native Web Audio API this is just an alias for the node itself. On a patch node this is an alias for <code>patch.nodes.in</code>. When connecting from a native Web Audio API node to a patch, this should be the connection destination.</p>
 <h4 id="node.monitor()"><a class="header-link" href="#node.monitor()"></a>node.monitor()</h4>
-<p>Connects the patch to the <code>audioContext.destination</code>. Returns the node.</p>
-<h4 id="node.release([time])"><a class="header-link" href="#node.release([time])"></a>node.release([time])</h4>
+<p>Connects the patch to the <code>context.destination</code>. Returns the node.</p>
+<h4 id="node.test([dur],-[type])"><a class="header-link" href="#node.test([dur],-[type])"></a>node.test([dur], [type])</h4>
 <ul class="list">
-<li><code>time</code> - <em>Integer</em> - The audioContext time at which to release. Defaults to immediately.</li>
+<li><code>dur</code> - <em>Number</em> - The duration of the test in seconds. Defaults to 0.2.</li>
+<li><code>type</code> - <em>String | Number</em> - The type of test sound to use or the note to play. If the former, one of <code>bleep</code> or <code>noise</code>. Defaults to <code>bleep</code>.</li>
 </ul>
-<p>If the node is an envelope, or a patch containing an envelope, triggers the release portion of the envelope(s) at <code>time</code>, then stops the node. Returns the node.</p>
-<h4 id="node.releaseafter(interval)"><a class="header-link" href="#node.releaseafter(interval)"></a>node.releaseAfter(interval)</h4>
+<p>This is a function for quickly testing a node. Firstly it monitors the node. Then, for nodes without an input, it will simply stop it after the given duration. For nodes with a <code>play</code> method it will play for the given duration, with the type param specifying the note. For nodes with an input, it will create a sound source of the type indicated, stop the source after the given duration, and stop the node 10 seconds after.</p>
+<h4 id="node.triggerattack([time])"><a class="header-link" href="#node.triggerattack([time])"></a>node.triggerAttack([time])</h4>
 <ul class="list">
-<li><code>interval</code> - <em>Integer</em> - The time from now at which to release.</li>
+<li><code>time</code> - <em>Number</em> - The AudioContext time at which to trigger attack. Defaults to immediately.</li>
 </ul>
-<p>Waits <code>interval</code> seconds from now, then calls <code>release</code> above. Returns the node.</p>
-<h4 id="node.stopafter(interval)"><a class="header-link" href="#node.stopafter(interval)"></a>node.stopAfter(interval)</h4>
+<p>If the node is an envelope, or a patch containing an envelope, triggers the attack portion of the envelope(s) at <code>time</code>. Returns the node.</p>
+<h4 id="node.triggerrelease([time])"><a class="header-link" href="#node.triggerrelease([time])"></a>node.triggerRelease([time])</h4>
 <ul class="list">
-<li><code>interval</code> - <em>Integer</em> - The time from now at which to stop.</li>
+<li><code>time</code> - <em>Number</em> - The AudioContext time at which to trigger release. Defaults to immediately.</li>
 </ul>
-<p>Waits <code>interval</code> seconds from now, then stops the node. Returns the node.</p>
+<p>If the node is an envelope, or a patch containing an envelope, triggers the release portion of the envelope(s) at <code>time</code>. After 30 seconds has passed, it will also stop the node (this is subject to change). Returns the node.</p>
 <h2 id="cookbook"><a class="header-link" href="#cookbook"></a>Cookbook</h2>
 <p>The philosophy of Partch is to give you a small number of fundamental building blocks while making it as easy as possible to build your own high-level abstractions from those blocks. In that spirit, components such as phasers, chorus effects, analogue-style delays, autopanners and so on are not included. Instead, here are some example patches for you to copy and paste, in the hope that you will modify them to your own taste, creating effects and instruments that are entirely unique to you.</p>
 <h3 id="simple-delay"><a class="header-link" href="#simple-delay"></a>Simple delay</h3>
 <pre class="hljs"><code>P({
-  <span class="hljs-attr">dry</span>: P.Gain(),
+  <span class="hljs-attr">dry</span>: P.Gain(<span class="hljs-number">1</span>),
   <span class="hljs-attr">wet</span>: P.Gain(<span class="hljs-number">0.5</span>),
   <span class="hljs-attr">delay</span>: P.Delay(<span class="hljs-number">0.5</span>),
   <span class="hljs-attr">feedback</span>: P.Gain(<span class="hljs-number">0.5</span>)
@@ -247,15 +274,15 @@
   <span class="hljs-string">'delay &gt; feedback &gt; delay'</span>
 ).test()</code></pre><h3 id="analogue-style-delay"><a class="header-link" href="#analogue-style-delay"></a>Analogue-style delay</h3>
 <pre class="hljs"><code>P({
-  <span class="hljs-attr">dry</span>: P.Gain(),
+  <span class="hljs-attr">dry</span>: P.Gain(<span class="hljs-number">1</span>),
   <span class="hljs-attr">wet</span>: P.Gain(<span class="hljs-number">0.5</span>),
   <span class="hljs-attr">delay</span>: P.Delay(<span class="hljs-number">0.5</span>),
   <span class="hljs-attr">feedback</span>: P.Gain(<span class="hljs-number">0.5</span>),
-  <span class="hljs-attr">highCut</span>: P.Filter(<span class="hljs-number">5000</span>),
-  <span class="hljs-attr">lowCut</span>: P.Filter({ <span class="hljs-attr">type</span>: <span class="hljs-string">'highpass'</span>, <span class="hljs-attr">frequency</span>: <span class="hljs-number">80</span> }),
-  <span class="hljs-attr">wow</span>: P.Osc(<span class="hljs-number">0.1</span>),
+  <span class="hljs-attr">highCut</span>: P.Lpf(<span class="hljs-number">5000</span>),
+  <span class="hljs-attr">lowCut</span>: P.Hpf(<span class="hljs-number">80</span>),
+  <span class="hljs-attr">wow</span>: P.Sin(<span class="hljs-number">0.1</span>),
   <span class="hljs-attr">wowLevel</span>: P.Gain(<span class="hljs-number">0.002</span>),
-  <span class="hljs-attr">flutter</span>: P.Osc(<span class="hljs-number">5.3</span>),
+  <span class="hljs-attr">flutter</span>: P.Sin(<span class="hljs-number">5.3</span>),
   <span class="hljs-attr">flutterLevel</span>: P.Gain(<span class="hljs-number">0.0001</span>)
 },
   <span class="hljs-string">'in &gt; dry &gt; out'</span>,
@@ -265,13 +292,13 @@
   <span class="hljs-string">'flutter &gt; flutterLevel &gt; delay.delayTime'</span>
 ).test()</code></pre><h3 id="flanger"><a class="header-link" href="#flanger"></a>Flanger</h3>
 <pre class="hljs"><code>P({
-  <span class="hljs-attr">dry</span>: P.Gain(),
-  <span class="hljs-attr">wet</span>: P.Gain(),
+  <span class="hljs-attr">dry</span>: P.Gain(<span class="hljs-number">1</span>),
+  <span class="hljs-attr">wet</span>: P.Gain(<span class="hljs-number">1</span>),
   <span class="hljs-attr">dryDelay</span>: P.Delay(<span class="hljs-number">0.02</span>),
   <span class="hljs-attr">wetDelay</span>: P.Delay(<span class="hljs-number">0.02</span>),
   <span class="hljs-attr">depth</span>: P.Gain(<span class="hljs-number">0.02</span>),
   <span class="hljs-attr">feedback</span>: P.Gain(<span class="hljs-number">0.5</span>),
-  <span class="hljs-attr">lfo</span>: P.Osc(<span class="hljs-number">0.1</span>)
+  <span class="hljs-attr">lfo</span>: P.Sin(<span class="hljs-number">0.1</span>)
 },
   <span class="hljs-string">'in &gt; dryDelay &gt; dry &gt; out'</span>,
   <span class="hljs-string">'in &gt; wetDelay &gt; wet &gt; out'</span>,
