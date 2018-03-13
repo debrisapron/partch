@@ -3,6 +3,7 @@ import { resetContext, loadAudioFile } from './helpers'
 import Adsr from './nodes/Adsr'
 import * as nativeNodes from './nodes/nativeNodes'
 import * as noiseNodes from './nodes/noiseNodes'
+import Over from './nodes/Over'
 import Synth from './nodes/Synth'
 
 function getDefaultAudioContext() {
@@ -18,7 +19,7 @@ function Partch(context = getDefaultAudioContext()) {
   _Patch.load = (url) => loadAudioFile(context, url)
   Object.values(nativeNodes)
     .concat(Object.values(noiseNodes))
-    .concat(Adsr, Synth)
+    .concat(Adsr, Over, Synth)
     .forEach((f) => _Patch[f.name] = f.bind(null, context))
   return _Patch
 }

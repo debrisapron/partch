@@ -163,6 +163,15 @@ Returns a Web Audio API [OscillatorNode](https://developer.mozilla.org/en-US/doc
 
 Aliases for the Osc node with different waveform types.
 
+### P.Over([config])
+
+- `config` - _Number_ - Either the drive amount or the following config object:
+  - `drive` - _Number_ - Gain applied before waveshaping. Defaults to 1.
+  - `shape` - _Number_ - Number from 0-1 representing the how much the waveshape distorts the signal. Defaults to 0.725.
+  - `algo` - _Number_ - Number from 0-5 specifying which shaping algorithm to use. Default is 0.
+
+Returns an Overdrive node which amplifies the signal by the gain, runs it through a waveshaper with one of 6 different curves and then attenuates the signal depending on how much drive was used. Adapted from [Tuna.js](https://github.com/Theodeus/tuna/wiki).
+
 ### P.Sample([config])
 
 - `config` - _Object | AudioBuffer_ - Either the buffer or the following config object:

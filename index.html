@@ -61,6 +61,7 @@
     <li class="sidebar-header-4"><a href="#p.sin([config])">P.Sin([config])</a></li>
     <li class="sidebar-header-4"><a href="#p.sqr([config])">P.Sqr([config])</a></li>
     <li class="sidebar-header-4"><a href="#p.tri([config])">P.Tri([config])</a></li>
+    <li class="sidebar-header-3"><a href="#p.over([config])">P.Over([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.sample([config])">P.Sample([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.shaper([config])">P.Shaper([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.synth(voice)">P.Synth(Voice)</a></li>
@@ -216,6 +217,16 @@
 <h4 id="p.sqr([config])"><a class="header-link" href="#p.sqr([config])"></a>P.Sqr([config])</h4>
 <h4 id="p.tri([config])"><a class="header-link" href="#p.tri([config])"></a>P.Tri([config])</h4>
 <p>Aliases for the Osc node with different waveform types.</p>
+<h3 id="p.over([config])"><a class="header-link" href="#p.over([config])"></a>P.Over([config])</h3>
+<ul class="list">
+<li><code>config</code> - <em>Number</em> - Either the drive amount or the following config object:<ul class="list">
+<li><code>drive</code> - <em>Number</em> - Gain applied before waveshaping. Defaults to 1.</li>
+<li><code>shape</code> - <em>Number</em> - Number from 0-1 representing the how much the waveshape distorts the signal. Defaults to 0.725.</li>
+<li><code>algo</code> - <em>Number</em> - Number from 0-5 specifying which shaping algorithm to use. Default is 0.</li>
+</ul>
+</li>
+</ul>
+<p>Returns an Overdrive node which amplifies the signal by the gain, runs it through a waveshaper with one of 6 different curves and then attenuates the signal depending on how much drive was used. Adapted from <a href="https://github.com/Theodeus/tuna/wiki">Tuna.js</a>.</p>
 <h3 id="p.sample([config])"><a class="header-link" href="#p.sample([config])"></a>P.Sample([config])</h3>
 <ul class="list">
 <li><code>config</code> - <em>Object | AudioBuffer</em> - Either the buffer or the following config object:<ul class="list">

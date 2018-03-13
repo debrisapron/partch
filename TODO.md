@@ -1,13 +1,17 @@
 Next
+- More recipes
+  - Three-osc synth
+- Simple functions in connection strings: * / + -
+- Pass params to synth voices
+- Synth.sequence method using um-sequencer
 
 Then
 
+- Moog filter
 - More recipes
 - More tests
 - Write more in-depth guide
 - playbackRateCv
-- Pass params to synth voices
-- Simple functions in connection strings: * / + -
 - Param aliases
 - Get rid of out node on patch - connect can just patch all output nodes to destination
 - If only one node connected from patch input, make that the input node
@@ -18,11 +22,9 @@ Then
   - Pulse osc with pw https://github.com/pendragon-andyh/WebAudio-PulseOscillator
   - TriSaw osc with shape
   - Supersaw osc https://noisehack.com/how-to-build-supersaw-synth-web-audio-api/
-  - Moog filter
   - Granular sample node
   - FFT sample node!?!?!?
   - Bitcrusher (from Tuna)
-  - Overdrive (from Tuna)
   - Freeverb
   - Panner (from WAA, need to understand how it works first :/)
   - Pitch shift
