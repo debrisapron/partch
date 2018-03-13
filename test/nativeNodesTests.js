@@ -12,16 +12,21 @@ describe('Native nodes', () => {
     expect(node.delayTime.value).toEqual(2)
   })
 
-  it('can create a BiquadFilterNode', () => {
-    let node = P.Filter(666)
-    expect(node).toEqual(jasmine.any(BiquadFilterNode))
-    expect(node.frequency.value).toEqual(666)
-  })
+  describe('Filter', () => {
 
-  it('can create a BiquadFilterNode', () => {
-    let node = P.Filter(666)
-    expect(node).toEqual(jasmine.any(BiquadFilterNode))
-    expect(node.frequency.value).toEqual(666)
+    it('can create a lowpass BiquadFilterNode', () => {
+      let node = P.Filter(666)
+      expect(node).toEqual(jasmine.any(BiquadFilterNode))
+      expect(node.type).toEqual('lowpass')
+      expect(node.frequency.value).toEqual(666)
+    })
+
+    it('can create a highpass BiquadFilterNode', () => {
+      let node = P.Hpf(666)
+      expect(node).toEqual(jasmine.any(BiquadFilterNode))
+      expect(node.type).toEqual('highpass')
+      expect(node.frequency.value).toEqual(666)
+    })
   })
 
   it('can create a GainNode', () => {
@@ -30,10 +35,21 @@ describe('Native nodes', () => {
     expect(node.gain.value).toEqual(2)
   })
 
-  it('can create an OscillatorNode', () => {
-    let node = P.Osc(666)
-    expect(node).toEqual(jasmine.any(OscillatorNode))
-    expect(node.frequency.value).toEqual(666)
+  describe('Oscillator', () => {
+
+    it('can create a sine OscillatorNode', () => {
+      let node = P.Osc(666)
+      expect(node).toEqual(jasmine.any(OscillatorNode))
+      expect(node.type).toEqual('sine')
+      expect(node.frequency.value).toEqual(666)
+    })
+
+    it('can create a sawtooth OscillatorNode', () => {
+      let node = P.Saw(666)
+      expect(node).toEqual(jasmine.any(OscillatorNode))
+      expect(node.type).toEqual('sawtooth')
+      expect(node.frequency.value).toEqual(666)
+    })
   })
 
   it('can create an AudioBufferSourceNode', () => {
