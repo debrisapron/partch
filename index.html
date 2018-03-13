@@ -348,7 +348,7 @@ setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;
 
       document.querySelectorAll('pre code').forEach((codeEl) => {
         // Don't make the setup block interactive!
-        if (codeEl.textContent.includes('import')) { return }
+        if (codeEl.textContent.includes('Partch()')) { return }
         let cm = createCodeMirror(codeEl)
         insertButtonsIntoCodeMirror(cm)
       })
