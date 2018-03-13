@@ -29,7 +29,7 @@ P.Synth((freq) => P({
   osc: P.Saw(freq),
   vcf: P.Lpf(20),
   vca: P.Gain(0),
-  env: P.Adsr({ attack: 0.01, decay: 0.1, sustain: 0.6, release: 1 })
+  env: P.Adsr({ a: 0.01, d: 0.1, s: 0.6, r: 1 })
 },
   'osc > vcf > vca > out',
   'env > vcf.frequencyCv',

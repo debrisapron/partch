@@ -92,7 +92,7 @@
   <span class="hljs-attr">osc</span>: P.Saw(freq),
   <span class="hljs-attr">vcf</span>: P.Lpf(<span class="hljs-number">20</span>),
   <span class="hljs-attr">vca</span>: P.Gain(<span class="hljs-number">0</span>),
-  <span class="hljs-attr">env</span>: P.Adsr({ <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>, <span class="hljs-attr">decay</span>: <span class="hljs-number">0.1</span>, <span class="hljs-attr">sustain</span>: <span class="hljs-number">0.6</span>, <span class="hljs-attr">release</span>: <span class="hljs-number">1</span> })
+  <span class="hljs-attr">env</span>: P.Adsr({ <span class="hljs-attr">a</span>: <span class="hljs-number">0.01</span>, <span class="hljs-attr">d</span>: <span class="hljs-number">0.1</span>, <span class="hljs-attr">s</span>: <span class="hljs-number">0.6</span>, <span class="hljs-attr">r</span>: <span class="hljs-number">1</span> })
 },
   <span class="hljs-string">'osc &gt; vcf &gt; vca &gt; out'</span>,
   <span class="hljs-string">'env &gt; vcf.frequencyCv'</span>,
