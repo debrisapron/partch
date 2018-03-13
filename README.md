@@ -99,8 +99,9 @@ Returns a Web Audio API [DelayNode](https://developer.mozilla.org/en-US/docs/Web
 
 - `config` - _Object | Number_ - Either the frequency or the following config object:
   - `frequency` - _Number_ - The filter frequency. Defaults to 350.
+  - `frequencyCv` - _Number_ The scaled amount to add to the frequency. Defaults to 0.
   - `Q` - _Number_ - The [Q](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/Q) factor. Roughly equivalent to resonance. Defaults to 1.
-  - `detune` - _Number_ - The factor to adjust the frequency, in cents. Defaults to 0.
+  - `detune` - _Number_ - The offset to add to the frequency, in cents. Defaults to 0.
   - `type` - _String_ - The filter [type](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type). One of `lowpass`, `highpass`, `bandpass`, `lowshelf`, `highshelf`, `peaking`, `notch` or `allpass`. Defaults to lowpass.
 
 Returns a Web Audio API [BiquadFilterNode](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode). The node has an additional AudioParam, `frequencyCv`, which is scaled to make a 0-1 input signal cover the whole audible frequency range.
@@ -120,8 +121,9 @@ Aliases for the Filter node with different filter types.
 
 - `config` - _Object | Number_ - Either the gain or the following config object:
   - `gain` - _Number_ - The amount of gain. Defaults to 1.
+  - `gainCv` - _Number_ The scaled amount to add to the gain. Defaults to 0.
 
-Returns a Web Audio API [GainNode](https://developer.mozilla.org/en-US/docs/Web/API/GainNode). The node has an additional AudioParam, `gainCv`, which is scaled to produce an exponential volume curve that sounds more natural to the human ear than the linear slope produced by automating the gain level.
+Returns a Web Audio API [GainNode](https://developer.mozilla.org/en-US/docs/Web/API/GainNode). The node has an additional AudioParam, `gainCv`, which is scaled to produce an exponential volume curve that sounds more natural to the human ear than the linear slope produced by automating the gain level. Specifically, a `gainCv` of 0.5 maps to an additional gain of 0.1.
 
 ### P.Noise([config])
 
@@ -140,7 +142,8 @@ Aliases for the Noise node with different color settings.
 
 - `config` - _Object | Number_ - Either the frequency or the following config object:
   - `frequency` - _Number_ - The oscillator frequency. Defaults to 440.
-  - `detune` - _Number_ - The factor to adjust the frequency, in cents. Defaults to 0.
+  - `frequencyCv` - _Number_ The scaled amount to add to the frequency. Defaults to 0.
+  - `detune` - _Number_ - The offset to add to the frequency, in cents. Defaults to 0.
   - `type` - _String_ - The oscillator waveform. One of `sine`, `square`, `sawtooth` or `triangle`. Defaults to `sine`.
 
 Returns a Web Audio API [OscillatorNode](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode). The node has an additional AudioParam, `frequencyCv`, which is scaled to make a 0-1 input signal cover the whole audible frequency range.
@@ -266,7 +269,7 @@ P({
   dryDelay: P.Delay(0.02),
   wetDelay: P.Delay(0.02),
   depth: P.Gain(0.02),
-  feedback: P.Gain(0.5),
+  feedback: P.Gain(-0.5),
   lfo: P.Sin(0.1)
 },
   'in > dryDelay > dry > out',

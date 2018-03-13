@@ -26,15 +26,22 @@ function OscillatorNode(context, type, config) {
   let params = isPlainObject(config) ? config : { frequency: config || 440 }
   params = { type, ...params }
   let node = WaaNode(context, 'OscillatorNode', 'frequency', false, params)
+  let frequencyCv
 
   Object.defineProperty(node, 'frequencyCv', {
     get() {
+      if (frequencyCv) { return frequencyCv }
       let ctrl = Const(context, 0)
+      frequencyCv = ctrl.offset
       let scaler = Gain(context, AUDIBLE_RANGE_IN_CENTS)
       ctrl.connect(scaler).connect(node.detune)
-      return ctrl.offset
+      return frequencyCv
     }
   })
+
+  if (params.frequencyCv) {
+    node.frequencyCv.value = params.frequencyCv
+  }
 
   return node
 }
@@ -45,15 +52,22 @@ function FilterNode(context, type, config) {
   let node = WaaNode(
     context, 'BiquadFilterNode', 'frequency', true, params
   )
+  let frequencyCv
 
   Object.defineProperty(node, 'frequencyCv', {
     get() {
+      if (frequencyCv) { return frequencyCv }
       let ctrl = Const(context, 0)
+      frequencyCv = ctrl.offset
       let scaler = Gain(context, AUDIBLE_RANGE_IN_CENTS)
       ctrl.connect(scaler).connect(node.detune)
-      return ctrl.offset
+      return frequencyCv
     }
   })
+
+  if (params.frequencyCv) {
+    node.frequencyCv.value = params.frequencyCv
+  }
 
   return node
 }
@@ -85,15 +99,22 @@ export function Filter(context, config) {
 
 export function Gain(context, config) {
   let node = WaaNode(context, 'GainNode', 'gain', true, config)
+  let gainCv
 
   Object.defineProperty(node, 'gainCv', {
     get() {
+      if (gainCv) { return gainCv }
       let ctrl = Const(context, 0)
+      gainCv = ctrl.offset
       let shaper = Shaper(context, CV_TO_GAIN_CURVE)
       ctrl.connect(shaper).connect(node.gain)
-      return ctrl.offset
+      return gainCv
     }
   })
+
+  if (config.gainCv) {
+    node.gainCv.value = config.gainCv
+  }
 
   return node
 }

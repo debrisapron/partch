@@ -27,12 +27,25 @@ describe('Native nodes', () => {
       expect(node.type).toEqual('highpass')
       expect(node.frequency.value).toEqual(666)
     })
+
+    it('can set the frequencyCv param', () => {
+      let node = P.Filter({ frequencyCv: 0.5 })
+      expect(node.frequencyCv.value).toEqual(0.5)
+    })
   })
 
-  it('can create a GainNode', () => {
-    let node = P.Gain(2)
-    expect(node).toEqual(jasmine.any(GainNode))
-    expect(node.gain.value).toEqual(2)
+  describe('Gain', () => {
+    
+    it('can create a GainNode', () => {
+      let node = P.Gain(2)
+      expect(node).toEqual(jasmine.any(GainNode))
+      expect(node.gain.value).toEqual(2)
+    })
+
+    it('can set the gainCv param', () => {
+      let node = P.Gain({ gainCv: 0.5 })
+      expect(node.gainCv.value).toEqual(0.5)
+    })
   })
 
   describe('Oscillator', () => {
@@ -49,6 +62,11 @@ describe('Native nodes', () => {
       expect(node).toEqual(jasmine.any(OscillatorNode))
       expect(node.type).toEqual('sawtooth')
       expect(node.frequency.value).toEqual(666)
+    })
+
+    it('can set the frequencyCv param', () => {
+      let node = P.Osc({ frequencyCv: 0.5 })
+      expect(node.frequencyCv.value).toEqual(0.5)
     })
   })
 

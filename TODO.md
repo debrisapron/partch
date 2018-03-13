@@ -1,6 +1,5 @@
 Next
 
-- Creation args for CV inputs
 - Instantiate sample node with URL
 - Dynamics
 - Write proper intro/guide
@@ -9,6 +8,7 @@ Next
 
 Then
 
+- Simple functions in connection strings: * / + -
 - Param aliases
 - Get rid of out node on patch - connect can just patch all output nodes to destination
 - If only one node connected from patch input, make that the input node
@@ -17,6 +17,7 @@ Then
 - More nodes:
   - Pulse osc with pw https://github.com/pendragon-andyh/WebAudio-PulseOscillator
   - TriSaw osc with shape
+  - Supersaw osc https://noisehack.com/how-to-build-supersaw-synth-web-audio-api/
   - Moog filter
   - Granular sample node
   - FFT sample node!?!?!?

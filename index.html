@@ -154,8 +154,9 @@
 <ul class="list">
 <li><code>config</code> - <em>Object | Number</em> - Either the frequency or the following config object:<ul class="list">
 <li><code>frequency</code> - <em>Number</em> - The filter frequency. Defaults to 350.</li>
+<li><code>frequencyCv</code> - <em>Number</em> The scaled amount to add to the frequency. Defaults to 0.</li>
 <li><code>Q</code> - <em>Number</em> - The <a href="https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/Q">Q</a> factor. Roughly equivalent to resonance. Defaults to 1.</li>
-<li><code>detune</code> - <em>Number</em> - The factor to adjust the frequency, in cents. Defaults to 0.</li>
+<li><code>detune</code> - <em>Number</em> - The offset to add to the frequency, in cents. Defaults to 0.</li>
 <li><code>type</code> - <em>String</em> - The filter <a href="https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type">type</a>. One of <code>lowpass</code>, <code>highpass</code>, <code>bandpass</code>, <code>lowshelf</code>, <code>highshelf</code>, <code>peaking</code>, <code>notch</code> or <code>allpass</code>. Defaults to lowpass.</li>
 </ul>
 </li>
@@ -174,10 +175,11 @@
 <ul class="list">
 <li><code>config</code> - <em>Object | Number</em> - Either the gain or the following config object:<ul class="list">
 <li><code>gain</code> - <em>Number</em> - The amount of gain. Defaults to 1.</li>
+<li><code>gainCv</code> - <em>Number</em> The scaled amount to add to the gain. Defaults to 0.</li>
 </ul>
 </li>
 </ul>
-<p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/GainNode">GainNode</a>. The node has an additional AudioParam, <code>gainCv</code>, which is scaled to produce an exponential volume curve that sounds more natural to the human ear than the linear slope produced by automating the gain level.</p>
+<p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/GainNode">GainNode</a>. The node has an additional AudioParam, <code>gainCv</code>, which is scaled to produce an exponential volume curve that sounds more natural to the human ear than the linear slope produced by automating the gain level. Specifically, a <code>gainCv</code> of 0.5 maps to an additional gain of 0.1.</p>
 <h3 id="p.noise([config])"><a class="header-link" href="#p.noise([config])"></a>P.Noise([config])</h3>
 <ul class="list">
 <li><code>config</code> - <em>Object | String</em> - Either the noise color or the following config object:<ul class="list">
@@ -194,7 +196,8 @@
 <ul class="list">
 <li><code>config</code> - <em>Object | Number</em> - Either the frequency or the following config object:<ul class="list">
 <li><code>frequency</code> - <em>Number</em> - The oscillator frequency. Defaults to 440.</li>
-<li><code>detune</code> - <em>Number</em> - The factor to adjust the frequency, in cents. Defaults to 0.</li>
+<li><code>frequencyCv</code> - <em>Number</em> The scaled amount to add to the frequency. Defaults to 0.</li>
+<li><code>detune</code> - <em>Number</em> - The offset to add to the frequency, in cents. Defaults to 0.</li>
 <li><code>type</code> - <em>String</em> - The oscillator waveform. One of <code>sine</code>, <code>square</code>, <code>sawtooth</code> or <code>triangle</code>. Defaults to <code>sine</code>.</li>
 </ul>
 </li>
@@ -297,7 +300,7 @@
   <span class="hljs-attr">dryDelay</span>: P.Delay(<span class="hljs-number">0.02</span>),
   <span class="hljs-attr">wetDelay</span>: P.Delay(<span class="hljs-number">0.02</span>),
   <span class="hljs-attr">depth</span>: P.Gain(<span class="hljs-number">0.02</span>),
-  <span class="hljs-attr">feedback</span>: P.Gain(<span class="hljs-number">0.5</span>),
+  <span class="hljs-attr">feedback</span>: P.Gain(<span class="hljs-number">-0.5</span>),
   <span class="hljs-attr">lfo</span>: P.Sin(<span class="hljs-number">0.1</span>)
 },
   <span class="hljs-string">'in &gt; dryDelay &gt; dry &gt; out'</span>,
