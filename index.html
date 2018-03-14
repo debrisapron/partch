@@ -101,7 +101,14 @@
   <span class="hljs-string">'osc &gt; vcf &gt; vca &gt; out'</span>,
   <span class="hljs-string">'env &gt; vcf.frequencyCv'</span>,
   <span class="hljs-string">'env &gt; vca.gainCv'</span>
-)).monitor().play(<span class="hljs-number">60</span>)</code></pre><h2 id="introduction"><a class="header-link" href="#introduction"></a>Introduction</h2>
+)).monitor().sequence([
+  { <span class="hljs-attr">time</span>: <span class="hljs-number">0</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">69</span> },
+  { <span class="hljs-attr">time</span>: <span class="hljs-number">1</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">72</span> },
+  { <span class="hljs-attr">time</span>: <span class="hljs-number">2</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">76</span> },
+  { <span class="hljs-attr">time</span>: <span class="hljs-number">3</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">81</span> },
+  { <span class="hljs-attr">time</span>: <span class="hljs-number">4</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">76</span> },
+  { <span class="hljs-attr">time</span>: <span class="hljs-number">5</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">72</span> }
+], { <span class="hljs-attr">loopLength</span>: <span class="hljs-number">6</span>/<span class="hljs-number">8</span> })</code></pre><h2 id="introduction"><a class="header-link" href="#introduction"></a>Introduction</h2>
 <p>Partch is a library designed to simplify the creation of new instruments and FX with the Web Audio API. It has a number of elements which all work together for a pleasurable patching experience.</p>
 <ul class="list">
 <li>A terse syntax for creating native Web Audio API nodes, with sane defaults.</li>

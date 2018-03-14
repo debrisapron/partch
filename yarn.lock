@@ -6267,6 +6267,10 @@ ultron@~1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.1.tgz#9fe1536a10a664a65266a1e3ccf85fd36302bc9c"
 
+um-sequencer@^0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/um-sequencer/-/um-sequencer-0.5.0.tgz#9cca47e496d01a9707272c68c959604bb9f18f58"
+
 umd@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/umd/-/umd-3.0.2.tgz#95bdbc6d3983050df600431f44e5faeb4b7b3d45"

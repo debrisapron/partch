@@ -36,7 +36,14 @@ P.Synth((freq) => P({
   'osc > vcf > vca > out',
   'env > vcf.frequencyCv',
   'env > vca.gainCv'
-)).monitor().play(60)
+)).monitor().sequence([
+  { time: 0/8, nn: 69 },
+  { time: 1/8, nn: 72 },
+  { time: 2/8, nn: 76 },
+  { time: 3/8, nn: 81 },
+  { time: 4/8, nn: 76 },
+  { time: 5/8, nn: 72 }
+], { loopLength: 6/8 })
 ```
 
 ## Introduction
@@ -196,14 +203,26 @@ Returns a Web Audio API [WaveShaperNode](https://developer.mozilla.org/en-US/doc
 
 - `Voice` - _Function_ - A factory function which will construct the synth voice. Should take one parameter, the frequency of the note to be played.
 
-Returns a node which can create new voices with the passed-in factory function and connect them to its output. In addition to the standard node methods it implements the `play` method.
+Returns a node which can create new voices with the passed-in factory function and connect them to its output. In addition to the standard node methods it implements the `play` and `sequence` method.
 
-#### synth.play([note], [time])
+#### synth.play(options)
+- `options` - _Object_
+  - `nn` - _Number_ - The MIDI note number to play. Defaults to 69 (middle A).
+  - `time` - _Number_ - The AudioContext time at which to play the note. Defaults to immediately.
+  - `dur` - _Number_ - The length of time in seconds to play the note for. If falsey, note will not be released. Defaults to 0.2.
 
-- `note` - _Number_ - The MIDI note number to play. Defaults to 69 (middle A).
-- `time` - _Number_ - The AudioContext time at which to play the note.
+Calls the voice function with the passed in MIDI note number converted to a frequency. Returns the new voice node.
 
-Returns the new voice node.
+#### synth.sequence(events, [options])
+
+- `events` - _Array_ - An array of sequencer event objects.
+- `options` - _Object_
+  - `loopLength` - _Number_ - The time at which to loop the sequence, in Whole Notes.
+  - `tempo` - _Number_ - The tempo in bpm. Defaults to 120.
+
+This is a simple wrapper around the functionality of [um-sequencer](https://github.com/debrisapron/um-sequencer). Each sequencer event object can contain the same keys as the `synth.play` options object, but here the `time` attribute is the _musical_ time in Whole Notes from the start of the sequence. If looping is required, the loopLength option must be set.
+
+Returns the synth node.
 
 ### Node API
 
@@ -234,7 +253,7 @@ If the node is an envelope, or a patch containing an envelope, triggers the atta
 
 - `time` - _Number_ - The AudioContext time at which to trigger release. Defaults to immediately.
 
-If the node is an envelope, or a patch containing an envelope, triggers the release portion of the envelope(s) at `time`. After 30 seconds has passed, it will also stop the node (this is subject to change). Returns the node.
+If the node is an envelope, or a patch containing an envelope, triggers the release portion of the envelope(s) at `time` and then stops the node. Returns the node.
 
 ## Cookbook
 

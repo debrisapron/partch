@@ -1,3 +1,4 @@
+import Sequencer from 'um-sequencer'
 import { isPlainObject } from '../helpers'
 import { Gain } from './nativeNodes'
 
@@ -21,6 +22,19 @@ function Synth(context, Voice) {
       voice.triggerRelease(time + dur)
     }
     return voice
+  }
+
+  synthOut.sequence = (events, options) => {
+    // Convert Partch events to um-sequencer events.
+    events = events.map((ev) => {
+      return {
+        time: ev.time,
+        callback: (t) => synthOut.play({ ...ev, time: t })
+      }
+    })
+    let sequencer = Sequencer(() => context.currentTime)
+    sequencer.play(events, options)
+    return synthOut
   }
 
   synthOut.test = (dur, note) => {

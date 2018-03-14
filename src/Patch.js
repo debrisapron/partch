@@ -66,11 +66,13 @@ function Patch(context, nodes, ...connections) {
     let stopTimes = Object.values(nodes)
       .map((node) => node.triggerRelease ? node.triggerRelease(time) : time)
     let stopTime = Math.max(...stopTimes)
-    // TODO Instead of waiting an arbitrarily long time, we should wait until
-    // the patch is no longer making sound for a while, *then* stop it. Also it
-    // should be possible to override this behaviour.
-    stop(stopTime + 30)
-    return patch
+    // TODO This causes any non-envelope tails (e.g. delay) to be truncated at
+    // stopTime. Smart solution is an analyzer that listens to signal and waits
+    // for n seconds of silence, but could be resource-intensive. Could also
+    // allow keepAlive setting which simply keeps all nodes with delays in
+    // around for n seconds.
+    stop(stopTime)
+    return stopTime
   }
 
   let patch = {

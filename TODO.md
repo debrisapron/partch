@@ -3,10 +3,10 @@ Next
   - Three-osc synth
 - Simple functions in connection strings: * / + -
 - Pass params to synth voices
-- Synth.sequence method using um-sequencer
 
 Then
 
+- Different keepAlive settings: 0 (default), n (seconds), smart (looks for delay nodes, uses analyzer to wait for silence)
 - Moog filter
 - More recipes
 - More tests
