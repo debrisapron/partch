@@ -3,19 +3,17 @@ import loadAudio from 'audio-loader'
 import { Saw } from './nodes/nativeNodes'
 import { WhiteNoise } from './nodes/noiseNodes'
 
-let _allNodes = []
+let _playingNodes = new Map()
 let _audioFileCache = {}
 
 export function isPlainObject(thing) {
   return typeof thing === 'object' && thing.constructor === Object
 }
 
-export function resetContext(context) {
-  context.__nodes.forEach((node) => {
-    if (node.stop && !node.__stopped) { node.stop() }
-    if (node.disconnect) { node.disconnect() }
-  })
-  context.__nodes = []
+export function stopAllNodes() {
+  // TODO Should also disconnect everything. Poss way to do this: use a master
+  // node instead of context.destination & disconnect that.
+  Array.from(_playingNodes).forEach(([node]) => node.stop())
 }
 
 export function testNode(node, dur = 0.2, type = 'bleep') {
@@ -35,7 +33,6 @@ export function testNode(node, dur = 0.2, type = 'bleep') {
 // Takes a sad node and makes it better.
 export function partchifyNode(node) {
   node.__partchNode = true
-  node.context.__nodes.push(node)
 
   // If node can be connected, make connect understand `node.input` and add
   // monitor & test methods.
@@ -78,11 +75,11 @@ export function partchifyNode(node) {
   // If node is a source, patch stop to register its stoppedness.
   if (node.stop) {
     node.__stop = node.stop
-    node.__stopped = false
+    _playingNodes.set(node, true)
 
     node.stop = (time) => {
       node.__stop(time)
-      node.__stopped = true
+      _playingNodes.delete(node)
     }
   }
 }

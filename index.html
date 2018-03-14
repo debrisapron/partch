@@ -103,13 +103,13 @@
   <span class="hljs-string">'env &gt; vcf.frequencyCv'</span>,
   <span class="hljs-string">'env &gt; vca.gainCv'</span>
 )).monitor().sequence([
-  { <span class="hljs-attr">time</span>: <span class="hljs-number">0</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">69</span> },
-  { <span class="hljs-attr">time</span>: <span class="hljs-number">1</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">72</span> },
-  { <span class="hljs-attr">time</span>: <span class="hljs-number">2</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">76</span> },
-  { <span class="hljs-attr">time</span>: <span class="hljs-number">3</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">81</span> },
-  { <span class="hljs-attr">time</span>: <span class="hljs-number">4</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">76</span> },
-  { <span class="hljs-attr">time</span>: <span class="hljs-number">5</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">72</span> }
-], { <span class="hljs-attr">loopLength</span>: <span class="hljs-number">6</span>/<span class="hljs-number">8</span> })</code></pre><h2 id="introduction"><a class="header-link" href="#introduction"></a>Introduction</h2>
+  { <span class="hljs-attr">t</span>: <span class="hljs-number">0</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">69</span> },
+  { <span class="hljs-attr">t</span>: <span class="hljs-number">1</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">72</span> },
+  { <span class="hljs-attr">t</span>: <span class="hljs-number">2</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">76</span> },
+  { <span class="hljs-attr">t</span>: <span class="hljs-number">3</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">81</span> },
+  { <span class="hljs-attr">t</span>: <span class="hljs-number">4</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">76</span> },
+  { <span class="hljs-attr">t</span>: <span class="hljs-number">5</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">72</span> }
+], { <span class="hljs-attr">loopLength</span>: <span class="hljs-number">6</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">tempo</span>: <span class="hljs-number">190</span> })</code></pre><h2 id="introduction"><a class="header-link" href="#introduction"></a>Introduction</h2>
 <p>Partch is a library designed to simplify the creation of new instruments and FX with the Web Audio API. It has a number of elements which all work together for a pleasurable patching experience.</p>
 <ul class="list">
 <li>A terse syntax for creating native Web Audio API nodes, with sane defaults.</li>
@@ -135,10 +135,10 @@
 <h3 id="p.adsr([config])"><a class="header-link" href="#p.adsr([config])"></a>P.Adsr([config])</h3>
 <ul class="list">
 <li><code>config</code> - <em>Object | Number</em> - Either the release time or the following config object:<ul class="list">
-<li><code>attack</code> - <em>Number</em> - The attack time in seconds. Defaults to 0.01.</li>
-<li><code>decay</code> - <em>Number</em> - The decay time in seconds. Defaults to 0.</li>
-<li><code>sustain</code> - <em>Number</em> - The sustain level. Defaults to 1.</li>
-<li><code>release</code> - <em>Number</em> - The release time in seconds. Defaults to 1.</li>
+<li><code>attack</code> _or_ <code>a</code> - <em>Number</em> - The attack time in seconds. Defaults to 0.01.</li>
+<li><code>decay</code> _or_ <code>d</code> - <em>Number</em> - The decay time in seconds. Defaults to 0.</li>
+<li><code>sustain</code> _or_ <code>s</code> - <em>Number</em> - The sustain level. Defaults to 1.</li>
+<li><code>release</code> _or_ <code>r</code> - <em>Number</em> - The release time in seconds. Defaults to 1.</li>
 <li><code>level</code> - <em>Number</em> - The envelope maximum value (i.e. sustain is multiplied by this). Defaults to 1.</li>
 </ul>
 </li>
@@ -266,7 +266,7 @@
 <ul class="list">
 <li><code>options</code> - <em>Object</em><ul class="list">
 <li><code>nn</code> - <em>Number</em> - The MIDI note number to play. Defaults to 69 (middle A).</li>
-<li><code>time</code> - <em>Number</em> - The AudioContext time at which to play the note. Defaults to immediately.</li>
+<li><code>time</code> _or_ <code>t</code> - <em>Number</em> - The AudioContext time at which to play the note. Defaults to immediately.</li>
 <li><code>dur</code> - <em>Number</em> - The length of time in seconds to play the note for. If falsey, note will not be released. Defaults to 0.2.</li>
 </ul>
 </li>

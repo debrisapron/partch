@@ -37,13 +37,13 @@ P.Synth((freq) => P({
   'env > vcf.frequencyCv',
   'env > vca.gainCv'
 )).monitor().sequence([
-  { time: 0/8, nn: 69 },
-  { time: 1/8, nn: 72 },
-  { time: 2/8, nn: 76 },
-  { time: 3/8, nn: 81 },
-  { time: 4/8, nn: 76 },
-  { time: 5/8, nn: 72 }
-], { loopLength: 6/8 })
+  { t: 0/8, nn: 69 },
+  { t: 1/8, nn: 72 },
+  { t: 2/8, nn: 76 },
+  { t: 3/8, nn: 81 },
+  { t: 4/8, nn: 76 },
+  { t: 5/8, nn: 72 }
+], { loopLength: 6/8, tempo: 190 })
 ```
 
 ## Introduction
@@ -78,10 +78,10 @@ Connection strings take the form of a list of nodes separated by a `>` character
 ### P.Adsr([config])
 
 - `config` - _Object | Number_ - Either the release time or the following config object:
-  - `attack` - _Number_ - The attack time in seconds. Defaults to 0.01.
-  - `decay` - _Number_ - The decay time in seconds. Defaults to 0.
-  - `sustain` - _Number_ - The sustain level. Defaults to 1.
-  - `release` - _Number_ - The release time in seconds. Defaults to 1.
+  - `attack` _or_ `a` - _Number_ - The attack time in seconds. Defaults to 0.01.
+  - `decay` _or_ `d` - _Number_ - The decay time in seconds. Defaults to 0.
+  - `sustain` _or_ `s` - _Number_ - The sustain level. Defaults to 1.
+  - `release` _or_ `r` - _Number_ - The release time in seconds. Defaults to 1.
   - `level` - _Number_ - The envelope maximum value (i.e. sustain is multiplied by this). Defaults to 1.
 
 Returns an ASDR envelope node which can be used to control parameters of other nodes. Note that the rise and fall slopes are linear, so if you want exponential slopes, e.g. for controlling filter cutoff, you should connect the signal to one of the provided CV inputs.
@@ -208,7 +208,7 @@ Returns a node which can create new voices with the passed-in factory function a
 #### synth.play(options)
 - `options` - _Object_
   - `nn` - _Number_ - The MIDI note number to play. Defaults to 69 (middle A).
-  - `time` - _Number_ - The AudioContext time at which to play the note. Defaults to immediately.
+  - `time` _or_ `t` - _Number_ - The AudioContext time at which to play the note. Defaults to immediately.
   - `dur` - _Number_ - The length of time in seconds to play the note for. If falsey, note will not be released. Defaults to 0.2.
 
 Calls the voice function with the passed in MIDI note number converted to a frequency. Returns the new voice node.

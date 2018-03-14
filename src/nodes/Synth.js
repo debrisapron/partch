@@ -13,7 +13,9 @@ function Synth(context, Voice) {
     if (!isPlainObject(config)) {
       config = { nn: config || 69 }
     }
-    let { nn = 69, time = context.currentTime, dur = 0.2 } = config
+    let nn = config.nn || 69
+    let time = config.time || config.t || context.currentTime
+    let dur = config.dur || 0.2
     let frequency = twelveTet(nn)
     let voice = Voice(frequency)
     voice.connect(synthOut)
@@ -28,7 +30,7 @@ function Synth(context, Voice) {
     // Convert Partch events to um-sequencer events.
     events = events.map((ev) => {
       return {
-        time: ev.time,
+        time: ev.time || ev.t,
         callback: (t) => synthOut.play({ ...ev, time: t })
       }
     })
