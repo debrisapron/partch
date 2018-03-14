@@ -65,7 +65,8 @@
     <li class="sidebar-header-3"><a href="#p.sample([config])">P.Sample([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.shaper([config])">P.Shaper([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.synth(voice)">P.Synth(Voice)</a></li>
-    <li class="sidebar-header-4"><a href="#synth.play([note],-[time])">synth.play([note], [time])</a></li>
+    <li class="sidebar-header-4"><a href="#synth.play(options)">synth.play(options)</a></li>
+    <li class="sidebar-header-4"><a href="#synth.sequence(events,-[options])">synth.sequence(events, [options])</a></li>
     <li class="sidebar-header-3"><a href="#node-api">Node API</a></li>
     <li class="sidebar-header-4"><a href="#node.input">node.input</a></li>
     <li class="sidebar-header-4"><a href="#node.monitor()">node.monitor()</a></li>
@@ -260,13 +261,28 @@
 <ul class="list">
 <li><code>Voice</code> - <em>Function</em> - A factory function which will construct the synth voice. Should take one parameter, the frequency of the note to be played.</li>
 </ul>
-<p>Returns a node which can create new voices with the passed-in factory function and connect them to its output. In addition to the standard node methods it implements the <code>play</code> method.</p>
-<h4 id="synth.play([note],-[time])"><a class="header-link" href="#synth.play([note],-[time])"></a>synth.play([note], [time])</h4>
+<p>Returns a node which can create new voices with the passed-in factory function and connect them to its output. In addition to the standard node methods it implements the <code>play</code> and <code>sequence</code> method.</p>
+<h4 id="synth.play(options)"><a class="header-link" href="#synth.play(options)"></a>synth.play(options)</h4>
 <ul class="list">
-<li><code>note</code> - <em>Number</em> - The MIDI note number to play. Defaults to 69 (middle A).</li>
-<li><code>time</code> - <em>Number</em> - The AudioContext time at which to play the note.</li>
+<li><code>options</code> - <em>Object</em><ul class="list">
+<li><code>nn</code> - <em>Number</em> - The MIDI note number to play. Defaults to 69 (middle A).</li>
+<li><code>time</code> - <em>Number</em> - The AudioContext time at which to play the note. Defaults to immediately.</li>
+<li><code>dur</code> - <em>Number</em> - The length of time in seconds to play the note for. If falsey, note will not be released. Defaults to 0.2.</li>
 </ul>
-<p>Returns the new voice node.</p>
+</li>
+</ul>
+<p>Calls the voice function with the passed in MIDI note number converted to a frequency. Returns the new voice node.</p>
+<h4 id="synth.sequence(events,-[options])"><a class="header-link" href="#synth.sequence(events,-[options])"></a>synth.sequence(events, [options])</h4>
+<ul class="list">
+<li><code>events</code> - <em>Array</em> - An array of sequencer event objects.</li>
+<li><code>options</code> - <em>Object</em><ul class="list">
+<li><code>loopLength</code> - <em>Number</em> - The time at which to loop the sequence, in Whole Notes.</li>
+<li><code>tempo</code> - <em>Number</em> - The tempo in bpm. Defaults to 120.</li>
+</ul>
+</li>
+</ul>
+<p>This is a simple wrapper around the functionality of <a href="https://github.com/debrisapron/um-sequencer">um-sequencer</a>. Each sequencer event object can contain the same keys as the <code>synth.play</code> options object, but here the <code>time</code> attribute is the <em>musical</em> time in Whole Notes from the start of the sequence. If looping is required, the loopLength option must be set.</p>
+<p>Returns the synth node.</p>
 <h3 id="node-api"><a class="header-link" href="#node-api"></a>Node API</h3>
 <p>On top of the standard Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioNode">AudioNode</a> interface, Partch makes some enhancements. Firstly, it patches <code>connect</code> and <code>disconnect</code> so that they can handle nodes which have an <code>input</code> property. Secondly, it adds the following members:</p>
 <h4 id="node.input"><a class="header-link" href="#node.input"></a>node.input</h4>
@@ -288,7 +304,7 @@
 <ul class="list">
 <li><code>time</code> - <em>Number</em> - The AudioContext time at which to trigger release. Defaults to immediately.</li>
 </ul>
-<p>If the node is an envelope, or a patch containing an envelope, triggers the release portion of the envelope(s) at <code>time</code>. After 30 seconds has passed, it will also stop the node (this is subject to change). Returns the node.</p>
+<p>If the node is an envelope, or a patch containing an envelope, triggers the release portion of the envelope(s) at <code>time</code> and then stops the node. Returns the node.</p>
 <h2 id="cookbook"><a class="header-link" href="#cookbook"></a>Cookbook</h2>
 <p>The philosophy of Partch is to give you a small number of fundamental building blocks while making it as easy as possible to build your own high-level abstractions from those blocks. In that spirit, components such as phasers, chorus effects, analogue-style delays, autopanners and so on are not included. Instead, here are some example patches for you to copy and paste, in the hope that you will modify them to your own taste, creating effects and instruments that are entirely unique to you.</p>
 <h3 id="simple-delay"><a class="header-link" href="#simple-delay"></a>Simple delay</h3>
