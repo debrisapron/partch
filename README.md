@@ -35,7 +35,7 @@ P.Synth((freq) => P({
   env: P.Adsr({ a: 0.01, d: 0.1, s: 0.6, r: 1 })
 },
   'saw > vcf > vca > out',
-  'sqr > vcf > out',
+  'sqr > vcf',
   'env > vcf.frequencyCv',
   'env > vca.gainCv'
 )).monitor().sequence([
