@@ -1,5 +1,5 @@
 import Sequencer from 'um-sequencer'
-import { isPlainObject } from '../helpers'
+import { isPlainObject, partchifyNode } from '../helpers'
 import { Gain } from './nativeNodes'
 
 function twelveTet(nn, ref = 440) {
@@ -8,6 +8,7 @@ function twelveTet(nn, ref = 440) {
 
 function Synth(context, Voice) {
   let synthOut = Gain(context)
+  let sequencers = []
 
   synthOut.play = (config) => {
     if (!isPlainObject(config)) {
@@ -36,12 +37,21 @@ function Synth(context, Voice) {
     })
     let sequencer = Sequencer(() => context.currentTime)
     sequencer.play(events, options)
-    return synthOut
+    sequencers.push(sequencer)
+    return sequencer
   }
 
   synthOut.test = (dur, note) => {
     synthOut.monitor().play({ dur, note })
   }
+
+  synthOut.stop = () => {
+    sequencers.forEach((s) => s.stop())
+    sequencers = []
+  }
+
+  // Partchify it again as it now has a stop method
+  partchifyNode(synthOut)
 
   return synthOut
 }

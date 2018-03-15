@@ -36,7 +36,8 @@ export function partchifyNode(node) {
 
   // If node can be connected, make connect understand `node.input` and add
   // monitor & test methods.
-  if (node.connect) {
+  if (node.connect && !node.__connectPatched) {
+    node.__connectPatched = true
     node.__connect = node.connect
     node.__disconnect = node.disconnect
     node.__connections = []
@@ -72,8 +73,9 @@ export function partchifyNode(node) {
     node.test = (...args) => testNode(node, ...args)
   }
 
-  // If node is a source, patch stop to register its stoppedness.
-  if (node.stop) {
+  // If node is a source, patch stop to record its stopped / not stopped status.
+  if (node.stop && !node.__stopPatched) {
+    node.__stopPatched = true
     node.__stop = node.stop
     _playingNodes.set(node, true)
 

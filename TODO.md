@@ -6,6 +6,8 @@ Next
 - Simple functions in connection strings: * / + -
 - Pass params to synth voices
 - Accept note names e.g. C#4
+- Proper webpack server setup
+- DRY up params code
 
 Then
 

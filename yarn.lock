@@ -2535,6 +2535,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
+freeverb@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/freeverb/-/freeverb-1.1.2.tgz#014c5a6c80e635bc606463c7623f5ddab3e5aa3c"
+
 from2@^2.1.0, from2@^2.1.1:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/from2/-/from2-2.3.0.tgz#8bfb5502bde4a4d36cfdeea007fcca21d7e382af"

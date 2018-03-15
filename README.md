@@ -28,12 +28,14 @@ then
 
 ```js
 P.Synth((freq) => P({
-  osc: P.Saw(freq),
+  saw: P.Saw(freq),
+  sqr: P.Sqr(freq / 3.99),
   vcf: P.Lpf(20),
   vca: P.Gain(0),
   env: P.Adsr({ a: 0.01, d: 0.1, s: 0.6, r: 1 })
 },
-  'osc > vcf > vca > out',
+  'saw > vcf > vca > out',
+  'sqr > vcf > out',
   'env > vcf.frequencyCv',
   'env > vca.gainCv'
 )).monitor().sequence([
@@ -107,7 +109,7 @@ Returns a Web Audio API [DelayNode](https://developer.mozilla.org/en-US/docs/Web
 ### P.Filter([config])
 
 - `config` - _Object | Number_ - Either the frequency or the following config object:
-  - `frequency` - _Number_ - The filter frequency. Defaults to 350.
+  - `frequency` - _Number_ - The filter frequency in Hz. Defaults to 350.
   - `frequencyCv` - _Number_ The scaled amount to add to the frequency. Defaults to 0.
   - `Q` - _Number_ - The [Q](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/Q) factor. Roughly equivalent to resonance. Defaults to 1.
   - `detune` - _Number_ - The offset to add to the frequency, in cents. Defaults to 0.
@@ -125,6 +127,16 @@ Returns a Web Audio API [BiquadFilterNode](https://developer.mozilla.org/en-US/d
 #### P.Peak([config])
 
 Aliases for the Filter node with different filter types.
+
+### P.Freeverb([config])
+
+- `config` - _Object | Number_ - Either the wet level or the following config object:
+  - `wet` - _Number_ - The wet signal gain. Defaults to 0.
+  - `dry` - _Number_ - The dry signal gain. Defaults to 1.
+  - `roomSize` - _Number_ - A number from 0-1 representing the size of the reverb space. Defaults to 0.8.
+  - `dampening` - _Number_ - A frequency in Hz which corresponds to the amount of "ringing". Defaults to 3000.
+
+Returns a reverb node based on the Freeverb algorithm (imported from https://github.com/mmckegg/freeverb).
 
 ### P.Gain([config])
 
@@ -156,7 +168,7 @@ Aliases for the Noise node with different color settings.
 ### P.Osc([config])
 
 - `config` - _Object | Number_ - Either the frequency or the following config object:
-  - `frequency` - _Number_ - The oscillator frequency. Defaults to 440.
+  - `frequency` - _Number_ - The oscillator frequency in Hz. Defaults to 440.
   - `frequencyCv` - _Number_ The scaled amount to add to the frequency. Defaults to 0.
   - `detune` - _Number_ - The offset to add to the frequency, in cents. Defaults to 0.
   - `type` - _String_ - The oscillator waveform. One of `sine`, `square`, `sawtooth` or `triangle`. Defaults to `sine`.
@@ -201,7 +213,7 @@ Returns a Web Audio API [WaveShaperNode](https://developer.mozilla.org/en-US/doc
 
 ### P.Synth(Voice)
 
-- `Voice` - _Function_ - A factory function which will construct the synth voice. Should take one parameter, the frequency of the note to be played.
+- `Voice` - _Function_ - A factory function which will construct the synth voice. Should take one parameter, the frequency in Hz of the note to be played.
 
 Returns a node which can create new voices with the passed-in factory function and connect them to its output. In addition to the standard node methods it implements the `play` and `sequence` method.
 
@@ -222,7 +234,7 @@ Calls the voice function with the passed in MIDI note number converted to a freq
 
 This is a simple wrapper around the functionality of [um-sequencer](https://github.com/debrisapron/um-sequencer). Each sequencer event object can contain the same keys as the `synth.play` options object, but here the `time` attribute is the _musical_ time in Whole Notes from the start of the sequence. If looping is required, the loopLength option must be set.
 
-Returns the synth node.
+Returns a sequencer object with `stop` and `changeTempo(tempo)` methods (see the um-sequencer docs for more information).
 
 ### Node API
 

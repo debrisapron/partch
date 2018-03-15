@@ -50,6 +50,7 @@
     <li class="sidebar-header-4"><a href="#p.lpf([config])">P.Lpf([config])</a></li>
     <li class="sidebar-header-4"><a href="#p.notch([config])">P.Notch([config])</a></li>
     <li class="sidebar-header-4"><a href="#p.peak([config])">P.Peak([config])</a></li>
+    <li class="sidebar-header-3"><a href="#p.freeverb([config])">P.Freeverb([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.gain([config])">P.Gain([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.load(url)">P.load(url)</a></li>
     <li class="sidebar-header-3"><a href="#p.noise([config])">P.Noise([config])</a></li>
@@ -94,12 +95,14 @@
 <p>First</p>
 <pre class="hljs"><code><span class="hljs-keyword">let</span> P = Partch()</code></pre><p>then</p>
 <pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">freq</span>) =&gt;</span> P({
-  <span class="hljs-attr">osc</span>: P.Saw(freq),
+  <span class="hljs-attr">saw</span>: P.Saw(freq),
+  <span class="hljs-attr">sqr</span>: P.Sqr(freq / <span class="hljs-number">3.99</span>),
   <span class="hljs-attr">vcf</span>: P.Lpf(<span class="hljs-number">20</span>),
   <span class="hljs-attr">vca</span>: P.Gain(<span class="hljs-number">0</span>),
   <span class="hljs-attr">env</span>: P.Adsr({ <span class="hljs-attr">a</span>: <span class="hljs-number">0.01</span>, <span class="hljs-attr">d</span>: <span class="hljs-number">0.1</span>, <span class="hljs-attr">s</span>: <span class="hljs-number">0.6</span>, <span class="hljs-attr">r</span>: <span class="hljs-number">1</span> })
 },
-  <span class="hljs-string">'osc &gt; vcf &gt; vca &gt; out'</span>,
+  <span class="hljs-string">'saw &gt; vcf &gt; vca &gt; out'</span>,
+  <span class="hljs-string">'sqr &gt; vcf &gt; out'</span>,
   <span class="hljs-string">'env &gt; vcf.frequencyCv'</span>,
   <span class="hljs-string">'env &gt; vca.gainCv'</span>
 )).monitor().sequence([
@@ -165,7 +168,7 @@
 <h3 id="p.filter([config])"><a class="header-link" href="#p.filter([config])"></a>P.Filter([config])</h3>
 <ul class="list">
 <li><code>config</code> - <em>Object | Number</em> - Either the frequency or the following config object:<ul class="list">
-<li><code>frequency</code> - <em>Number</em> - The filter frequency. Defaults to 350.</li>
+<li><code>frequency</code> - <em>Number</em> - The filter frequency in Hz. Defaults to 350.</li>
 <li><code>frequencyCv</code> - <em>Number</em> The scaled amount to add to the frequency. Defaults to 0.</li>
 <li><code>Q</code> - <em>Number</em> - The <a href="https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/Q">Q</a> factor. Roughly equivalent to resonance. Defaults to 1.</li>
 <li><code>detune</code> - <em>Number</em> - The offset to add to the frequency, in cents. Defaults to 0.</li>
@@ -183,6 +186,17 @@
 <h4 id="p.notch([config])"><a class="header-link" href="#p.notch([config])"></a>P.Notch([config])</h4>
 <h4 id="p.peak([config])"><a class="header-link" href="#p.peak([config])"></a>P.Peak([config])</h4>
 <p>Aliases for the Filter node with different filter types.</p>
+<h3 id="p.freeverb([config])"><a class="header-link" href="#p.freeverb([config])"></a>P.Freeverb([config])</h3>
+<ul class="list">
+<li><code>config</code> - <em>Object | Number</em> - Either the wet level or the following config object:<ul class="list">
+<li><code>wet</code> - <em>Number</em> - The wet signal gain. Defaults to 0.</li>
+<li><code>dry</code> - <em>Number</em> - The dry signal gain. Defaults to 1.</li>
+<li><code>roomSize</code> - <em>Number</em> - A number from 0-1 representing the size of the reverb space. Defaults to 0.8.</li>
+<li><code>dampening</code> - <em>Number</em> - A frequency in Hz which corresponds to the amount of &quot;ringing&quot;. Defaults to 3000.</li>
+</ul>
+</li>
+</ul>
+<p>Returns a reverb node based on the Freeverb algorithm (imported from <a href="https://github.com/mmckegg/freeverb)">https://github.com/mmckegg/freeverb)</a>.</p>
 <h3 id="p.gain([config])"><a class="header-link" href="#p.gain([config])"></a>P.Gain([config])</h3>
 <ul class="list">
 <li><code>config</code> - <em>Object | Number</em> - Either the gain or the following config object:<ul class="list">
@@ -212,7 +226,7 @@
 <h3 id="p.osc([config])"><a class="header-link" href="#p.osc([config])"></a>P.Osc([config])</h3>
 <ul class="list">
 <li><code>config</code> - <em>Object | Number</em> - Either the frequency or the following config object:<ul class="list">
-<li><code>frequency</code> - <em>Number</em> - The oscillator frequency. Defaults to 440.</li>
+<li><code>frequency</code> - <em>Number</em> - The oscillator frequency in Hz. Defaults to 440.</li>
 <li><code>frequencyCv</code> - <em>Number</em> The scaled amount to add to the frequency. Defaults to 0.</li>
 <li><code>detune</code> - <em>Number</em> - The offset to add to the frequency, in cents. Defaults to 0.</li>
 <li><code>type</code> - <em>String</em> - The oscillator waveform. One of <code>sine</code>, <code>square</code>, <code>sawtooth</code> or <code>triangle</code>. Defaults to <code>sine</code>.</li>
@@ -259,7 +273,7 @@
 <p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode">WaveShaperNode</a>.</p>
 <h3 id="p.synth(voice)"><a class="header-link" href="#p.synth(voice)"></a>P.Synth(Voice)</h3>
 <ul class="list">
-<li><code>Voice</code> - <em>Function</em> - A factory function which will construct the synth voice. Should take one parameter, the frequency of the note to be played.</li>
+<li><code>Voice</code> - <em>Function</em> - A factory function which will construct the synth voice. Should take one parameter, the frequency in Hz of the note to be played.</li>
 </ul>
 <p>Returns a node which can create new voices with the passed-in factory function and connect them to its output. In addition to the standard node methods it implements the <code>play</code> and <code>sequence</code> method.</p>
 <h4 id="synth.play(options)"><a class="header-link" href="#synth.play(options)"></a>synth.play(options)</h4>
@@ -282,7 +296,7 @@
 </li>
 </ul>
 <p>This is a simple wrapper around the functionality of <a href="https://github.com/debrisapron/um-sequencer">um-sequencer</a>. Each sequencer event object can contain the same keys as the <code>synth.play</code> options object, but here the <code>time</code> attribute is the <em>musical</em> time in Whole Notes from the start of the sequence. If looping is required, the loopLength option must be set.</p>
-<p>Returns the synth node.</p>
+<p>Returns a sequencer object with <code>stop</code> and <code>changeTempo(tempo)</code> methods (see the um-sequencer docs for more information).</p>
 <h3 id="node-api"><a class="header-link" href="#node-api"></a>Node API</h3>
 <p>On top of the standard Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioNode">AudioNode</a> interface, Partch makes some enhancements. Firstly, it patches <code>connect</code> and <code>disconnect</code> so that they can handle nodes which have an <code>input</code> property. Secondly, it adds the following members:</p>
 <h4 id="node.input"><a class="header-link" href="#node.input"></a>node.input</h4>
