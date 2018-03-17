@@ -41,8 +41,8 @@ function Synth(context, Voice) {
     return sequencer
   }
 
-  synthOut.test = (dur, note) => {
-    synthOut.monitor().play({ dur, note })
+  synthOut.test = (dur, nn) => {
+    synthOut.monitor().play({ dur, nn })
   }
 
   synthOut.stop = () => {

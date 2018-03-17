@@ -312,6 +312,7 @@ P({
 ```
 
 ### Flanger
+
 ```js
 P({
   dry: P.Gain(1),
@@ -329,18 +330,25 @@ P({
 ).test(5, 'noise')
 ```
 
-### Drumbeat
+### Classic three-osc synth
+
 ```js
-let [kick, snare] = await Promise.all([
-  P.load('assets/audio/kick.wav'),
-  P.load('assets/audio/snare.wav')
-])
-// This is just an example! Do not use JS clocks for music!
-// Google "A Tale Of Two Clocks" to learn about sequencing with the Web Audio API.
-let i1 = setInterval(() => P.Sample(kick).monitor(), 500)
-let i2 = setInterval(() => P.Sample(snare).monitor(), 1000)
-setTimeout(() => {
-  clearInterval(i1)
-  clearInterval(i2)
-}, 4010)
+P.Synth((f) => P({
+  osc1: P.Saw(f),
+  osc2: P.Saw(f * 1.01),
+  osc3: P.Sqr(f / 2),
+  filter: P.Lpf(40),
+  filterFb: P.Gain(0.3),
+  filterEnv: P.Adsr({ a: 0.1, d: 0.2, s: 0.6, r: 1, level: 0.7 }),
+  amp: P.Gain(0),
+  ampEnv: P.Adsr({ a: 0.01, r: 1.5 })
+},
+  'osc1 > filter',
+  'osc2 > filter',
+  'osc3 > filter',
+  'filter > amp > out',
+  'filter > filterFb > filter',
+  'filterEnv > filter.frequencyCv',
+  'ampEnv > amp.gainCv'
+)).test(1, 45)
 ```

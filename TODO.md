@@ -1,16 +1,18 @@
 Next
 
 - More recipes
-  - Three-osc synth
+  - Drum machine
 - Simple functions in connection strings: * / + -
 - Pass params to synth voices
 - Accept note names e.g. C#4
 - Proper webpack server setup
 - DRY up params code
 - Don't add stop and start to patches that don't need them
+- Investigate dead air from 3 osc synth
 
 Then
 
+- Error messages
 - Profiling
 - Persistent nodes for synth voices (e.g. shared LFOs)
 - Expose synth voice audioParams (use a proxy?)
