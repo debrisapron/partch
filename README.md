@@ -8,14 +8,6 @@ A lightweight Web Audio API patching library.
 
 Please note: this is UNDER CONSTRUCTION & should not be considered stable.
 
-## Installation
-
-First `yarn add partch` or `npm install partch --save`.
-
-Then, if you're using a bundler such as webpack, simply `import Partch from 'partch'`.
-
-Alternatively load it directly in the browser with the script tag `<script src="path/to/partch.js"></script>`.
-
 ## Example
 
 First
@@ -57,6 +49,14 @@ Partch is a library designed to simplify the creation of new instruments and FX 
 - Useful additions and tweaks to the API of created nodes.
 - A Patch function for wiring nodes together into patches.
 - A Synth function for creating polyphonic synthesizers from individual voice functions.
+
+## Installation
+
+First `yarn add partch` or `npm install partch --save`.
+
+Then, if you're using a bundler such as webpack, simply `import Partch from 'partch'`.
+
+Alternatively load it directly in the browser with the script tag `<script src="path/to/partch.js"></script>`.
 
 ## API
 
@@ -188,8 +188,9 @@ Aliases for the Osc node with different waveform types.
   - `drive` - _Number_ - Gain applied before waveshaping. Defaults to 1.
   - `shape` - _Number_ - Number from 0-1 representing the how much the waveshape distorts the signal. Defaults to 0.725.
   - `algo` - _Number_ - Number from 0-5 specifying which shaping algorithm to use. Default is 0.
+  - `makeup` - _Number_ - Gain applied after waveshaping. Defaults to 1.
 
-Returns an Overdrive node which amplifies the signal by the gain, runs it through a waveshaper with one of 6 different curves and then attenuates the signal depending on how much drive was used. Adapted from [Tuna.js](https://github.com/Theodeus/tuna/wiki).
+Returns a custom Overdrive node adapted from [Tuna.js](https://github.com/Theodeus/tuna/wiki).
 
 ### P.Sample([config])
 
@@ -286,24 +287,25 @@ P({
 ).test()
 ```
 
-### Analogue-style delay
+### Tape-style delay
 
 ```js
 P({
   dry: P.Gain(1),
   wet: P.Gain(0.5),
   delay: P.Delay(0.5),
-  feedback: P.Gain(0.5),
-  highCut: P.Lpf(5000),
-  lowCut: P.Hpf(80),
+  feedback: P.Gain(0.4),
+  od: P.Over({ drive: 0.5, shape: 0.7, makeup: 0.7 }),
+  highCut: P.Lpf(6000),
+  lowCut: P.Hpf(60),
   wow: P.Sin(0.1),
-  wowLevel: P.Gain(0.002),
+  wowLevel: P.Gain(0.005),
   flutter: P.Sin(5.3),
-  flutterLevel: P.Gain(0.0001)
+  flutterLevel: P.Gain(0.00015)
 },
   'in > dry > out',
-  'in > highCut > lowCut > delay > wet > out',
-  'delay > feedback > highCut',
+  'in > od > highCut > lowCut > delay > wet > out',
+  'delay > feedback > od',
   'wow > wowLevel > delay.delayTime',
   'flutter > flutterLevel > delay.delayTime'
 ).test()

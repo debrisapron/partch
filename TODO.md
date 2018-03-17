@@ -1,6 +1,5 @@
 Next
 
-- Stop sequence!
 - More recipes
   - Three-osc synth
 - Simple functions in connection strings: * / + -
@@ -8,6 +7,7 @@ Next
 - Accept note names e.g. C#4
 - Proper webpack server setup
 - DRY up params code
+- Don't add stop and start to patches that don't need them
 
 Then
 

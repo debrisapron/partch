@@ -104,15 +104,13 @@ function getCurve(algo = 0, amount = 0.725) {
 }
 
 function Over(context, config) {
-  let params = isPlainObject(config) ? config : { drive: config || 1 }
+  let params = isPlainObject(config) ? config : { drive: config }
   let curve = getCurve(params.algo, params.shape)
-  // TODO Automatable drive using 1/x waveshaper.
-  // See https://github.com/WebAudio/web-audio-api/issues/1156
   return Patch(context, {
-    driveIn: Gain(context, params.drive),
+    drive: Gain(context, params.drive),
     shaper: Shaper(context, curve),
-    driveOut: Gain(context, 1 / params.drive)
-  }, 'in > driveIn > shaper > driveOut > out')
+    makeup: Gain(context, params.makeup)
+  }, 'in > drive > shaper > makeup > out')
 }
 
 export default Over
