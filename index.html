@@ -76,7 +76,7 @@
     <li class="sidebar-header-4"><a href="#node.triggerrelease([time])">node.triggerRelease([time])</a></li>
     <li class="sidebar-header-2"><a href="#cookbook">Cookbook</a></li>
     <li class="sidebar-header-3"><a href="#simple-delay">Simple delay</a></li>
-    <li class="sidebar-header-3"><a href="#analogue-style-delay">Analogue-style delay</a></li>
+    <li class="sidebar-header-3"><a href="#tape-style-delay">Tape-style delay</a></li>
     <li class="sidebar-header-3"><a href="#flanger">Flanger</a></li>
     <li class="sidebar-header-3"><a href="#drumbeat">Drumbeat</a></li>
 </ul>
@@ -332,22 +332,23 @@
   <span class="hljs-string">'in &gt; dry &gt; out'</span>,
   <span class="hljs-string">'in &gt; delay &gt; wet &gt; out'</span>,
   <span class="hljs-string">'delay &gt; feedback &gt; delay'</span>
-).test()</code></pre><h3 id="analogue-style-delay"><a class="header-link" href="#analogue-style-delay"></a>Analogue-style delay</h3>
+).test()</code></pre><h3 id="tape-style-delay"><a class="header-link" href="#tape-style-delay"></a>Tape-style delay</h3>
 <pre class="hljs"><code>P({
   <span class="hljs-attr">dry</span>: P.Gain(<span class="hljs-number">1</span>),
   <span class="hljs-attr">wet</span>: P.Gain(<span class="hljs-number">0.5</span>),
   <span class="hljs-attr">delay</span>: P.Delay(<span class="hljs-number">0.5</span>),
-  <span class="hljs-attr">feedback</span>: P.Gain(<span class="hljs-number">0.5</span>),
-  <span class="hljs-attr">highCut</span>: P.Lpf(<span class="hljs-number">5000</span>),
-  <span class="hljs-attr">lowCut</span>: P.Hpf(<span class="hljs-number">80</span>),
+  <span class="hljs-attr">feedback</span>: P.Gain(<span class="hljs-number">0.4</span>),
+  <span class="hljs-attr">od</span>: P.Over({ <span class="hljs-attr">drive</span>: <span class="hljs-number">0.5</span>, <span class="hljs-attr">shape</span>: <span class="hljs-number">0.7</span>, <span class="hljs-attr">makeup</span>: <span class="hljs-number">0.7</span> }),
+  <span class="hljs-attr">highCut</span>: P.Lpf(<span class="hljs-number">6000</span>),
+  <span class="hljs-attr">lowCut</span>: P.Hpf(<span class="hljs-number">60</span>),
   <span class="hljs-attr">wow</span>: P.Sin(<span class="hljs-number">0.1</span>),
-  <span class="hljs-attr">wowLevel</span>: P.Gain(<span class="hljs-number">0.002</span>),
+  <span class="hljs-attr">wowLevel</span>: P.Gain(<span class="hljs-number">0.005</span>),
   <span class="hljs-attr">flutter</span>: P.Sin(<span class="hljs-number">5.3</span>),
-  <span class="hljs-attr">flutterLevel</span>: P.Gain(<span class="hljs-number">0.0001</span>)
+  <span class="hljs-attr">flutterLevel</span>: P.Gain(<span class="hljs-number">0.00015</span>)
 },
   <span class="hljs-string">'in &gt; dry &gt; out'</span>,
-  <span class="hljs-string">'in &gt; highCut &gt; lowCut &gt; delay &gt; wet &gt; out'</span>,
-  <span class="hljs-string">'delay &gt; feedback &gt; highCut'</span>,
+  <span class="hljs-string">'in &gt; od &gt; highCut &gt; lowCut &gt; delay &gt; wet &gt; out'</span>,
+  <span class="hljs-string">'delay &gt; feedback &gt; od'</span>,
   <span class="hljs-string">'wow &gt; wowLevel &gt; delay.delayTime'</span>,
   <span class="hljs-string">'flutter &gt; flutterLevel &gt; delay.delayTime'</span>
 ).test()</code></pre><h3 id="flanger"><a class="header-link" href="#flanger"></a>Flanger</h3>
