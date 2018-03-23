@@ -1,13 +1,19 @@
 import _Freeverb from 'freeverb'
-import { isPlainObject, partchifyNode } from '../helpers'
+import { PartchNode } from '../helpers'
 
 export function Freeverb(context, config) {
-  let node = _Freeverb(context)
-  let params = isPlainObject(config) ? config : { wet: config }
-  node.wet.level = params.wet || 0
-  node.dry.level = params.dry == null ? 1 : params.dry
-  node.roomSize = params.roomSize || 0.8
-  node.dampening = params.dampening || 3000
-  partchifyNode(node)
-  return node
+  return PartchNode({
+    config, context,
+    createNode: (context, params) => {
+      let node = _Freeverb(context)
+      node.wet.value = params.wet
+      node.dry.value = params.dry
+      node.roomSize = params.roomSize
+      node.dampening = params.dampening
+      return node
+    },
+    defaultParam: 'wet',
+    defaults: { wet: 0, dry: 1, roomSize: 0.8, dampening: 3000 },
+    isDest: true
+  })
 }

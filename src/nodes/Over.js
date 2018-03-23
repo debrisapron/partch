@@ -1,4 +1,4 @@
-import { isPlainObject } from '../helpers'
+import { getNodeParams } from '../helpers'
 import Patch from '../Patch'
 import { Shaper, Gain } from './nativeNodes'
 
@@ -93,7 +93,7 @@ function sign(x) {
   }
 }
 
-function getCurve(algo = 0, amount = 0.725) {
+function getCurve(algo, amount) {
   let cacheKey = `${algo}/${amount}`
   if (!_curveCache[cacheKey]) {
     let arr = new Float32Array(CURVE_LEN)
@@ -104,7 +104,11 @@ function getCurve(algo = 0, amount = 0.725) {
 }
 
 function Over(context, config) {
-  let params = isPlainObject(config) ? config : { drive: config }
+  let params = getNodeParams({
+    config,
+    defaultParam: 'drive',
+    defaults: { drive: 1, makeup: 1, algo: 0, shape: 0.725 }
+  })
   let curve = getCurve(params.algo, params.shape)
   return Patch(context, {
     drive: Gain(context, params.drive),

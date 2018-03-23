@@ -1,17 +1,26 @@
 Next
 
-- More recipes
-  - Drum machine
-- Simple functions in connection strings: * / + -
-- Pass params to synth voices
-- Accept note names e.g. C#4
-- Proper webpack server setup
 - DRY up params code
-- Don't add stop and start to patches that don't need them
-- Investigate dead air from 3 osc synth
+- `set` method on all nodes
+- Add octave prop to oscillators
 
 Then
 
+- Refactor to avoid double-wrapping in partchifyNode
+- Don't add stop and start to patches that don't need them
+- Investigate dead air from 3 osc synth
+- Accept note names e.g. C#4
+- Proper webpack server setup
+- Pass params to synth voices
+- More recipes
+  - Drum machine
+- Offset node
+- Simple functions in connection strings: * / + -
+- More tests
+
+Then
+
+- Ability to assign sources directly to audio params e.g. P.Osc({ frequencyCv: P.Osc(20) })
 - Error messages
 - Profiling
 - Persistent nodes for synth voices (e.g. shared LFOs)

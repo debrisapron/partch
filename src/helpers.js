@@ -6,6 +6,15 @@ import { WhiteNoise } from './nodes/noiseNodes'
 let _playingNodes = new Map()
 let _audioFileCache = {}
 
+function normalizeAliases(params, aliases) {
+  let obj = {}
+  Object.keys(params).forEach((key) => {
+    let normKey = aliases[key] || key
+    obj[normKey] = params[key]
+  })
+  return obj
+}
+
 export function isPlainObject(thing) {
   return typeof thing === 'object' && thing.constructor === Object
 }
@@ -92,4 +101,28 @@ export function loadAudioFile(context, url) {
   promiseOfBuffer.then((buffer) => _audioFileCache[url] = buffer)
   _audioFileCache[url] = promiseOfBuffer
   return promiseOfBuffer
+}
+
+export function getNodeParams({ aliases, config, defaultParam, defaults }) {
+  let params = config === undefined || isPlainObject(config)
+    ? (config || {})
+    : { [defaultParam]: config }
+  if (aliases) {
+    params = normalizeAliases(params, aliases)
+  }
+  if (defaults) {
+    params = Object.assign({}, defaults, params)
+  }
+  return params
+}
+
+export function PartchNode({
+  aliases, config, context, createNode, defaultParam, defaults, isDest
+}) {
+  let params = getNodeParams({ aliases, config, defaultParam, defaults })
+  let node = createNode(context, params)
+  if (isDest) { node.input = node }
+  partchifyNode(node)
+  if (node.start) { node.start(context.currentTime) }
+  return node
 }

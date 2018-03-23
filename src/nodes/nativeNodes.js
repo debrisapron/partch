@@ -1,4 +1,4 @@
-import { isPlainObject, partchifyNode } from '../helpers'
+import { PartchNode } from '../helpers'
 
 const CV_TO_GAIN_CURVE = Float32Array.from(
   Array(8193).fill(null)
@@ -11,21 +11,21 @@ function cvToGain(cv) {
   return cv ** 3.321928094887362 // 0 -> 0, 0.5 -> 0.1, 1 -> 1
 }
 
-function WaaNode(context, _constructor, defaultParam, isDest, config) {
-  let params = config === undefined || isPlainObject(config)
-    ? config
-    : { [defaultParam]: config }
-  let node = new window[_constructor](context, params)
-  if (isDest) { node.input = node }
-  partchifyNode(node)
-  if (node.start) { node.start(context.currentTime) }
-  return node
+function WaaNode(options) {
+  return PartchNode(Object.assign({
+    createNode: (context, params) => {
+      return new window[options.nodeConstructor](context, params)
+    }
+  }, options))
 }
 
-function OscillatorNode(context, type, config) {
-  let params = isPlainObject(config) ? config : { frequency: config || 440 }
-  params = { type, ...params }
-  let node = WaaNode(context, 'OscillatorNode', 'frequency', false, params)
+function OscNode(context, type, config) {
+  let node = WaaNode({
+    config, context,
+    nodeConstructor: 'OscillatorNode',
+    defaultParam: 'frequency',
+    defaults: { type }
+  })
   let frequencyCv
 
   Object.defineProperty(node, 'frequencyCv', {
@@ -39,19 +39,21 @@ function OscillatorNode(context, type, config) {
     }
   })
 
-  if (params.frequencyCv) {
-    node.frequencyCv.value = params.frequencyCv
+  if (config && config.frequencyCv) {
+    node.frequencyCv.value = config.frequencyCv
   }
 
   return node
 }
 
 function FilterNode(context, type, config) {
-  let params = isPlainObject(config) ? config : { frequency: config || 350 }
-  params = { type, ...params }
-  let node = WaaNode(
-    context, 'BiquadFilterNode', 'frequency', true, params
-  )
+  let node = WaaNode({
+    config, context,
+    nodeConstructor: 'BiquadFilterNode',
+    defaultParam: 'frequency',
+    defaults: { type },
+    isDest: true
+  })
   let frequencyCv
 
   Object.defineProperty(node, 'frequencyCv', {
@@ -65,8 +67,8 @@ function FilterNode(context, type, config) {
     }
   })
 
-  if (params.frequencyCv) {
-    node.frequencyCv.value = params.frequencyCv
+  if (config && config.frequencyCv) {
+    node.frequencyCv.value = config.frequencyCv
   }
 
   return node
@@ -81,16 +83,26 @@ export function Bpf(context, config) {
 }
 
 export function Const(context, config) {
-  return WaaNode(context, 'ConstantSourceNode', 'offset', false, config)
+  return WaaNode({
+    config, context,
+    nodeConstructor: 'ConstantSourceNode',
+    defaultParam: 'offset'
+  })
 }
 
 export function Delay(context, config) {
-  let params = isPlainObject(config) ? config : { delayTime: config || 0 }
-  params = { delayTime: 0, maxDelayTime: 1, ...params }
-  if (params.delayTime > params.maxDelayTime) {
-    params.maxDelayTime = params.delayTime
-  }
-  return WaaNode(context, 'DelayNode', 'delayTime', true, params)
+  return PartchNode({
+    config, context,
+    createNode: (context, params) => {
+      if (params.delayTime > params.maxDelayTime) {
+        params.maxDelayTime = params.delayTime
+      }
+      return new window.DelayNode(context, params)
+    },
+    defaultParam: 'delayTime',
+    defaults: { delayTime: 0, maxDelayTime: 1 },
+    isDest: true
+  })
 }
 
 export function Filter(context, config) {
@@ -98,7 +110,12 @@ export function Filter(context, config) {
 }
 
 export function Gain(context, config) {
-  let node = WaaNode(context, 'GainNode', 'gain', true, config)
+  let node = WaaNode({
+    config, context,
+    nodeConstructor: 'GainNode',
+    defaultParam: 'gain',
+    isDest: true
+  })
   let gainCv
 
   Object.defineProperty(node, 'gainCv', {
@@ -140,7 +157,7 @@ export function Notch(context, config) {
 }
 
 export function Osc(context, config) {
-  return OscillatorNode(context, undefined, config)
+  return OscNode(context, undefined, config)
 }
 
 export function Peak(context, config) {
@@ -148,25 +165,34 @@ export function Peak(context, config) {
 }
 
 export function Sample(context, config) {
-  return WaaNode(context, 'AudioBufferSourceNode', 'buffer', false, config)
+  return WaaNode({
+    config, context,
+    nodeConstructor: 'AudioBufferSourceNode',
+    defaultParam: 'buffer'
+  })
 }
 
 export function Shaper(context, config) {
-  return WaaNode(context, 'WaveShaperNode', 'curve', true, config)
+  return WaaNode({
+    config, context,
+    nodeConstructor: 'WaveShaperNode',
+    defaultParam: 'curve',
+    isDest: true
+  })
 }
 
 export function Saw(context, config) {
-  return OscillatorNode(context, 'sawtooth', config)
+  return OscNode(context, 'sawtooth', config)
 }
 
 export function Sin(context, config) {
-  return OscillatorNode(context, 'sine', config)
+  return OscNode(context, 'sine', config)
 }
 
 export function Sqr(context, config) {
-  return OscillatorNode(context, 'square', config)
+  return OscNode(context, 'square', config)
 }
 
 export function Tri(context, config) {
-  return OscillatorNode(context, 'triangle', config)
+  return OscNode(context, 'triangle', config)
 }
