@@ -1,50 +1,41 @@
 describe('Patch', () => {
 
   it('can connect a source to a destination', () => {
-    let patch = P({
-      source: MockSource(),
-      dest: MockDest()
+    let p = P({
+      source: P.Gain(),
+      dest: P.Gain()
     }, 'source > dest')
-    expect(patch.nodes.source).toBeTruthy()
-    expect(patch.nodes.dest).toBeTruthy()
-    expect(patch.nodes.source.__connections.length).toEqual(1)
-    expect(patch.nodes.source.__connections[0]).toEqual('INPUT')
-    expect(patch.nodes.dest.__connections.length).toEqual(0)
+    expect(p.nodes.source).toBeTruthy()
+    expect(p.nodes.dest).toBeTruthy()
+    expect(p.nodes.source.__connections.length).toEqual(1)
+    expect(p.nodes.source.__connections[0]).toEqual(p.nodes.dest)
+    expect(p.nodes.dest.__connections.length).toEqual(0)
   })
 
   it('can connect a source to its output', () => {
-    let patch = P({
-      source: MockSource()
+    let p = P({
+      source: P.Gain()
     }, 'source > out')
-    expect(patch.nodes.out).toBeTruthy()
-    expect(patch.nodes.source.__connections.length).toEqual(1)
-    expect(patch.nodes.source.__connections[0]).toEqual(patch.nodes.out)
+    expect(p.nodes.out).toBeTruthy()
+    expect(p.nodes.source.__connections.length).toEqual(1)
+    expect(p.nodes.source.__connections[0]).toEqual(p.nodes.out)
+  })
+
+  it('can connect its input to a dest', () => {
+    let p = P({
+      dest: P.Gain()
+    }, 'in > dest')
+    expect(p.nodes.in).toBeTruthy()
+    expect(p.nodes.in.__connections.length).toEqual(1)
+    expect(p.nodes.in.__connections[0]).toEqual(p.nodes.dest)
+  })
+
+  it('can connect to a named input', () => {
+    let p = P({
+      dest: P.Gain()
+    }, 'in > dest.gain')
+    expect(p.nodes.in).toBeTruthy()
+    expect(p.nodes.in.__connections.length).toEqual(1)
+    expect(p.nodes.in.__connections[0]).toEqual(p.nodes.dest.gain)
   })
 })
-
-function MockSource() {
-  return {
-    __connections: [],
-    __startedAt: null,
-    __stoppedAt: null,
-    connect(dest) {
-      this.__connections.push(dest)
-    },
-    start(t) {
-      this.__startedAt = t
-    },
-    stop(t) {
-      this.__stoppedAt = t
-    }
-  }
-}
-
-function MockDest() {
-  return {
-    __connections: [],
-    connect(dest) {
-      this.__connections.push(dest)
-    },
-    input: 'INPUT'
-  }
-}
