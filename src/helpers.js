@@ -15,6 +15,22 @@ function normalizeAliases(params, aliases) {
   return obj
 }
 
+function setNodeParams(node, params) {
+  Object.keys(params).forEach((key) => {
+    let val = params[key]
+    if (node.nodes && node.nodes[key]) {
+      setAudioParams(node.nodes[key], val)
+      return
+    }
+    let attr = node[key]
+    if (attr instanceof AudioParam) {
+      attr.value = val
+      return
+    }
+    node[key] = val
+  })
+}
+
 export function isPlainObject(thing) {
   return typeof thing === 'object' && thing.constructor === Object
 }
@@ -40,7 +56,7 @@ export function testNode(node, dur = 0.2, type = 'bleep') {
 }
 
 // Takes a sad node and makes it better.
-export function partchifyNode(node) {
+export function partchifyNode(node, { aliases, defaultParam, defaults } = {}) {
   node.__partchNode = true
 
   // If node can be connected, make connect understand `node.input` and add
@@ -93,6 +109,12 @@ export function partchifyNode(node) {
       _playingNodes.delete(node)
     }
   }
+
+  node.set = (config) => {
+    let params = getNodeParams({ aliases, config, defaultParam, defaults })
+    setNodeParams(node, params)
+    return node
+  }
 }
 
 export function loadAudioFile(context, url) {
@@ -122,7 +144,7 @@ export function PartchNode({
   let params = getNodeParams({ aliases, config, defaultParam, defaults })
   let node = createNode(context, params)
   if (isDest) { node.input = node }
-  partchifyNode(node)
+  partchifyNode(node, { aliases, defaultParam, defaults })
   if (node.start) { node.start(context.currentTime) }
   return node
 }

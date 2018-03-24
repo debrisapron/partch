@@ -1,7 +1,5 @@
 Next
 
-- DRY up params code
-- `set` method on all nodes
 - Add octave prop to oscillators
 
 Then
