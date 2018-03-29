@@ -27,6 +27,8 @@ function OscNode(context, type, config) {
     defaults: { type }
   })
   let frequencyCv
+  let octave = 0
+  let octaveConst
 
   Object.defineProperty(node, 'frequencyCv', {
     get() {
@@ -39,8 +41,23 @@ function OscNode(context, type, config) {
     }
   })
 
-  if (config && config.frequencyCv) {
-    node.frequencyCv.value = config.frequencyCv
+  Object.defineProperty(node, 'octave', {
+    get() {
+      return octave
+    },
+    set(value) {
+      octave = value
+      if (!octaveConst) {
+        octaveConst = Const(context)
+        octaveConst.connect(node.detune)
+      }
+      octaveConst.set(octave * 1200)
+    }
+  })
+
+  if (config) {
+    if (config.frequencyCv) { node.frequencyCv.value = config.frequencyCv }
+    if (config.octave) { node.octave = config.octave }
   }
 
   return node

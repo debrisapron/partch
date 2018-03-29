@@ -169,7 +169,8 @@ Aliases for the Noise node with different color settings.
 
 - `config` - _Object | Number_ - Either the frequency or the following config object:
   - `frequency` - _Number_ - The oscillator frequency in Hz. Defaults to 440.
-  - `frequencyCv` - _Number_ The scaled amount to add to the frequency. Defaults to 0.
+  - `frequencyCv` - _Number_ - The scaled amount to add to the frequency. Defaults to 0.
+  - `octave` - _Number_ - The number of octaves (positive or negative) by which to offset the frequency. Defaults to 0.
   - `detune` - _Number_ - The offset to add to the frequency, in cents. Defaults to 0.
   - `type` - _String_ - The oscillator waveform. One of `sine`, `square`, `sawtooth` or `triangle`. Defaults to `sine`.
 
