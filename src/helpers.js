@@ -15,11 +15,12 @@ function normalizeAliases(params, aliases) {
   return obj
 }
 
-function setNodeParams(node, params) {
+function setNodeParams(node, config) {
+  let params = getNodeParams({ ...node.__partchMeta, config })
   Object.keys(params).forEach((key) => {
     let val = params[key]
     if (node.nodes && node.nodes[key]) {
-      setAudioParams(node.nodes[key], val)
+      setNodeParams(node.nodes[key], val)
       return
     }
     let attr = node[key]
@@ -56,8 +57,8 @@ export function testNode(node, dur = 0.2, type = 'bleep') {
 }
 
 // Takes a sad node and makes it better.
-export function partchifyNode(node, { aliases, defaultParam, defaults } = {}) {
-  node.__partchNode = true
+export function partchifyNode(node, meta = {}) {
+  node.__partchMeta = meta
 
   // If node can be connected, make connect understand `node.input` and add
   // monitor & test methods.
@@ -111,8 +112,7 @@ export function partchifyNode(node, { aliases, defaultParam, defaults } = {}) {
   }
 
   node.set = (config) => {
-    let params = getNodeParams({ aliases, config, defaultParam, defaults })
-    setNodeParams(node, params)
+    setNodeParams(node, config)
     return node
   }
 }
@@ -144,7 +144,7 @@ export function PartchNode({
   let params = getNodeParams({ aliases, config, defaultParam, defaults })
   let node = createNode(context, params)
   if (isDest) { node.input = node }
-  partchifyNode(node, { aliases, defaultParam, defaults })
+  partchifyNode(node, { aliases, defaultParam })
   if (node.start) { node.start(context.currentTime) }
   return node
 }

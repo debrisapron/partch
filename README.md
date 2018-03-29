@@ -249,6 +249,12 @@ On a native Web Audio API this is just an alias for the node itself. On a patch 
 
 Connects the patch to the `context.destination`. Returns the node.
 
+#### node.set(config)
+
+- `config` - _Object | Any_ - A config object or value used to update the node parameters.
+
+This method takes the same config object or value as the factory method for the node. On a patch node it should be an object whose keys correspond with the nodes in the patch, and whose values are objects or values to be passed on to the set function on those nodes. As a result it is possible to recursively set the params of a whole "tree" of nested patches by simply passing in a nested object. Returns the node.
+
 #### node.test([dur], [type])
 
 - `dur` - _Number_ - The duration of the test in seconds. Defaults to 0.2.

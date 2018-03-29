@@ -71,6 +71,7 @@
     <li class="sidebar-header-3"><a href="#node-api">Node API</a></li>
     <li class="sidebar-header-4"><a href="#node.input">node.input</a></li>
     <li class="sidebar-header-4"><a href="#node.monitor()">node.monitor()</a></li>
+    <li class="sidebar-header-4"><a href="#node.set(config)">node.set(config)</a></li>
     <li class="sidebar-header-4"><a href="#node.test([dur],-[type])">node.test([dur], [type])</a></li>
     <li class="sidebar-header-4"><a href="#node.triggerattack([time])">node.triggerAttack([time])</a></li>
     <li class="sidebar-header-4"><a href="#node.triggerrelease([time])">node.triggerRelease([time])</a></li>
@@ -304,6 +305,11 @@
 <p>On a native Web Audio API this is just an alias for the node itself. On a patch node this is an alias for <code>patch.nodes.in</code>. When connecting from a native Web Audio API node to a patch, this should be the connection destination.</p>
 <h4 id="node.monitor()"><a class="header-link" href="#node.monitor()"></a>node.monitor()</h4>
 <p>Connects the patch to the <code>context.destination</code>. Returns the node.</p>
+<h4 id="node.set(config)"><a class="header-link" href="#node.set(config)"></a>node.set(config)</h4>
+<ul class="list">
+<li><code>config</code> - <em>Object | Any</em> - A config object or value used to update the node parameters.</li>
+</ul>
+<p>This method takes the same config object or value as the factory method for the node. On a patch node it should be an object whose keys correspond with the nodes in the patch, and whose values are objects or values to be passed on to the set function on those nodes. As a result it is possible to recursively set the params of a whole &quot;tree&quot; of nested patches by simply passing in a nested object. Returns the node.</p>
 <h4 id="node.test([dur],-[type])"><a class="header-link" href="#node.test([dur],-[type])"></a>node.test([dur], [type])</h4>
 <ul class="list">
 <li><code>dur</code> - <em>Number</em> - The duration of the test in seconds. Defaults to 0.2.</li>
