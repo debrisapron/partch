@@ -76,21 +76,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./entry.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ "./entry.js":
-/*!******************!*\
-  !*** ./entry.js ***!
-  \******************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-eval("module.exports = __webpack_require__(/*! ./src */ \"./src/index.js\").default\n\n\n//# sourceURL=webpack://Partch/./entry.js?");
-
-/***/ }),
 
 /***/ "./node_modules/audio-context/index.js":
 /*!*********************************************!*\
@@ -293,5 +282,5 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ })
 
-/******/ });
+/******/ })["default"];
 });
