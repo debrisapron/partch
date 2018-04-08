@@ -1,20 +1,23 @@
 Next
 
-- Add octave prop to oscillators
-
-Then
-
-- Refactor to avoid double-wrapping in partchifyNode
+- Switch from Jasmine to Mocha
+- Get rid of out node on patch - connect can just patch all output nodes to destination
+- If only one node connected from patch input, make that the input node
 - Don't add stop and start to patches that don't need them
-- Investigate dead air from 3 osc synth
-- Accept note names e.g. C#4
-- Proper webpack server setup
 - Pass params to synth voices
 - More recipes
   - Drum machine
+  - Organ
+
+Then
+
+- More tests
+- Refactor to avoid double-wrapping in partchifyNode
+- Investigate dead air from 3 osc synth
+- Accept note names e.g. C#4
+- Proper webpack server setup
 - Offset node
 - Simple functions in connection strings: * / + -
-- More tests
 
 Then
 
@@ -29,11 +32,9 @@ Then
 - Write more in-depth guide
 - playbackRateCv
 - Param aliases
-- Get rid of out node on patch - connect can just patch all output nodes to destination
-- If only one node connected from patch input, make that the input node
 - Tuning base & tuning function, on library setup & per call
-- Array nodes e.g. 3 oscillators
 - More nodes:
+  - FmSample using waveshaper as sample storage
   - Moog filter
   - Dynamics
   - Pulse osc with pw https://github.com/pendragon-andyh/WebAudio-PulseOscillator

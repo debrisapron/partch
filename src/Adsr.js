@@ -1,4 +1,4 @@
-import { PartchNode } from '../helpers'
+import { PartchNode } from './helpers'
 
 // TODO Make an ADSR which responds naturally to being adjusted while playing.
 function _Adsr(context, params) {

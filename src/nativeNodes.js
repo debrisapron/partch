@@ -1,9 +1,7 @@
-import { PartchNode } from '../helpers'
+import { upTo, PartchNode } from './helpers'
 
 const CV_TO_GAIN_CURVE = Float32Array.from(
-  Array(8193).fill(null)
-    .map((__, i) => cvToGain(Math.abs(i - 4096) / 4096)
-  )
+  upTo(8193).map((i) => cvToGain(Math.abs(i - 4096) / 4096))
 )
 const AUDIBLE_RANGE_IN_CENTS = 12000
 

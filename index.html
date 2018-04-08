@@ -91,9 +91,9 @@
 <h2 id="example"><a class="header-link" href="#example"></a>Example</h2>
 <p>First</p>
 <pre class="hljs"><code><span class="hljs-keyword">let</span> P = Partch()</code></pre><p>then</p>
-<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">freq</span>) =&gt;</span> P({
-  <span class="hljs-attr">saw</span>: P.Saw(freq),
-  <span class="hljs-attr">sqr</span>: P.Sqr(freq / <span class="hljs-number">3.99</span>),
+<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">frequency</span>) =&gt;</span> P({
+  <span class="hljs-attr">saw</span>: P.Saw(frequency),
+  <span class="hljs-attr">sqr</span>: P.Sqr({ frequency, <span class="hljs-attr">octave</span>: <span class="hljs-number">-2</span>, <span class="hljs-attr">detune</span>: <span class="hljs-number">10</span> }),
   <span class="hljs-attr">vcf</span>: P.Lpf(<span class="hljs-number">20</span>),
   <span class="hljs-attr">vca</span>: P.Gain(<span class="hljs-number">0</span>),
   <span class="hljs-attr">env</span>: P.Adsr({ <span class="hljs-attr">a</span>: <span class="hljs-number">0.01</span>, <span class="hljs-attr">d</span>: <span class="hljs-number">0.1</span>, <span class="hljs-attr">s</span>: <span class="hljs-number">0.6</span>, <span class="hljs-attr">r</span>: <span class="hljs-number">1</span> })

@@ -15,15 +15,13 @@
   "author": "DEBRIS APRON <debrisapron@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "jasmine": "^3.1.0",
+    "jasmine-core": "^3.1.0",
     "karma": "^2.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^1.1.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-webpack": "^2.0.13",
+    "karma-webpack": "^3.0.0",
     "markdown-styles": "^3.1.10",
-    "marked": "^0.3.17",
-    "showdown": "^1.8.6",
     "webpack": "^4.1.1",
     "webpack-cli": "^2.0.11"
   },

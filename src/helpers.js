@@ -1,7 +1,7 @@
 import loadAudio from 'audio-loader'
 // Circular references FTW
-import { Saw } from './nodes/nativeNodes'
-import { WhiteNoise } from './nodes/noiseNodes'
+import { Saw } from './nativeNodes'
+import { WhiteNoise } from './noiseNodes'
 
 let _playingNodes = new Map()
 let _audioFileCache = {}
@@ -34,6 +34,10 @@ function setNodeParams(node, config) {
 
 export function isPlainObject(thing) {
   return typeof thing === 'object' && thing.constructor === Object
+}
+
+export function upTo(length) {
+  return Array(length).fill().map((__, i) => i)
 }
 
 export function stopAllNodes() {

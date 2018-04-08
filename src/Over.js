@@ -1,5 +1,5 @@
-import { getNodeParams } from '../helpers'
-import Patch from '../Patch'
+import { getNodeParams } from './helpers'
+import Patch from './Patch'
 import { Shaper, Gain } from './nativeNodes'
 
 const CURVE_LEN = 8192

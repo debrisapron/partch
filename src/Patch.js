@@ -1,36 +1,44 @@
 import { partchifyNode } from './helpers'
-import { Gain } from './nodes/nativeNodes'
+import { Gain } from './nativeNodes'
+import { Parallel } from './multiNodes'
 
 function Patch(context, nodes, ...connections) {
 
-  // Clone nodes collection as we will be mutating it.
-  nodes = { ...nodes }
-
-  // Connect nodes
-  connections.forEach((row) => row
-    .split('>')
-    .map((pp) => pp.trim())
-    .reduce((from, to) => {
-      if (from === 'in' && !nodes.in) {
-        nodes.in = Gain(context)
-      }
-      if (to === 'out' && !nodes.out) {
-        nodes.out = Gain(context)
-      }
-      let fromNode = nodes[from]
-      let toNode = getNodeFromPath(to)
-      fromNode.connect(toNode.input || toNode)
-
-      // We always connect from the root node of the path.
-      return to.split('.')[0]
-    })
-  )
-
-  function getNodeFromPath(path) {
+  function getNodeByPath(path) {
     let pathNodes = path.split('.')
     return pathNodes.reduce((parent, child) => {
       return parent[child] || (parent.nodes && parent.nodes[child])
     }, nodes)
+  }
+
+  function connectNodes() {
+    connections.forEach((row) => {
+      return row
+        .split('>')
+        .map((pp) => pp.trim())
+        .reduce((from, to) => {
+          if (from === 'in' && !nodes.in) {
+            nodes.in = Gain(context)
+          }
+          if (to === 'out' && !nodes.out) {
+            nodes.out = Gain(context)
+          }
+          let fromNode = getNodeByPath(from)
+          let toNode = getNodeByPath(to)
+          fromNode.connect(toNode.input || toNode)
+
+          // We always connect from the root node of the path.
+          return to.split('.')[0]
+        })
+    })
+  }
+
+  function incapsulateNodeArrays() {
+    Object.keys(nodes).forEach((key) => {
+      let nodeOrArray = nodes[key]
+      if (!Array.isArray(nodeOrArray)) { return }
+      nodes[key] = Parallel(context, nodeOrArray)
+    })
   }
 
   //// Patch instance methods //////////////////////////////////////////////////
@@ -74,6 +82,12 @@ function Patch(context, nodes, ...connections) {
     stop(stopTime)
     return stopTime
   }
+
+  // Clone nodes collection as we will be mutating it.
+  nodes = { ...nodes }
+
+  incapsulateNodeArrays()
+  connectNodes()
 
   let patch = {
     connect, disconnect, context, nodes, stop, triggerAttack, triggerRelease,

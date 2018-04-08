@@ -38,4 +38,12 @@ describe('Patch', () => {
     expect(p.nodes.in.__connections.length).toEqual(1)
     expect(p.nodes.in.__connections[0]).toEqual(p.nodes.dest.gain)
   })
+
+  it('should convert an array of nodes to a Parallel node', () => {
+    let p = P({
+      dest: [P.Gain(), P.Gain()]
+    }, 'in > dest > out')
+    expect(p.nodes.dest.nodes[0]).toBeTruthy()
+    expect(p.nodes.dest.nodes[1]).toBeTruthy()
+  })
 })

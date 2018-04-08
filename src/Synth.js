@@ -1,5 +1,5 @@
 import Sequencer from 'um-sequencer'
-import { isPlainObject, partchifyNode } from '../helpers'
+import { isPlainObject, partchifyNode } from './helpers'
 import { Gain } from './nativeNodes'
 
 function twelveTet(nn, ref = 440) {

@@ -1,5 +1,5 @@
 import _Freeverb from 'freeverb'
-import { PartchNode } from '../helpers'
+import { PartchNode } from './helpers'
 
 export function Freeverb(context, config) {
   return PartchNode({

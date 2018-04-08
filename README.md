@@ -19,9 +19,9 @@ let P = Partch()
 then
 
 ```js
-P.Synth((freq) => P({
-  saw: P.Saw(freq),
-  sqr: P.Sqr(freq / 3.99),
+P.Synth((frequency) => P({
+  saw: P.Saw(frequency),
+  sqr: P.Sqr({ frequency, octave: -2, detune: 10 }),
   vcf: P.Lpf(20),
   vca: P.Gain(0),
   env: P.Adsr({ a: 0.01, d: 0.1, s: 0.6, r: 1 })
