@@ -63,12 +63,13 @@
     <li class="sidebar-header-4"><a href="#p.sqr([config])">P.Sqr([config])</a></li>
     <li class="sidebar-header-4"><a href="#p.tri([config])">P.Tri([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.over([config])">P.Over([config])</a></li>
+    <li class="sidebar-header-3"><a href="#p.parallel(nodes,-[count])">P.Parallel(nodes, [count])</a></li>
     <li class="sidebar-header-3"><a href="#p.sample([config])">P.Sample([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.shaper([config])">P.Shaper([config])</a></li>
     <li class="sidebar-header-3"><a href="#p.synth(voice)">P.Synth(Voice)</a></li>
     <li class="sidebar-header-4"><a href="#synth.play(options)">synth.play(options)</a></li>
     <li class="sidebar-header-4"><a href="#synth.sequence(events,-[options])">synth.sequence(events, [options])</a></li>
-    <li class="sidebar-header-3"><a href="#node-api">Node API</a></li>
+    <li class="sidebar-header-3"><a href="#audio-node-extension-api">Audio Node Extension API</a></li>
     <li class="sidebar-header-4"><a href="#node.input">node.input</a></li>
     <li class="sidebar-header-4"><a href="#node.monitor()">node.monitor()</a></li>
     <li class="sidebar-header-4"><a href="#node.set(config)">node.set(config)</a></li>
@@ -80,6 +81,7 @@
     <li class="sidebar-header-3"><a href="#tape-style-delay">Tape-style delay</a></li>
     <li class="sidebar-header-3"><a href="#flanger">Flanger</a></li>
     <li class="sidebar-header-3"><a href="#classic-three-osc-synth">Classic three-osc synth</a></li>
+    <li class="sidebar-header-3"><a href="#organ">Organ</a></li>
 </ul>
       </div>
       <div class="span9 main"><h1 id="partch"><a class="header-link" href="#partch"></a>Partch</h1>
@@ -127,13 +129,13 @@
 <ul class="list">
 <li><code>context</code> - <em>AudioContext</em> - Defaults to a new AudioContext.</li>
 </ul>
-<p>Returns a Patch function (henceforth abbreviated as <code>P</code>) with a number of attached Node Factory functions. Note that the nodes returned by all these node factories are patched to provide an API which slightly extends the standard functionality of Web Audio API nodes, this Node API is described after the node factories.</p>
+<p>Returns a Patch function (henceforth abbreviated as <code>P</code>) with a number of attached Node Factory functions. Note that the nodes returned by all these node factories are patched to provide an API which slightly extends the standard functionality of Web Audio API nodes, this Audio Node Extension API is described after the node factories.</p>
 <h3 id="p(nodes,-[...connections])"><a class="header-link" href="#p(nodes,-[...connections])"></a>P(nodes, [...connections])</h3>
 <ul class="list">
-<li><code>nodes</code> - <em>Object</em> - An object where the keys are node names and the values are audio nodes.</li>
+<li><code>nodes</code> - <em>Object</em> - An object where the keys are node names and the values are audio nodes, or arrays of audio nodes.</li>
 <li><code>connections</code> - <em>Array of String</em> - Strings representing connections between nodes.</li>
 </ul>
-<p>Returns a patch node which implements the standard Node API plus a <code>nodes</code> attribute which is simply the passed in <code>node</code> argument.</p>
+<p>Returns a patch node which implements the standard Audio Node Extension API plus the <code>nodes</code> attribute. Note that any array values in the <code>nodes</code> object will be connected in parallel using the <code>Parallel</code> node below.</p>
 <h4 id="connection-strings"><a class="header-link" href="#connection-strings"></a>Connection Strings</h4>
 <p>Connection strings take the form of a list of nodes separated by a <code>&gt;</code> character. Each node may be either a node name specified in the <code>nodes</code> object, or a dot-separated node path, e.g. <code>synth.filter.frequencyCv</code>. When using a node path, any onward connections after the node will be from the <strong>top-level</strong> node, i.e. the node whose name comes first in the path.</p>
 <h3 id="p.adsr([config])"><a class="header-link" href="#p.adsr([config])"></a>P.Adsr([config])</h3>
@@ -252,6 +254,12 @@
 </li>
 </ul>
 <p>Returns a custom Overdrive node adapted from <a href="https://github.com/Theodeus/tuna/wiki">Tuna.js</a>.</p>
+<h3 id="p.parallel(nodes,-[count])"><a class="header-link" href="#p.parallel(nodes,-[count])"></a>P.Parallel(nodes, [count])</h3>
+<ul class="list">
+<li><code>nodes</code> - <em>Array | Function</em> - Either an array of nodes or a function which takes a 0-based index and returns a node.</li>
+<li><code>count</code> - <em>Number</em> - If <code>nodes</code> is a function, the number of nodes to create.</li>
+</ul>
+<p>Returns a patch with the given nodes connected in parallel, i.e. with the input connected to every node input and every node output connected to the output.</p>
 <h3 id="p.sample([config])"><a class="header-link" href="#p.sample([config])"></a>P.Sample([config])</h3>
 <ul class="list">
 <li><code>config</code> - <em>Object | AudioBuffer</em> - Either the buffer or the following config object:<ul class="list">
@@ -300,7 +308,7 @@
 </ul>
 <p>This is a simple wrapper around the functionality of <a href="https://github.com/debrisapron/um-sequencer">um-sequencer</a>. Each sequencer event object can contain the same keys as the <code>synth.play</code> options object, but here the <code>time</code> attribute is the <em>musical</em> time in Whole Notes from the start of the sequence. If looping is required, the loopLength option must be set.</p>
 <p>Returns a sequencer object with <code>stop</code> and <code>changeTempo(tempo)</code> methods (see the um-sequencer docs for more information).</p>
-<h3 id="node-api"><a class="header-link" href="#node-api"></a>Node API</h3>
+<h3 id="audio-node-extension-api"><a class="header-link" href="#audio-node-extension-api"></a>Audio Node Extension API</h3>
 <p>On top of the standard Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioNode">AudioNode</a> interface, Partch makes some enhancements. Firstly, it patches <code>connect</code> and <code>disconnect</code> so that they can handle nodes which have an <code>input</code> property. Secondly, it adds the following members:</p>
 <h4 id="node.input"><a class="header-link" href="#node.input"></a>node.input</h4>
 <p>On a native Web Audio API this is just an alias for the node itself. On a patch node this is an alias for <code>patch.nodes.in</code>. When connecting from a native Web Audio API node to a patch, this should be the connection destination.</p>
@@ -390,6 +398,11 @@
   <span class="hljs-string">'filter &gt; filterFb &gt; filter'</span>,
   <span class="hljs-string">'filterEnv &gt; filter.frequencyCv'</span>,
   <span class="hljs-string">'ampEnv &gt; amp.gainCv'</span>
+)).test(<span class="hljs-number">1</span>, <span class="hljs-number">45</span>)</code></pre><h3 id="organ"><a class="header-link" href="#organ"></a>Organ</h3>
+<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">f</span>) =&gt;</span> P({
+  <span class="hljs-attr">partials</span>: [P.Sin(f), P.Sin(f * <span class="hljs-number">2</span>), P.Sin(f * <span class="hljs-number">3</span>)],
+},
+  <span class="hljs-string">'partials &gt; out'</span>
 )).test(<span class="hljs-number">1</span>, <span class="hljs-number">45</span>)</code></pre>      </div>
     </div>
   </div>

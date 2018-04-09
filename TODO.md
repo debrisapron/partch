@@ -1,6 +1,5 @@
 Next
 
-- Switch from Jasmine to Mocha
 - Get rid of out node on patch - connect can just patch all output nodes to destination
 - If only one node connected from patch input, make that the input node
 - Don't add stop and start to patches that don't need them
@@ -11,6 +10,7 @@ Next
 
 Then
 
+- Reorganize: One file per node plus a helpers folder?
 - More tests
 - Refactor to avoid double-wrapping in partchifyNode
 - Investigate dead air from 3 osc synth

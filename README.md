@@ -64,14 +64,14 @@ Alternatively load it directly in the browser with the script tag `<script src="
 
 - `context` - _AudioContext_ - Defaults to a new AudioContext.
 
-Returns a Patch function (henceforth abbreviated as `P`) with a number of attached Node Factory functions. Note that the nodes returned by all these node factories are patched to provide an API which slightly extends the standard functionality of Web Audio API nodes, this Node API is described after the node factories.
+Returns a Patch function (henceforth abbreviated as `P`) with a number of attached Node Factory functions. Note that the nodes returned by all these node factories are patched to provide an API which slightly extends the standard functionality of Web Audio API nodes, this Audio Node Extension API is described after the node factories.
 
 ### P(nodes, [...connections])
 
-- `nodes` - _Object_ - An object where the keys are node names and the values are audio nodes.
+- `nodes` - _Object_ - An object where the keys are node names and the values are audio nodes, or arrays of audio nodes.
 - `connections` - _Array of String_ - Strings representing connections between nodes.
 
-Returns a patch node which implements the standard Node API plus a `nodes` attribute which is simply the passed in `node` argument.
+Returns a patch node which implements the standard Audio Node Extension API plus the `nodes` attribute. Note that any array values in the `nodes` object will be connected in parallel using the `Parallel` node below.
 
 #### Connection Strings
 
@@ -193,6 +193,13 @@ Aliases for the Osc node with different waveform types.
 
 Returns a custom Overdrive node adapted from [Tuna.js](https://github.com/Theodeus/tuna/wiki).
 
+### P.Parallel(nodes, [count])
+
+- `nodes` - _Array | Function_ - Either an array of nodes or a function which takes a 0-based index and returns a node.
+- `count` - _Number_ - If `nodes` is a function, the number of nodes to create.
+
+Returns a patch with the given nodes connected in parallel, i.e. with the input connected to every node input and every node output connected to the output.
+
 ### P.Sample([config])
 
 - `config` - _Object | AudioBuffer_ - Either the buffer or the following config object:
@@ -238,7 +245,7 @@ This is a simple wrapper around the functionality of [um-sequencer](https://gith
 
 Returns a sequencer object with `stop` and `changeTempo(tempo)` methods (see the um-sequencer docs for more information).
 
-### Node API
+### Audio Node Extension API
 
 On top of the standard Web Audio API [AudioNode](https://developer.mozilla.org/en-US/docs/Web/API/AudioNode) interface, Partch makes some enhancements. Firstly, it patches `connect` and `disconnect` so that they can handle nodes which have an `input` property. Secondly, it adds the following members:
 
@@ -357,5 +364,15 @@ P.Synth((f) => P({
   'filter > filterFb > filter',
   'filterEnv > filter.frequencyCv',
   'ampEnv > amp.gainCv'
+)).test(1, 45)
+```
+
+### Organ
+
+```js
+P.Synth((f) => P({
+  partials: [P.Sin(f), P.Sin(f * 2), P.Sin(f * 3)],
+},
+  'partials > out'
 )).test(1, 45)
 ```

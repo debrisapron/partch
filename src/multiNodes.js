@@ -6,6 +6,8 @@ export function Parallel(context, arrayOrFactory, length) {
     ? arrayOrFactory
     : upTo(length).map(arrayOrFactory)
 
-  let connections = arr.map((__, i) => `in > ${i} > out`)
+  let connections = arr.map((__, i) => {
+    return `${arr[i].input ? 'in > ' : ''}${i} > out`
+  })
   return Patch(context, arr, ...connections)
 }

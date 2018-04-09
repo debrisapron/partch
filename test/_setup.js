@@ -1,7 +1,9 @@
+import { expect } from 'chai'
 import Partch from '../src'
 
-beforeAll(() => {
+before(() => {
   window.P = Partch()
+  window.expect = expect
 })
 
 beforeEach(() => {
