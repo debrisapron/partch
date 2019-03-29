@@ -1,6 +1,6 @@
 {
   "name": "partch",
-  "version": "0.11.1",
+  "version": "0.12.0",
   "main": "dist/partch.js",
   "module": "src/index.js",
   "description": "A lightweight Web Audio API patching library.",
@@ -24,8 +24,8 @@
     "markdown-styles": "^3.1.10",
     "marked": "^0.3.17",
     "showdown": "^1.8.6",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.11"
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   },
   "scripts": {
     "build-docs": "rm -f index.html && rm -rf assets && generate-md --layout docs-layout --input README.md --output tmp && mv tmp/* . && mv README.html index.html && rm -r tmp",
