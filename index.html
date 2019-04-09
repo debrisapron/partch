@@ -93,7 +93,7 @@
 <h2 id="example"><a class="header-link" href="#example"></a>Example</h2>
 <p>First</p>
 <pre class="hljs"><code><span class="hljs-keyword">let</span> P = Partch()</code></pre><p>then</p>
-<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">frequency</span>) =&gt;</span> P({
+<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">{ frequency }</span>) =&gt;</span> P({
   <span class="hljs-attr">saw</span>: P.Saw(frequency),
   <span class="hljs-attr">sqr</span>: P.Sqr({ frequency, <span class="hljs-attr">octave</span>: <span class="hljs-number">-2</span>, <span class="hljs-attr">detune</span>: <span class="hljs-number">10</span> }),
   <span class="hljs-attr">vcf</span>: P.Lpf(<span class="hljs-number">20</span>),
@@ -284,14 +284,14 @@
 <p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode">WaveShaperNode</a>.</p>
 <h3 id="p.synth(voice)"><a class="header-link" href="#p.synth(voice)"></a>P.Synth(Voice)</h3>
 <ul class="list">
-<li><code>Voice</code> - <em>Function</em> - A factory function which will construct the synth voice. Should take one parameter, the frequency in Hz of the note to be played.</li>
+<li><code>Voice</code> - <em>Function</em> - A factory function which will construct the synth voice. Should take one parameter, the object passed to <code>synth.play</code> with an additional <code>frequency</code> property giving the frequency of the played note in standard equal temperament tuning.</li>
 </ul>
 <p>Returns a node which can create new voices with the passed-in factory function and connect them to its output. In addition to the standard node methods it implements the <code>play</code> and <code>sequence</code> method.</p>
 <h4 id="synth.play(options)"><a class="header-link" href="#synth.play(options)"></a>synth.play(options)</h4>
 <ul class="list">
 <li><code>options</code> - <em>Object</em><ul class="list">
 <li><code>nn</code> - <em>Number</em> - The MIDI note number to play. Defaults to 69 (middle A).</li>
-<li><code>time</code> _or_ <code>t</code> - <em>Number</em> - The AudioContext time at which to play the note. Defaults to immediately.</li>
+<li><code>time</code> or <code>t</code> - <em>Number</em> - The AudioContext time at which to play the note. Defaults to immediately.</li>
 <li><code>dur</code> - <em>Number</em> - The length of time in seconds to play the note for. If falsey, note will not be released. Defaults to 0.2.</li>
 </ul>
 </li>
@@ -381,7 +381,7 @@
   <span class="hljs-string">'wetDelay &gt; feedback &gt; wetDelay'</span>,
   <span class="hljs-string">'lfo &gt; depth &gt; wetDelay.delayTime'</span>
 ).test(<span class="hljs-number">5</span>, <span class="hljs-string">'noise'</span>)</code></pre><h3 id="classic-three-osc-synth"><a class="header-link" href="#classic-three-osc-synth"></a>Classic three-osc synth</h3>
-<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">f</span>) =&gt;</span> P({
+<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">{ frequency: f }</span>) =&gt;</span> P({
   <span class="hljs-attr">osc1</span>: P.Saw(f),
   <span class="hljs-attr">osc2</span>: P.Saw(f * <span class="hljs-number">1.01</span>),
   <span class="hljs-attr">osc3</span>: P.Sqr(f / <span class="hljs-number">2</span>),

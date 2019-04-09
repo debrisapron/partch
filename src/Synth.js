@@ -3,57 +3,64 @@ import { isPlainObject, partchifyNode } from './helpers'
 import { Gain } from './nativeNodes'
 
 function twelveTet(nn, ref = 440) {
-  return nn && Math.pow(2, ((nn - 69) / 12)) * ref
+  return nn && Math.pow(2, (nn - 69) / 12) * ref;
 }
 
 function Synth(context, Voice) {
-  let synthOut = Gain(context)
-  let sequencers = []
+  let synthOut = Gain(context);
+  let sequencers = [];
 
-  synthOut.play = (config) => {
+  synthOut.play = config => {
     if (!isPlainObject(config)) {
-      config = { nn: config || 69 }
+      config = { nn: config || 69 };
     }
-    let nn = config.nn || 69
-    let time = config.time || config.t || context.currentTime
-    let dur = config.dur || 0.2
-    let frequency = twelveTet(nn)
-    let voice = Voice(frequency)
-    voice.connect(synthOut)
-    voice.triggerAttack(time)
+    let nn = config.nn || 69;
+    let time = config.time || config.t || context.currentTime;
+    let dur = config.dur || 0.2;
+    let frequency = twelveTet(nn);
+    let voiceData = {
+      ...config,
+      nn,
+      time,
+      dur,
+      frequency
+    };
+    let voice = Voice(voiceData);
+    voice.connect(synthOut);
+    voice.triggerAttack(time);
     if (dur) {
-      voice.triggerRelease(time + dur)
+      voice.triggerRelease(time + dur);
     }
-    return voice
-  }
+    return voice;
+  };
 
   synthOut.sequence = (events, options) => {
     // Convert Partch events to um-sequencer events.
-    events = events.map((ev) => {
+    events = events.map(ev => {
       return {
         time: ev.time || ev.t,
-        callback: (t) => synthOut.play({ ...ev, time: t })
-      }
-    })
-    let sequencer = Sequencer(() => context.currentTime)
-    sequencer.play(events, options)
-    sequencers.push(sequencer)
-    return sequencer
-  }
+        callback: t => synthOut.play({ ...ev, time: t })
+      };
+    });
+    let sequencer = Sequencer(() => context.currentTime);
+    sequencer.play(events, options);
+    sequencers.push(sequencer);
+    return sequencer;
+  };
 
   synthOut.test = (dur, nn) => {
-    synthOut.monitor().play({ dur, nn })
-  }
+    synthOut.monitor().play({ dur, nn });
+  };
 
   synthOut.stop = () => {
-    sequencers.forEach((s) => s.stop())
-    sequencers = []
-  }
+    sequencers.forEach(s => s.stop());
+    sequencers = [];
+  };
 
   // Partchify it again as it now has a stop method
-  partchifyNode(synthOut)
+  partchifyNode(synthOut);
 
-  return synthOut
+  return synthOut;
 }
 
-export default Synth
+export default Synth;

@@ -19,7 +19,7 @@ let P = Partch()
 then
 
 ```js
-P.Synth((frequency) => P({
+P.Synth(({ frequency }) => P({
   saw: P.Saw(frequency),
   sqr: P.Sqr({ frequency, octave: -2, detune: 10 }),
   vcf: P.Lpf(20),
@@ -222,14 +222,14 @@ Returns a Web Audio API [WaveShaperNode](https://developer.mozilla.org/en-US/doc
 
 ### P.Synth(Voice)
 
-- `Voice` - _Function_ - A factory function which will construct the synth voice. Should take one parameter, the frequency in Hz of the note to be played.
+- `Voice` - _Function_ - A factory function which will construct the synth voice. Should take one parameter, the object passed to `synth.play` with an additional `frequency` property giving the frequency of the played note in standard equal temperament tuning.
 
 Returns a node which can create new voices with the passed-in factory function and connect them to its output. In addition to the standard node methods it implements the `play` and `sequence` method.
 
 #### synth.play(options)
 - `options` - _Object_
   - `nn` - _Number_ - The MIDI note number to play. Defaults to 69 (middle A).
-  - `time` _or_ `t` - _Number_ - The AudioContext time at which to play the note. Defaults to immediately.
+  - `time` or `t` - _Number_ - The AudioContext time at which to play the note. Defaults to immediately.
   - `dur` - _Number_ - The length of time in seconds to play the note for. If falsey, note will not be released. Defaults to 0.2.
 
 Calls the voice function with the passed in MIDI note number converted to a frequency. Returns the new voice node.
@@ -347,7 +347,7 @@ P({
 ### Classic three-osc synth
 
 ```js
-P.Synth((f) => P({
+P.Synth(({ frequency: f }) => P({
   osc1: P.Saw(f),
   osc2: P.Saw(f * 1.01),
   osc3: P.Sqr(f / 2),
