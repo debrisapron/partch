@@ -3,10 +3,8 @@ Next
 - Get rid of out node on patch - connect can just patch all output nodes to destination
 - If only one node connected from patch input, make that the input node
 - Don't add stop and start to patches that don't need them
-- Pass params to synth voices
 - More recipes
   - Drum machine
-  - Organ
 
 Then
 

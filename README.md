@@ -92,6 +92,7 @@ Returns an ASDR envelope node which can be used to control parameters of other n
 
 - `config` - _Object | Number_ - Either the offset or the following config object:
   - `offset` - _Number_ - The constant output level. Defaults to 1.
+  - `startTime` - _Number_ - The AudioContext time at which to start the node. Defaults to immediately.
 
 Returns a Web Audio API [ConstantSourceNode](https://developer.mozilla.org/en-US/docs/Web/API/ConstantSourceNode).
 
@@ -173,6 +174,7 @@ Aliases for the Noise node with different color settings.
   - `octave` - _Number_ - The number of octaves (positive or negative) by which to offset the frequency. Defaults to 0.
   - `detune` - _Number_ - The offset to add to the frequency, in cents. Defaults to 0.
   - `type` - _String_ - The oscillator waveform. One of `sine`, `square`, `sawtooth` or `triangle`. Defaults to `sine`.
+  - `startTime` - _Number_ - The AudioContext time at which to start the node. Defaults to immediately.
 
 Returns a Web Audio API [OscillatorNode](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode). The node has an additional AudioParam, `frequencyCv`, which is scaled to make a 0-1 input signal cover the whole audible frequency range.
 
@@ -209,6 +211,7 @@ Returns a patch with the given nodes connected in parallel, i.e. with the input 
   - `loopStart` - _Number_ - Start of the loop in seconds. Defaults to 0.
   - `loopEnd` - _Number_ - End of the loop in seconds. Defaults to 0.
   - `playbackRate` - _Number_ - The rate at which to play the sample where 1 is its natural rate. Defaults to 1.
+  - `startTime` - _Number_ - The AudioContext time at which to start the node. Defaults to immediately.
 
 Returns a Web Audio API [AudioBufferSourceNode](https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode). ~~The node has an additional AudioParam, `playbackRateCv`, which is scaled to make a 0-1 input signal cover the whole audible frequency range~~.
 

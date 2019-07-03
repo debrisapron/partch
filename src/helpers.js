@@ -131,13 +131,16 @@ export function loadAudioFile(context, url) {
 
 export function getNodeParams({ aliases, config, defaultParam, defaults }) {
   let params = config === undefined || isPlainObject(config)
-    ? (config || {})
+    ? ({...config} || {})
     : { [defaultParam]: config }
   if (aliases) {
     params = normalizeAliases(params, aliases)
   }
   if (defaults) {
-    params = Object.assign({}, defaults, params)
+    params = { ...defaults, ...params }
+  }
+  if (params.startTime) {
+    delete params.startTime
   }
   return params
 }
@@ -149,6 +152,8 @@ export function PartchNode({
   let node = createNode(context, params)
   if (isDest) { node.input = node }
   partchifyNode(node, { aliases, defaultParam })
-  if (node.start) { node.start(context.currentTime) }
+  if (node.start) {
+    node.start((config && config.startTime) || context.currentTime)
+  }
   return node
 }
