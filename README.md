@@ -157,6 +157,7 @@ A helper function to load an audio buffer from a URL. Returns a promise which wi
 
 - `config` - _Object | String_ - Either the noise color or the following config object:
   - `color` - _String_ - The type of noise. One of `brown`, `pink` or `white`. Defaults to `white`.
+  - `startTime` - _Number_ - The AudioContext time at which to start the node. Defaults to immediately.
 
 Returns a Sample node that plays the specified type of noise.
 

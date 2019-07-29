@@ -76,20 +76,23 @@ function getNoiseBuffer(context, color = 'white') {
   }
 }
 
-export function Noise(context, config = 'white') {
-  let color = config.color || config
+export function Noise(context, config = {}) {
+  config = typeof config === 'string'
+    ? { color: config }
+    : { color: 'white', ...config }
+  let color = delete config.color
   let buffer = getNoiseBuffer(context, color)
-  return Sample(context, { buffer, loop: true })
+  return Sample(context, { ...config, buffer, loop: true })
 }
 
-export function BrownNoise(context) {
-  return Noise(context, 'brown')
+export function BrownNoise(context, config) {
+  return Noise(context, {...config, color: 'brown' })
 }
 
-export function PinkNoise(context) {
-  return Noise(context, 'pink')
+export function PinkNoise(context, config) {
+  return Noise(context, {...config, color: 'pink' })
 }
 
-export function WhiteNoise(context) {
-  return Noise(context, 'white')
+export function WhiteNoise(context, config) {
+  return Noise(context, {...config, color: 'white' })
 }
