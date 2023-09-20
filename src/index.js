@@ -1,30 +1,16 @@
-import Patch from './Patch'
-import { stopAllNodes, loadAudioFile } from './helpers'
-import Adsr from './Adsr'
-import * as multiNodes from './multiNodes'
-import * as nativeNodes from './nativeNodes'
-import * as noiseNodes from './noiseNodes'
-import Over from './Over'
-import Synth from './Synth'
-import * as thirdPartyNodes from './thirdPartyNodes'
+import * as coreNodes from "./coreNodes/index.js"
 
-function getDefaultAudioContext() {
-  return window.__partchAudioContext ||
-    (window.__partchAudioContext = new window.AudioContext())
+export function partch({ context = new AudioContext() } = {}) {
+  const withContext = (fn) => (config) => fn(context, config)
+
+  const P = withContext(coreNodes.createPatch)
+  P.context = context
+  Object.entries(coreNodes).map(([name, fn]) => {
+    // Remove "create" from start of name
+    P[name.slice(6)] = withContext(fn)
+  })
+
+  // _Patch.panic = stopAllNodes
+  // _Patch.load = (url) => loadAudioFile(ctx, url)
+  return P
 }
-
-function Partch(context = getDefaultAudioContext()) {
-  let _Patch = Patch.bind(null, context)
-  _Patch.context = context
-  _Patch.panic = stopAllNodes
-  _Patch.load = (url) => loadAudioFile(context, url)
-  ;[Adsr, Over, Synth]
-    .concat(Object.values(multiNodes))
-    .concat(Object.values(nativeNodes))
-    .concat(Object.values(noiseNodes))
-    .concat(Object.values(thirdPartyNodes))
-    .forEach((f) => _Patch[f.name] = f.bind(null, context))
-  return _Patch
-}
-
-export default Partch

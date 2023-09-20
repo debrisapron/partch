@@ -1,8 +1,7 @@
 {
   "name": "partch",
   "version": "0.15.0",
-  "main": "dist/partch.js",
-  "module": "src/index.js",
+  "type": "module",
   "description": "A lightweight Web Audio API patching library.",
   "keywords": [
     "music",
@@ -15,24 +14,14 @@
   "author": "DEBRIS APRON <debrisapron@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^4.1.2",
-    "karma": "^2.0.0",
-    "karma-chrome-launcher": "^2.2.0",
-    "karma-mocha": "^1.3.0",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-webpack": "^3.0.0",
     "markdown-styles": "^3.1.10",
-    "mocha": "^5.0.5",
     "marked": "^0.3.17",
-    "showdown": "^1.8.6",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "node-web-audio-api": "^0.11.0",
+    "prettier": "^3.0.3",
+    "showdown": "^1.8.6"
   },
   "scripts": {
-    "build-docs": "rm -f index.html && rm -rf assets && generate-md --layout docs-layout --input README.md --output tmp && mv tmp/* . && mv README.html index.html && rm -r tmp",
-    "build-bundle": "webpack",
-    "build": "yarn build-bundle && yarn build-docs",
-    "test": "karma start"
+    "build-docs": "rm -f index.html && rm -rf assets && generate-md --layout docs-layout --input README.md --output tmp && mv tmp/* . && mv README.html index.html && rm -r tmp"
   },
   "dependencies": {
     "audio-loader": "^1.0.3",

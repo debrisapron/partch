@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mocha Tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+  </head>
+  <body>
+    <div id="mocha"></div>
+
+    <script src="https://unpkg.com/chai/chai.js"></script>
+    <script src="https://unpkg.com/mocha/mocha.js"></script>
+
+    <!-- <script type="module">
+      import { partch } from "../src/index.js"
+      before(() => {
+        console.log("before")
+        window.P = partch()
+      })
+    </script> -->
+    <script class="mocha-init">
+      async function init() {
+        const { partch } = await import("../src/index.js")
+        mocha.setup('bdd')
+        mocha.checkLeaks()
+        window.P = partch()
+        window.test = window.it
+      }
+      init()
+    </script>
+    <script src="const.test.js"></script>
+    <!-- <script src="delay.test.js"></script>
+    <script src="filters.test.js"></script>
+    <script src="gain.test.js"></script>
+    <script src="oscs.test.js"></script>
+    <script src="patch.test.js"></script>
+    <script src="sample.test.js"></script>
+    <script src="shaper.test.js"></script> -->
+    <script class="mocha-exec">
+      // window.addEventListener("click", () => {
+        mocha.run()
+      // })
+    </script>
+  </body>
+</html>

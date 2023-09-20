@@ -1,40 +1,40 @@
 /* Latin Modern (LaTeX default) font */
 
 @font-face {
-	font-family: 'Latin Modern Roman';
-	font-weight: normal;
-	font-style: normal;
-	src: url('../fonts/lmroman10-regular.woff') format('woff');
+  font-family: "Latin Modern Roman";
+  font-weight: normal;
+  font-style: normal;
+  src: url("../fonts/lmroman10-regular.woff") format("woff");
 }
 
 @font-face {
-	font-family: 'Latin Modern Roman';
-	font-weight: bold;
-	font-style: normal;
-	src: url('../fonts/lmroman10-bold.woff') format('woff');
+  font-family: "Latin Modern Roman";
+  font-weight: bold;
+  font-style: normal;
+  src: url("../fonts/lmroman10-bold.woff") format("woff");
 }
 
 @font-face {
-	font-family: 'Latin Modern Roman';
-	font-weight: normal;
-	font-style: italic;
-	src: url('../fonts/lmroman10-italic.woff') format('woff');
+  font-family: "Latin Modern Roman";
+  font-weight: normal;
+  font-style: italic;
+  src: url("../fonts/lmroman10-italic.woff") format("woff");
 }
 
 @font-face {
-	font-family: 'Latin Modern Roman';
-	font-weight: bold;
-	font-style: italic;
-	src: url('../fonts/lmroman10-bolditalic.woff') format('woff');
+  font-family: "Latin Modern Roman";
+  font-weight: bold;
+  font-style: italic;
+  src: url("../fonts/lmroman10-bolditalic.woff") format("woff");
 }
 
 body {
-	font-family: 'Latin Modern Roman', serif;
+  font-family: "Latin Modern Roman", serif;
 }
 
 .main {
   padding: 0px 40px;
-  background: rgba(255,255,255,0.5);
+  background: rgba(255, 255, 255, 0.5);
   -webkit-box-shadow: 0 0 20px #d2d2d2;
   box-shadow: 0 0 20px #d2d2d2;
 }
@@ -49,7 +49,15 @@ body {
   text-transform: none;
   line-height: 30px;
 }
-.sidebar-header-2 { margin-left: 10px; }
-.sidebar-header-3 { margin-left: 20px; }
-.sidebar-header-4 { margin-left: 30px; }
-.sidebar-header-5 { margin-left: 40px; }
+.sidebar-header-2 {
+  margin-left: 10px;
+}
+.sidebar-header-3 {
+  margin-left: 20px;
+}
+.sidebar-header-4 {
+  margin-left: 30px;
+}
+.sidebar-header-5 {
+  margin-left: 40px;
+}

@@ -1,89 +1,100 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>{{title}}</title>
-    <link rel="stylesheet" href="{{asset 'css/bootstrap.css'}}"/>
-    <link rel="stylesheet" href="{{asset 'css/bootstrap-responsive.css'}}"/>
-    <link rel="stylesheet" href="{{asset 'css/pilcrow.css'}}"/>
-    <link rel="stylesheet" href="{{asset 'css/hljs-github.min.css'}}"/>
-    <link rel="stylesheet" href="{{asset 'css/style.css'}}"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.min.css" />
+    <link rel="stylesheet" href="{{asset 'css/bootstrap.css'}}" />
+    <link rel="stylesheet" href="{{asset 'css/bootstrap-responsive.css'}}" />
+    <link rel="stylesheet" href="{{asset 'css/pilcrow.css'}}" />
+    <link rel="stylesheet" href="{{asset 'css/hljs-github.min.css'}}" />
+    <link rel="stylesheet" href="{{asset 'css/style.css'}}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.min.css"
+    />
     <style>
-    body {
-      background: url('{{asset "img/textured_paper.png"}}') repeat top left;
-      background-color: #f6f6f6;
-    }
-    .CodeMirror {
-      /* border: 1px solid #eee; */
-      height: auto;
-    }
-    .cm-ctrl {
-      float: right;
-    }
+      body {
+        background: url('{{asset "img/textured_paper.png"}}') repeat top left;
+        background-color: #f6f6f6;
+      }
+      .CodeMirror {
+        /* border: 1px solid #eee; */
+        height: auto;
+      }
+      .cm-ctrl {
+        float: right;
+      }
     </style>
   </head>
-<body>
-
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span3">
-        {{~> toc }}
-      </div>
-      <div class="span9 main">
-        {{~> content}}
+  <body>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">{{~> toc }}</div>
+        <div class="span9 main">{{~> content}}</div>
       </div>
     </div>
-  </div>
 
-  <a href="https://github.com/debrisapron/partch"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+    <a href="https://github.com/debrisapron/partch"
+      ><img
+        style="position: absolute; top: 0; right: 0; border: 0"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+        alt="Fork me on GitHub"
+    /></a>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/mode/javascript/javascript.min.js"></script>
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-    crossorigin="anonymous"></script>
-  <script src="dist/partch.js"></script>
-  <script>
-    (function () {
-      let P = Partch()
-      let _uniqueId = 0
-      let AsyncFunction = Object.getPrototypeOf(async function(){}).constructor
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/mode/javascript/javascript.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+      crossorigin="anonymous"
+    ></script>
+    <script src="dist/partch.js"></script>
+    <script>
+      ;(function () {
+        let P = Partch()
+        let _uniqueId = 0
+        let AsyncFunction = Object.getPrototypeOf(
+          async function () {}
+        ).constructor
 
-      document.querySelectorAll('pre code').forEach((codeEl) => {
-        // Don't make the setup block interactive!
-        if (codeEl.textContent.includes('Partch()')) { return }
-        let cm = createCodeMirror(codeEl)
-        insertButtonsIntoCodeMirror(cm)
-      })
-
-      function createCodeMirror(codeEl) {
-        return CodeMirror((cmEl) => {
-          codeEl.parentNode.replaceChild(cmEl, codeEl)
-        }, {
-          value: codeEl.textContent.trim(),
-          mode: 'javascript',
-          lineNumbers: true,
-          viewportMargin: Infinity
-        })
-      }
-
-      function insertButtonsIntoCodeMirror(cm) {
-        let id = `cm-ctrl-${_uniqueId++}`
-        $(`<div id="${id}" class="cm-ctrl"><button>▶</button><button>■</button></div>`)
-          .insertBefore($(cm.display.wrapper).find('.CodeMirror-scroll'))
-        $(`#${id}`).click((e) => {
-          if (e.target.textContent === '▶') {
-            new AsyncFunction('P', `'use strict';${cm.getValue()}`)(P)
+        document.querySelectorAll("pre code").forEach((codeEl) => {
+          // Don't make the setup block interactive!
+          if (codeEl.textContent.includes("Partch()")) {
+            return
           }
-          else {
-            P.panic()
-          }
+          let cm = createCodeMirror(codeEl)
+          insertButtonsIntoCodeMirror(cm)
         })
-      }
-    })()
-  </script>
-</body>
+
+        function createCodeMirror(codeEl) {
+          return CodeMirror(
+            (cmEl) => {
+              codeEl.parentNode.replaceChild(cmEl, codeEl)
+            },
+            {
+              value: codeEl.textContent.trim(),
+              mode: "javascript",
+              lineNumbers: true,
+              viewportMargin: Infinity,
+            }
+          )
+        }
+
+        function insertButtonsIntoCodeMirror(cm) {
+          let id = `cm-ctrl-${_uniqueId++}`
+          $(
+            `<div id="${id}" class="cm-ctrl"><button>▶</button><button>■</button></div>`
+          ).insertBefore($(cm.display.wrapper).find(".CodeMirror-scroll"))
+          $(`#${id}`).click((e) => {
+            if (e.target.textContent === "▶") {
+              new AsyncFunction("P", `'use strict';${cm.getValue()}`)(P)
+            } else {
+              P.panic()
+            }
+          })
+        }
+      })()
+    </script>
+  </body>
 </html>

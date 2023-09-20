@@ -1,99 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Partch</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.css"/>
-    <link rel="stylesheet" href="assets/css/bootstrap-responsive.css"/>
-    <link rel="stylesheet" href="assets/css/pilcrow.css"/>
-    <link rel="stylesheet" href="assets/css/hljs-github.min.css"/>
-    <link rel="stylesheet" href="assets/css/style.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap-responsive.css" />
+    <link rel="stylesheet" href="assets/css/pilcrow.css" />
+    <link rel="stylesheet" href="assets/css/hljs-github.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.min.css"
+    />
     <style>
-    body {
-      background: url('assets/img/textured_paper.png') repeat top left;
-      background-color: #f6f6f6;
-    }
-    .CodeMirror {
-      /* border: 1px solid #eee; */
-      height: auto;
-    }
-    .cm-ctrl {
-      float: right;
-    }
+      body {
+        background: url("assets/img/textured_paper.png") repeat top left;
+        background-color: #f6f6f6;
+      }
+      .CodeMirror {
+        /* border: 1px solid #eee; */
+        height: auto;
+      }
+      .cm-ctrl {
+        float: right;
+      }
     </style>
   </head>
-<body>
-
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span3"><ul class="nav nav-list">
-    <li class="sidebar-header-1"><a href="#partch">Partch</a></li>
-    <li class="sidebar-header-2"><a href="#example">Example</a></li>
-    <li class="sidebar-header-2"><a href="#introduction">Introduction</a></li>
-    <li class="sidebar-header-2"><a href="#installation">Installation</a></li>
-    <li class="sidebar-header-2"><a href="#api">API</a></li>
-    <li class="sidebar-header-3"><a href="#partch([context])">Partch([context])</a></li>
-    <li class="sidebar-header-3"><a href="#p(nodes,-[...connections])">P(nodes, [...connections])</a></li>
-    <li class="sidebar-header-4"><a href="#connection-strings">Connection Strings</a></li>
-    <li class="sidebar-header-3"><a href="#p.adsr([config])">P.Adsr([config])</a></li>
-    <li class="sidebar-header-3"><a href="#p.const([config])">P.Const([config])</a></li>
-    <li class="sidebar-header-3"><a href="#p.context">P.context</a></li>
-    <li class="sidebar-header-3"><a href="#p.delay([config])">P.Delay([config])</a></li>
-    <li class="sidebar-header-3"><a href="#p.filter([config])">P.Filter([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.apf([config])">P.Apf([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.bpf([config])">P.Bpf([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.highshelf([config])">P.HighShelf([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.hpf([config])">P.Hpf([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.lowshelf([config])">P.LowShelf([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.lpf([config])">P.Lpf([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.notch([config])">P.Notch([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.peak([config])">P.Peak([config])</a></li>
-    <li class="sidebar-header-3"><a href="#p.freeverb([config])">P.Freeverb([config])</a></li>
-    <li class="sidebar-header-3"><a href="#p.gain([config])">P.Gain([config])</a></li>
-    <li class="sidebar-header-3"><a href="#p.load(url)">P.load(url)</a></li>
-    <li class="sidebar-header-3"><a href="#p.noise([config])">P.Noise([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.brownnoise()">P.BrownNoise()</a></li>
-    <li class="sidebar-header-4"><a href="#p.pinknoise()">P.PinkNoise()</a></li>
-    <li class="sidebar-header-4"><a href="#p.whitenoise()">P.WhiteNoise()</a></li>
-    <li class="sidebar-header-3"><a href="#p.osc([config])">P.Osc([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.saw([config])">P.Saw([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.sin([config])">P.Sin([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.sqr([config])">P.Sqr([config])</a></li>
-    <li class="sidebar-header-4"><a href="#p.tri([config])">P.Tri([config])</a></li>
-    <li class="sidebar-header-3"><a href="#p.over([config])">P.Over([config])</a></li>
-    <li class="sidebar-header-3"><a href="#p.parallel(nodes,-[count])">P.Parallel(nodes, [count])</a></li>
-    <li class="sidebar-header-3"><a href="#p.sample([config])">P.Sample([config])</a></li>
-    <li class="sidebar-header-3"><a href="#p.shaper([config])">P.Shaper([config])</a></li>
-    <li class="sidebar-header-3"><a href="#p.synth(voice)">P.Synth(Voice)</a></li>
-    <li class="sidebar-header-4"><a href="#synth.play(options)">synth.play(options)</a></li>
-    <li class="sidebar-header-4"><a href="#synth.sequence(events,-[options])">synth.sequence(events, [options])</a></li>
-    <li class="sidebar-header-3"><a href="#audio-node-extension-api">Audio Node Extension API</a></li>
-    <li class="sidebar-header-4"><a href="#node.input">node.input</a></li>
-    <li class="sidebar-header-4"><a href="#node.monitor()">node.monitor()</a></li>
-    <li class="sidebar-header-4"><a href="#node.set(config)">node.set(config)</a></li>
-    <li class="sidebar-header-4"><a href="#node.test([dur],-[type])">node.test([dur], [type])</a></li>
-    <li class="sidebar-header-4"><a href="#node.triggerattack([time])">node.triggerAttack([time])</a></li>
-    <li class="sidebar-header-4"><a href="#node.triggerrelease([time])">node.triggerRelease([time])</a></li>
-    <li class="sidebar-header-2"><a href="#cookbook">Cookbook</a></li>
-    <li class="sidebar-header-3"><a href="#simple-delay">Simple delay</a></li>
-    <li class="sidebar-header-3"><a href="#tape-style-delay">Tape-style delay</a></li>
-    <li class="sidebar-header-3"><a href="#flanger">Flanger</a></li>
-    <li class="sidebar-header-3"><a href="#classic-three-osc-synth">Classic three-osc synth</a></li>
-    <li class="sidebar-header-3"><a href="#organ">Organ</a></li>
-</ul>
-      </div>
-      <div class="span9 main"><h1 id="partch"><a class="header-link" href="#partch"></a>Partch</h1>
-<p><a href="https://en.wikipedia.org/wiki/Harry_Partch">
-  <img alt="Image of Harry Partch with his instruments" src="https://32minutes.files.wordpress.com/2016/10/partch.jpeg" width="500" />
-</a></p>
-<p>A lightweight Web Audio API patching library.</p>
-<p>Please note: this is UNDER CONSTRUCTION &amp; should not be considered stable.</p>
-<h2 id="example"><a class="header-link" href="#example"></a>Example</h2>
-<p>First</p>
-<pre class="hljs"><code><span class="hljs-keyword">let</span> P = Partch()</code></pre><p>then</p>
-<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">{ frequency }</span>) =&gt;</span> P({
+  <body>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <ul class="nav nav-list">
+            <li class="sidebar-header-1"><a href="#partch">Partch</a></li>
+            <li class="sidebar-header-2"><a href="#example">Example</a></li>
+            <li class="sidebar-header-2">
+              <a href="#introduction">Introduction</a>
+            </li>
+            <li class="sidebar-header-2">
+              <a href="#installation">Installation</a>
+            </li>
+            <li class="sidebar-header-2"><a href="#api">API</a></li>
+            <li class="sidebar-header-3">
+              <a href="#partch([context])">Partch([context])</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p(nodes,-[...connections])"
+                >P(nodes, [...connections])</a
+              >
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#connection-strings">Connection Strings</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.adsr([config])">P.Adsr([config])</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.const([config])">P.Const([config])</a>
+            </li>
+            <li class="sidebar-header-3"><a href="#p.context">P.context</a></li>
+            <li class="sidebar-header-3">
+              <a href="#p.delay([config])">P.Delay([config])</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.filter([config])">P.Filter([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.apf([config])">P.Apf([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.bpf([config])">P.Bpf([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.highshelf([config])">P.HighShelf([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.hpf([config])">P.Hpf([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.lowshelf([config])">P.LowShelf([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.lpf([config])">P.Lpf([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.notch([config])">P.Notch([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.peak([config])">P.Peak([config])</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.freeverb([config])">P.Freeverb([config])</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.gain([config])">P.Gain([config])</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.load(url)">P.load(url)</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.noise([config])">P.Noise([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.brownnoise()">P.BrownNoise()</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.pinknoise()">P.PinkNoise()</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.whitenoise()">P.WhiteNoise()</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.osc([config])">P.Osc([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.saw([config])">P.Saw([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.sin([config])">P.Sin([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.sqr([config])">P.Sqr([config])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#p.tri([config])">P.Tri([config])</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.over([config])">P.Over([config])</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.parallel(nodes,-[count])"
+                >P.Parallel(nodes, [count])</a
+              >
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.sample([config])">P.Sample([config])</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.shaper([config])">P.Shaper([config])</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#p.synth(voice)">P.Synth(Voice)</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#synth.play(options)">synth.play(options)</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#synth.sequence(events,-[options])"
+                >synth.sequence(events, [options])</a
+              >
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#audio-node-extension-api">Audio Node Extension API</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#node.input">node.input</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#node.monitor()">node.monitor()</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#node.set(config)">node.set(config)</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#node.test([dur],-[type])">node.test([dur], [type])</a>
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#node.triggerattack([time])"
+                >node.triggerAttack([time])</a
+              >
+            </li>
+            <li class="sidebar-header-4">
+              <a href="#node.triggerrelease([time])"
+                >node.triggerRelease([time])</a
+              >
+            </li>
+            <li class="sidebar-header-2"><a href="#cookbook">Cookbook</a></li>
+            <li class="sidebar-header-3">
+              <a href="#simple-delay">Simple delay</a>
+            </li>
+            <li class="sidebar-header-3">
+              <a href="#tape-style-delay">Tape-style delay</a>
+            </li>
+            <li class="sidebar-header-3"><a href="#flanger">Flanger</a></li>
+            <li class="sidebar-header-3">
+              <a href="#classic-three-osc-synth">Classic three-osc synth</a>
+            </li>
+            <li class="sidebar-header-3"><a href="#organ">Organ</a></li>
+          </ul>
+        </div>
+        <div class="span9 main">
+          <h1 id="partch"><a class="header-link" href="#partch"></a>Partch</h1>
+          <p>
+            <a href="https://en.wikipedia.org/wiki/Harry_Partch">
+              <img
+                alt="Image of Harry Partch with his instruments"
+                src="https://32minutes.files.wordpress.com/2016/10/partch.jpeg"
+                width="500"
+              />
+            </a>
+          </p>
+          <p>A lightweight Web Audio API patching library.</p>
+          <p>
+            Please note: this is UNDER CONSTRUCTION &amp; should not be
+            considered stable.
+          </p>
+          <h2 id="example">
+            <a class="header-link" href="#example"></a>Example
+          </h2>
+          <p>First</p>
+          <pre
+            class="hljs"
+          ><code><span class="hljs-keyword">let</span> P = Partch()</code></pre>
+          <p>then</p>
+          <pre
+            class="hljs"
+          ><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">{ frequency }</span>) =&gt;</span> P({
   <span class="hljs-attr">saw</span>: P.Saw(frequency),
   <span class="hljs-attr">sqr</span>: P.Sqr({ frequency, <span class="hljs-attr">octave</span>: <span class="hljs-number">-2</span>, <span class="hljs-attr">detune</span>: <span class="hljs-number">10</span> }),
   <span class="hljs-attr">vcf</span>: P.Lpf(<span class="hljs-number">20</span>),
@@ -111,238 +233,792 @@
   { <span class="hljs-attr">t</span>: <span class="hljs-number">3</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">81</span> },
   { <span class="hljs-attr">t</span>: <span class="hljs-number">4</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">76</span> },
   { <span class="hljs-attr">t</span>: <span class="hljs-number">5</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">nn</span>: <span class="hljs-number">72</span> }
-], { <span class="hljs-attr">loopLength</span>: <span class="hljs-number">6</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">tempo</span>: <span class="hljs-number">190</span> })</code></pre><h2 id="introduction"><a class="header-link" href="#introduction"></a>Introduction</h2>
-<p>Partch is a library designed to simplify the creation of new instruments and FX with the Web Audio API. It has a number of elements which all work together for a pleasurable patching experience.</p>
-<ul class="list">
-<li>A terse syntax for creating native Web Audio API nodes, with sane defaults.</li>
-<li>A handful of additional nodes that fill in notable gaps in the Web Audio API.</li>
-<li>Useful additions and tweaks to the API of created nodes.</li>
-<li>A Patch function for wiring nodes together into patches.</li>
-<li>A Synth function for creating polyphonic synthesizers from individual voice functions.</li>
-</ul>
-<h2 id="installation"><a class="header-link" href="#installation"></a>Installation</h2>
-<p>First <code>yarn add partch</code> or <code>npm install partch --save</code>.</p>
-<p>Then, if you&#39;re using a bundler such as webpack, simply <code>import Partch from &#39;partch&#39;</code>.</p>
-<p>Alternatively load it directly in the browser with the script tag <code>&lt;script src=&quot;path/to/partch.js&quot;&gt;&lt;/script&gt;</code>.</p>
-<h2 id="api"><a class="header-link" href="#api"></a>API</h2>
-<h3 id="partch([context])"><a class="header-link" href="#partch([context])"></a>Partch([context])</h3>
-<ul class="list">
-<li><code>context</code> - <em>AudioContext</em> - Defaults to a new AudioContext.</li>
-</ul>
-<p>Returns a Patch function (henceforth abbreviated as <code>P</code>) with a number of attached Node Factory functions. Note that the nodes returned by all these node factories are patched to provide an API which slightly extends the standard functionality of Web Audio API nodes, this Audio Node Extension API is described after the node factories.</p>
-<h3 id="p(nodes,-[...connections])"><a class="header-link" href="#p(nodes,-[...connections])"></a>P(nodes, [...connections])</h3>
-<ul class="list">
-<li><code>nodes</code> - <em>Object</em> - An object where the keys are node names and the values are audio nodes, or arrays of audio nodes.</li>
-<li><code>connections</code> - <em>Array of String</em> - Strings representing connections between nodes.</li>
-</ul>
-<p>Returns a patch node which implements the standard Audio Node Extension API plus the <code>nodes</code> attribute. Note that any array values in the <code>nodes</code> object will be connected in parallel using the <code>Parallel</code> node below.</p>
-<h4 id="connection-strings"><a class="header-link" href="#connection-strings"></a>Connection Strings</h4>
-<p>Connection strings take the form of a list of nodes separated by a <code>&gt;</code> character. Each node may be either a node name specified in the <code>nodes</code> object, or a dot-separated node path, e.g. <code>synth.filter.frequencyCv</code>. When using a node path, any onward connections after the node will be from the <strong>top-level</strong> node, i.e. the node whose name comes first in the path.</p>
-<h3 id="p.adsr([config])"><a class="header-link" href="#p.adsr([config])"></a>P.Adsr([config])</h3>
-<ul class="list">
-<li><code>config</code> - <em>Object | Number</em> - Either the release time or the following config object:<ul class="list">
-<li><code>attack</code> _or_ <code>a</code> - <em>Number</em> - The attack time in seconds. Defaults to 0.01.</li>
-<li><code>decay</code> _or_ <code>d</code> - <em>Number</em> - The decay time in seconds. Defaults to 0.</li>
-<li><code>sustain</code> _or_ <code>s</code> - <em>Number</em> - The sustain level. Defaults to 1.</li>
-<li><code>release</code> _or_ <code>r</code> - <em>Number</em> - The release time in seconds. Defaults to 1.</li>
-<li><code>level</code> - <em>Number</em> - The envelope maximum value (i.e. sustain is multiplied by this). Defaults to 1.</li>
-</ul>
-</li>
-</ul>
-<p>Returns an ASDR envelope node which can be used to control parameters of other nodes. Note that the rise and fall slopes are linear, so if you want exponential slopes, e.g. for controlling filter cutoff, you should connect the signal to one of the provided CV inputs.</p>
-<h3 id="p.const([config])"><a class="header-link" href="#p.const([config])"></a>P.Const([config])</h3>
-<ul class="list">
-<li><code>config</code> - <em>Object | Number</em> - Either the offset or the following config object:<ul class="list">
-<li><code>offset</code> - <em>Number</em> - The constant output level. Defaults to 1.</li>
-<li><code>startTime</code> - <em>Number</em> - The AudioContext time at which to start the node. Defaults to immediately.</li>
-</ul>
-</li>
-</ul>
-<p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/ConstantSourceNode">ConstantSourceNode</a>.</p>
-<h3 id="p.context"><a class="header-link" href="#p.context"></a>P.context</h3>
-<p>The AudioContext with which the Patch function was instantiated.</p>
-<h3 id="p.delay([config])"><a class="header-link" href="#p.delay([config])"></a>P.Delay([config])</h3>
-<ul class="list">
-<li><code>config</code> - <em>Object | Number</em> - Either the delay time or the following config object:<ul class="list">
-<li><code>delayTime</code> - <em>Number</em> - The delay time in seconds. Defaults to 1.</li>
-</ul>
-</li>
-</ul>
-<p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/DelayNode">DelayNode</a>.</p>
-<h3 id="p.filter([config])"><a class="header-link" href="#p.filter([config])"></a>P.Filter([config])</h3>
-<ul class="list">
-<li><code>config</code> - <em>Object | Number</em> - Either the frequency or the following config object:<ul class="list">
-<li><code>frequency</code> - <em>Number</em> - The filter frequency in Hz. Defaults to 350.</li>
-<li><code>frequencyCv</code> - <em>Number</em> The scaled amount to add to the frequency. Defaults to 0.</li>
-<li><code>Q</code> - <em>Number</em> - The <a href="https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/Q">Q</a> factor. Roughly equivalent to resonance. Defaults to 1.</li>
-<li><code>detune</code> - <em>Number</em> - The offset to add to the frequency, in cents. Defaults to 0.</li>
-<li><code>type</code> - <em>String</em> - The filter <a href="https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type">type</a>. One of <code>lowpass</code>, <code>highpass</code>, <code>bandpass</code>, <code>lowshelf</code>, <code>highshelf</code>, <code>peaking</code>, <code>notch</code> or <code>allpass</code>. Defaults to lowpass.</li>
-</ul>
-</li>
-</ul>
-<p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode">BiquadFilterNode</a>. The node has an additional AudioParam, <code>frequencyCv</code>, which is scaled to make a 0-1 input signal cover the whole audible frequency range.</p>
-<h4 id="p.apf([config])"><a class="header-link" href="#p.apf([config])"></a>P.Apf([config])</h4>
-<h4 id="p.bpf([config])"><a class="header-link" href="#p.bpf([config])"></a>P.Bpf([config])</h4>
-<h4 id="p.highshelf([config])"><a class="header-link" href="#p.highshelf([config])"></a>P.HighShelf([config])</h4>
-<h4 id="p.hpf([config])"><a class="header-link" href="#p.hpf([config])"></a>P.Hpf([config])</h4>
-<h4 id="p.lowshelf([config])"><a class="header-link" href="#p.lowshelf([config])"></a>P.LowShelf([config])</h4>
-<h4 id="p.lpf([config])"><a class="header-link" href="#p.lpf([config])"></a>P.Lpf([config])</h4>
-<h4 id="p.notch([config])"><a class="header-link" href="#p.notch([config])"></a>P.Notch([config])</h4>
-<h4 id="p.peak([config])"><a class="header-link" href="#p.peak([config])"></a>P.Peak([config])</h4>
-<p>Aliases for the Filter node with different filter types.</p>
-<h3 id="p.freeverb([config])"><a class="header-link" href="#p.freeverb([config])"></a>P.Freeverb([config])</h3>
-<ul class="list">
-<li><code>config</code> - <em>Object | Number</em> - Either the wet level or the following config object:<ul class="list">
-<li><code>wet</code> - <em>Number</em> - The wet signal gain. Defaults to 0.</li>
-<li><code>dry</code> - <em>Number</em> - The dry signal gain. Defaults to 1.</li>
-<li><code>roomSize</code> - <em>Number</em> - A number from 0-1 representing the size of the reverb space. Defaults to 0.8.</li>
-<li><code>dampening</code> - <em>Number</em> - A frequency in Hz which corresponds to the amount of &quot;ringing&quot;. Defaults to 3000.</li>
-</ul>
-</li>
-</ul>
-<p>Returns a reverb node based on the Freeverb algorithm (imported from <a href="https://github.com/mmckegg/freeverb)">https://github.com/mmckegg/freeverb)</a>.</p>
-<h3 id="p.gain([config])"><a class="header-link" href="#p.gain([config])"></a>P.Gain([config])</h3>
-<ul class="list">
-<li><code>config</code> - <em>Object | Number</em> - Either the gain or the following config object:<ul class="list">
-<li><code>gain</code> - <em>Number</em> - The amount of gain. Defaults to 1.</li>
-<li><code>gainCv</code> - <em>Number</em> The scaled amount to add to the gain. Defaults to 0.</li>
-</ul>
-</li>
-</ul>
-<p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/GainNode">GainNode</a>. The node has an additional AudioParam, <code>gainCv</code>, which is scaled to produce an exponential volume curve that sounds more natural to the human ear than the linear slope produced by automating the gain level. Specifically, a <code>gainCv</code> of 0.5 maps to an additional gain of 0.1.</p>
-<h3 id="p.load(url)"><a class="header-link" href="#p.load(url)"></a>P.load(url)</h3>
-<ul class="list">
-<li><code>url</code> - <em>String</em> - Url to load.</li>
-</ul>
-<p>A helper function to load an audio buffer from a URL. Returns a promise which will either resolve to an <code>AudioBuffer</code>, or throw an error.</p>
-<h3 id="p.noise([config])"><a class="header-link" href="#p.noise([config])"></a>P.Noise([config])</h3>
-<ul class="list">
-<li><code>config</code> - <em>Object | String</em> - Either the noise color or the following config object:<ul class="list">
-<li><code>color</code> - <em>String</em> - The type of noise. One of <code>brown</code>, <code>pink</code> or <code>white</code>. Defaults to <code>white</code>.</li>
-<li><code>startTime</code> - <em>Number</em> - The AudioContext time at which to start the node. Defaults to immediately.</li>
-</ul>
-</li>
-</ul>
-<p>Returns a Sample node that plays the specified type of noise.</p>
-<h4 id="p.brownnoise()"><a class="header-link" href="#p.brownnoise()"></a>P.BrownNoise()</h4>
-<h4 id="p.pinknoise()"><a class="header-link" href="#p.pinknoise()"></a>P.PinkNoise()</h4>
-<h4 id="p.whitenoise()"><a class="header-link" href="#p.whitenoise()"></a>P.WhiteNoise()</h4>
-<p>Aliases for the Noise node with different color settings.</p>
-<h3 id="p.osc([config])"><a class="header-link" href="#p.osc([config])"></a>P.Osc([config])</h3>
-<ul class="list">
-<li><code>config</code> - <em>Object | Number</em> - Either the frequency or the following config object:<ul class="list">
-<li><code>frequency</code> - <em>Number</em> - The oscillator frequency in Hz. Defaults to 440.</li>
-<li><code>frequencyCv</code> - <em>Number</em> - The scaled amount to add to the frequency. Defaults to 0.</li>
-<li><code>octave</code> - <em>Number</em> - The number of octaves (positive or negative) by which to offset the frequency. Defaults to 0.</li>
-<li><code>detune</code> - <em>Number</em> - The offset to add to the frequency, in cents. Defaults to 0.</li>
-<li><code>type</code> - <em>String</em> - The oscillator waveform. One of <code>sine</code>, <code>square</code>, <code>sawtooth</code> or <code>triangle</code>. Defaults to <code>sine</code>.</li>
-<li><code>startTime</code> - <em>Number</em> - The AudioContext time at which to start the node. Defaults to immediately.</li>
-</ul>
-</li>
-</ul>
-<p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode">OscillatorNode</a>. The node has an additional AudioParam, <code>frequencyCv</code>, which is scaled to make a 0-1 input signal cover the whole audible frequency range.</p>
-<h4 id="p.saw([config])"><a class="header-link" href="#p.saw([config])"></a>P.Saw([config])</h4>
-<h4 id="p.sin([config])"><a class="header-link" href="#p.sin([config])"></a>P.Sin([config])</h4>
-<h4 id="p.sqr([config])"><a class="header-link" href="#p.sqr([config])"></a>P.Sqr([config])</h4>
-<h4 id="p.tri([config])"><a class="header-link" href="#p.tri([config])"></a>P.Tri([config])</h4>
-<p>Aliases for the Osc node with different waveform types.</p>
-<h3 id="p.over([config])"><a class="header-link" href="#p.over([config])"></a>P.Over([config])</h3>
-<ul class="list">
-<li><code>config</code> - <em>Number</em> - Either the drive amount or the following config object:<ul class="list">
-<li><code>drive</code> - <em>Number</em> - Gain applied before waveshaping. Defaults to 1.</li>
-<li><code>shape</code> - <em>Number</em> - Number from 0-1 representing the how much the waveshape distorts the signal. Defaults to 0.725.</li>
-<li><code>algo</code> - <em>Number</em> - Number from 0-5 specifying which shaping algorithm to use. Default is 0.</li>
-<li><code>makeup</code> - <em>Number</em> - Gain applied after waveshaping. Defaults to 1.</li>
-</ul>
-</li>
-</ul>
-<p>Returns a custom Overdrive node adapted from <a href="https://github.com/Theodeus/tuna/wiki">Tuna.js</a>.</p>
-<h3 id="p.parallel(nodes,-[count])"><a class="header-link" href="#p.parallel(nodes,-[count])"></a>P.Parallel(nodes, [count])</h3>
-<ul class="list">
-<li><code>nodes</code> - <em>Array | Function</em> - Either an array of nodes or a function which takes a 0-based index and returns a node.</li>
-<li><code>count</code> - <em>Number</em> - If <code>nodes</code> is a function, the number of nodes to create.</li>
-</ul>
-<p>Returns a patch with the given nodes connected in parallel, i.e. with the input connected to every node input and every node output connected to the output.</p>
-<h3 id="p.sample([config])"><a class="header-link" href="#p.sample([config])"></a>P.Sample([config])</h3>
-<ul class="list">
-<li><code>config</code> - <em>Object | AudioBuffer</em> - Either the buffer or the following config object:<ul class="list">
-<li><code>buffer</code> - <em>AudioBuffer</em> - The <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer">AudioBuffer</a> to play.</li>
-<li><code>detune</code> - <em>Number</em> - The factor to adjust the frequency, in cents. Defaults to 0.</li>
-<li><code>loop</code> - <em>Boolean</em> - Whether or not to loop the sample. Defaults to false.</li>
-<li><code>loopStart</code> - <em>Number</em> - Start of the loop in seconds. Defaults to 0.</li>
-<li><code>loopEnd</code> - <em>Number</em> - End of the loop in seconds. Defaults to 0.</li>
-<li><code>playbackRate</code> - <em>Number</em> - The rate at which to play the sample where 1 is its natural rate. Defaults to 1.</li>
-<li><code>startTime</code> - <em>Number</em> - The AudioContext time at which to start the node. Defaults to immediately.</li>
-</ul>
-</li>
-</ul>
-<p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode">AudioBufferSourceNode</a>. <del>The node has an additional AudioParam, <code>playbackRateCv</code>, which is scaled to make a 0-1 input signal cover the whole audible frequency range</del>.</p>
-<h3 id="p.shaper([config])"><a class="header-link" href="#p.shaper([config])"></a>P.Shaper([config])</h3>
-<ul class="list">
-<li><code>config</code> - <em>Object | Float32Array</em> - Either the curve or the following config object:<ul class="list">
-<li><code>curve</code> - <em>Float32Array</em> - The shaping <a href="https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode/curve">curve</a>.</li>
-<li><code>oversample</code> - <em>String</em> - The <a href="https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode/oversample">oversample</a> setting. One of <code>none</code>, <code>2x</code> or <code>4x</code>.</li>
-</ul>
-</li>
-</ul>
-<p>Returns a Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode">WaveShaperNode</a>.</p>
-<h3 id="p.synth(voice)"><a class="header-link" href="#p.synth(voice)"></a>P.Synth(Voice)</h3>
-<ul class="list">
-<li><code>Voice</code> - <em>Function</em> - A factory function which will construct the synth voice. Should take one parameter, the object passed to <code>synth.play</code> with an additional <code>frequency</code> property giving the frequency of the played note in standard equal temperament tuning.</li>
-</ul>
-<p>Returns a node which can create new voices with the passed-in factory function and connect them to its output. In addition to the standard node methods it implements the <code>play</code> and <code>sequence</code> method.</p>
-<h4 id="synth.play(options)"><a class="header-link" href="#synth.play(options)"></a>synth.play(options)</h4>
-<ul class="list">
-<li><code>options</code> - <em>Object</em><ul class="list">
-<li><code>nn</code> - <em>Number</em> - The MIDI note number to play. Defaults to 69 (middle A).</li>
-<li><code>time</code> or <code>t</code> - <em>Number</em> - The AudioContext time at which to play the note. Defaults to immediately.</li>
-<li><code>dur</code> - <em>Number</em> - The length of time in seconds to play the note for. If falsey, note will not be released. Defaults to 0.2.</li>
-</ul>
-</li>
-</ul>
-<p>Calls the voice function with the passed in MIDI note number converted to a frequency. Returns the new voice node.</p>
-<h4 id="synth.sequence(events,-[options])"><a class="header-link" href="#synth.sequence(events,-[options])"></a>synth.sequence(events, [options])</h4>
-<ul class="list">
-<li><code>events</code> - <em>Array</em> - An array of sequencer event objects.</li>
-<li><code>options</code> - <em>Object</em><ul class="list">
-<li><code>loopLength</code> - <em>Number</em> - The time at which to loop the sequence, in Whole Notes.</li>
-<li><code>tempo</code> - <em>Number</em> - The tempo in bpm. Defaults to 120.</li>
-</ul>
-</li>
-</ul>
-<p>This is a simple wrapper around the functionality of <a href="https://github.com/debrisapron/um-sequencer">um-sequencer</a>. Each sequencer event object can contain the same keys as the <code>synth.play</code> options object, but here the <code>time</code> attribute is the <em>musical</em> time in Whole Notes from the start of the sequence. If looping is required, the loopLength option must be set.</p>
-<p>Returns a sequencer object with <code>stop</code> and <code>changeTempo(tempo)</code> methods (see the um-sequencer docs for more information).</p>
-<h3 id="audio-node-extension-api"><a class="header-link" href="#audio-node-extension-api"></a>Audio Node Extension API</h3>
-<p>On top of the standard Web Audio API <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioNode">AudioNode</a> interface, Partch makes some enhancements. Firstly, it patches <code>connect</code> and <code>disconnect</code> so that they can handle nodes which have an <code>input</code> property. Secondly, it adds the following members:</p>
-<h4 id="node.input"><a class="header-link" href="#node.input"></a>node.input</h4>
-<p>On a native Web Audio API this is just an alias for the node itself. On a patch node this is an alias for <code>patch.nodes.in</code>. When connecting from a native Web Audio API node to a patch, this should be the connection destination.</p>
-<h4 id="node.monitor()"><a class="header-link" href="#node.monitor()"></a>node.monitor()</h4>
-<p>Connects the patch to the <code>context.destination</code>. Returns the node.</p>
-<h4 id="node.set(config)"><a class="header-link" href="#node.set(config)"></a>node.set(config)</h4>
-<ul class="list">
-<li><code>config</code> - <em>Object | Any</em> - A config object or value used to update the node parameters.</li>
-</ul>
-<p>This method takes the same config object or value as the factory method for the node. On a patch node it should be an object whose keys correspond with the nodes in the patch, and whose values are objects or values to be passed on to the set function on those nodes. As a result it is possible to recursively set the params of a whole &quot;tree&quot; of nested patches by simply passing in a nested object. Returns the node.</p>
-<h4 id="node.test([dur],-[type])"><a class="header-link" href="#node.test([dur],-[type])"></a>node.test([dur], [type])</h4>
-<ul class="list">
-<li><code>dur</code> - <em>Number</em> - The duration of the test in seconds. Defaults to 0.2.</li>
-<li><code>type</code> - <em>String | Number</em> - The type of test sound to use or the note to play. If the former, one of <code>bleep</code> or <code>noise</code>. Defaults to <code>bleep</code>.</li>
-</ul>
-<p>This is a function for quickly testing a node. Firstly it monitors the node. Then, for nodes without an input, it will simply stop it after the given duration. For nodes with a <code>play</code> method it will play for the given duration, with the type param specifying the note. For nodes with an input, it will create a sound source of the type indicated, stop the source after the given duration, and stop the node 10 seconds after.</p>
-<h4 id="node.triggerattack([time])"><a class="header-link" href="#node.triggerattack([time])"></a>node.triggerAttack([time])</h4>
-<ul class="list">
-<li><code>time</code> - <em>Number</em> - The AudioContext time at which to trigger attack. Defaults to immediately.</li>
-</ul>
-<p>If the node is an envelope, or a patch containing an envelope, triggers the attack portion of the envelope(s) at <code>time</code>. Returns the node.</p>
-<h4 id="node.triggerrelease([time])"><a class="header-link" href="#node.triggerrelease([time])"></a>node.triggerRelease([time])</h4>
-<ul class="list">
-<li><code>time</code> - <em>Number</em> - The AudioContext time at which to trigger release. Defaults to immediately.</li>
-</ul>
-<p>If the node is an envelope, or a patch containing an envelope, triggers the release portion of the envelope(s) at <code>time</code> and then stops the node. Returns the node.</p>
-<h2 id="cookbook"><a class="header-link" href="#cookbook"></a>Cookbook</h2>
-<p>The philosophy of Partch is to give you a small number of fundamental building blocks while making it as easy as possible to build your own high-level abstractions from those blocks. In that spirit, components such as phasers, chorus effects, analogue-style delays, autopanners and so on are not included. Instead, here are some example patches for you to copy and paste, in the hope that you will modify them to your own taste, creating effects and instruments that are entirely unique to you.</p>
-<h3 id="simple-delay"><a class="header-link" href="#simple-delay"></a>Simple delay</h3>
-<pre class="hljs"><code>P({
+], { <span class="hljs-attr">loopLength</span>: <span class="hljs-number">6</span>/<span class="hljs-number">8</span>, <span class="hljs-attr">tempo</span>: <span class="hljs-number">190</span> })</code></pre>
+          <h2 id="introduction">
+            <a class="header-link" href="#introduction"></a>Introduction
+          </h2>
+          <p>
+            Partch is a library designed to simplify the creation of new
+            instruments and FX with the Web Audio API. It has a number of
+            elements which all work together for a pleasurable patching
+            experience.
+          </p>
+          <ul class="list">
+            <li>
+              A terse syntax for creating native Web Audio API nodes, with sane
+              defaults.
+            </li>
+            <li>
+              A handful of additional nodes that fill in notable gaps in the Web
+              Audio API.
+            </li>
+            <li>Useful additions and tweaks to the API of created nodes.</li>
+            <li>A Patch function for wiring nodes together into patches.</li>
+            <li>
+              A Synth function for creating polyphonic synthesizers from
+              individual voice functions.
+            </li>
+          </ul>
+          <h2 id="installation">
+            <a class="header-link" href="#installation"></a>Installation
+          </h2>
+          <p>
+            First <code>yarn add partch</code> or
+            <code>npm install partch --save</code>.
+          </p>
+          <p>
+            Then, if you&#39;re using a bundler such as webpack, simply
+            <code>import Partch from &#39;partch&#39;</code>.
+          </p>
+          <p>
+            Alternatively load it directly in the browser with the script tag
+            <code
+              >&lt;script
+              src=&quot;path/to/partch.js&quot;&gt;&lt;/script&gt;</code
+            >.
+          </p>
+          <h2 id="api"><a class="header-link" href="#api"></a>API</h2>
+          <h3 id="partch([context])">
+            <a class="header-link" href="#partch([context])"></a
+            >Partch([context])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>context</code> - <em>AudioContext</em> - Defaults to a new
+              AudioContext.
+            </li>
+          </ul>
+          <p>
+            Returns a Patch function (henceforth abbreviated as <code>P</code>)
+            with a number of attached Node Factory functions. Note that the
+            nodes returned by all these node factories are patched to provide an
+            API which slightly extends the standard functionality of Web Audio
+            API nodes, this Audio Node Extension API is described after the node
+            factories.
+          </p>
+          <h3 id="p(nodes,-[...connections])">
+            <a class="header-link" href="#p(nodes,-[...connections])"></a
+            >P(nodes, [...connections])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>nodes</code> - <em>Object</em> - An object where the keys
+              are node names and the values are audio nodes, or arrays of audio
+              nodes.
+            </li>
+            <li>
+              <code>connections</code> - <em>Array of String</em> - Strings
+              representing connections between nodes.
+            </li>
+          </ul>
+          <p>
+            Returns a patch node which implements the standard Audio Node
+            Extension API plus the <code>nodes</code> attribute. Note that any
+            array values in the <code>nodes</code> object will be connected in
+            parallel using the <code>Parallel</code> node below.
+          </p>
+          <h4 id="connection-strings">
+            <a class="header-link" href="#connection-strings"></a>Connection
+            Strings
+          </h4>
+          <p>
+            Connection strings take the form of a list of nodes separated by a
+            <code>&gt;</code> character. Each node may be either a node name
+            specified in the <code>nodes</code> object, or a dot-separated node
+            path, e.g. <code>synth.filter.frequencyCv</code>. When using a node
+            path, any onward connections after the node will be from the
+            <strong>top-level</strong> node, i.e. the node whose name comes
+            first in the path.
+          </p>
+          <h3 id="p.adsr([config])">
+            <a class="header-link" href="#p.adsr([config])"></a>P.Adsr([config])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Object | Number</em> - Either the
+              release time or the following config object:
+              <ul class="list">
+                <li>
+                  <code>attack</code> _or_ <code>a</code> - <em>Number</em> -
+                  The attack time in seconds. Defaults to 0.01.
+                </li>
+                <li>
+                  <code>decay</code> _or_ <code>d</code> - <em>Number</em> - The
+                  decay time in seconds. Defaults to 0.
+                </li>
+                <li>
+                  <code>sustain</code> _or_ <code>s</code> - <em>Number</em> -
+                  The sustain level. Defaults to 1.
+                </li>
+                <li>
+                  <code>release</code> _or_ <code>r</code> - <em>Number</em> -
+                  The release time in seconds. Defaults to 1.
+                </li>
+                <li>
+                  <code>level</code> - <em>Number</em> - The envelope maximum
+                  value (i.e. sustain is multiplied by this). Defaults to 1.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Returns an ASDR envelope node which can be used to control
+            parameters of other nodes. Note that the rise and fall slopes are
+            linear, so if you want exponential slopes, e.g. for controlling
+            filter cutoff, you should connect the signal to one of the provided
+            CV inputs.
+          </p>
+          <h3 id="p.const([config])">
+            <a class="header-link" href="#p.const([config])"></a
+            >P.Const([config])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Object | Number</em> - Either the offset
+              or the following config object:
+              <ul class="list">
+                <li>
+                  <code>offset</code> - <em>Number</em> - The constant output
+                  level. Defaults to 1.
+                </li>
+                <li>
+                  <code>startTime</code> - <em>Number</em> - The AudioContext
+                  time at which to start the node. Defaults to immediately.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Returns a Web Audio API
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/ConstantSourceNode"
+              >ConstantSourceNode</a
+            >.
+          </p>
+          <h3 id="p.context">
+            <a class="header-link" href="#p.context"></a>P.context
+          </h3>
+          <p>
+            The AudioContext with which the Patch function was instantiated.
+          </p>
+          <h3 id="p.delay([config])">
+            <a class="header-link" href="#p.delay([config])"></a
+            >P.Delay([config])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Object | Number</em> - Either the delay
+              time or the following config object:
+              <ul class="list">
+                <li>
+                  <code>delayTime</code> - <em>Number</em> - The delay time in
+                  seconds. Defaults to 1.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Returns a Web Audio API
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/DelayNode"
+              >DelayNode</a
+            >.
+          </p>
+          <h3 id="p.filter([config])">
+            <a class="header-link" href="#p.filter([config])"></a
+            >P.Filter([config])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Object | Number</em> - Either the
+              frequency or the following config object:
+              <ul class="list">
+                <li>
+                  <code>frequency</code> - <em>Number</em> - The filter
+                  frequency in Hz. Defaults to 350.
+                </li>
+                <li>
+                  <code>frequencyCv</code> - <em>Number</em> The scaled amount
+                  to add to the frequency. Defaults to 0.
+                </li>
+                <li>
+                  <code>Q</code> - <em>Number</em> - The
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/Q"
+                    >Q</a
+                  >
+                  factor. Roughly equivalent to resonance. Defaults to 1.
+                </li>
+                <li>
+                  <code>detune</code> - <em>Number</em> - The offset to add to
+                  the frequency, in cents. Defaults to 0.
+                </li>
+                <li>
+                  <code>type</code> - <em>String</em> - The filter
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type"
+                    >type</a
+                  >. One of <code>lowpass</code>, <code>highpass</code>,
+                  <code>bandpass</code>, <code>lowshelf</code>,
+                  <code>highshelf</code>, <code>peaking</code>,
+                  <code>notch</code> or <code>allpass</code>. Defaults to
+                  lowpass.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Returns a Web Audio API
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode"
+              >BiquadFilterNode</a
+            >. The node has an additional AudioParam, <code>frequencyCv</code>,
+            which is scaled to make a 0-1 input signal cover the whole audible
+            frequency range.
+          </p>
+          <h4 id="p.apf([config])">
+            <a class="header-link" href="#p.apf([config])"></a>P.Apf([config])
+          </h4>
+          <h4 id="p.bpf([config])">
+            <a class="header-link" href="#p.bpf([config])"></a>P.Bpf([config])
+          </h4>
+          <h4 id="p.highshelf([config])">
+            <a class="header-link" href="#p.highshelf([config])"></a
+            >P.HighShelf([config])
+          </h4>
+          <h4 id="p.hpf([config])">
+            <a class="header-link" href="#p.hpf([config])"></a>P.Hpf([config])
+          </h4>
+          <h4 id="p.lowshelf([config])">
+            <a class="header-link" href="#p.lowshelf([config])"></a
+            >P.LowShelf([config])
+          </h4>
+          <h4 id="p.lpf([config])">
+            <a class="header-link" href="#p.lpf([config])"></a>P.Lpf([config])
+          </h4>
+          <h4 id="p.notch([config])">
+            <a class="header-link" href="#p.notch([config])"></a
+            >P.Notch([config])
+          </h4>
+          <h4 id="p.peak([config])">
+            <a class="header-link" href="#p.peak([config])"></a>P.Peak([config])
+          </h4>
+          <p>Aliases for the Filter node with different filter types.</p>
+          <h3 id="p.freeverb([config])">
+            <a class="header-link" href="#p.freeverb([config])"></a
+            >P.Freeverb([config])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Object | Number</em> - Either the wet
+              level or the following config object:
+              <ul class="list">
+                <li>
+                  <code>wet</code> - <em>Number</em> - The wet signal gain.
+                  Defaults to 0.
+                </li>
+                <li>
+                  <code>dry</code> - <em>Number</em> - The dry signal gain.
+                  Defaults to 1.
+                </li>
+                <li>
+                  <code>roomSize</code> - <em>Number</em> - A number from 0-1
+                  representing the size of the reverb space. Defaults to 0.8.
+                </li>
+                <li>
+                  <code>dampening</code> - <em>Number</em> - A frequency in Hz
+                  which corresponds to the amount of &quot;ringing&quot;.
+                  Defaults to 3000.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Returns a reverb node based on the Freeverb algorithm (imported from
+            <a href="https://github.com/mmckegg/freeverb)"
+              >https://github.com/mmckegg/freeverb)</a
+            >.
+          </p>
+          <h3 id="p.gain([config])">
+            <a class="header-link" href="#p.gain([config])"></a>P.Gain([config])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Object | Number</em> - Either the gain
+              or the following config object:
+              <ul class="list">
+                <li>
+                  <code>gain</code> - <em>Number</em> - The amount of gain.
+                  Defaults to 1.
+                </li>
+                <li>
+                  <code>gainCv</code> - <em>Number</em> The scaled amount to add
+                  to the gain. Defaults to 0.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Returns a Web Audio API
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/GainNode"
+              >GainNode</a
+            >. The node has an additional AudioParam, <code>gainCv</code>, which
+            is scaled to produce an exponential volume curve that sounds more
+            natural to the human ear than the linear slope produced by
+            automating the gain level. Specifically, a <code>gainCv</code> of
+            0.5 maps to an additional gain of 0.1.
+          </p>
+          <h3 id="p.load(url)">
+            <a class="header-link" href="#p.load(url)"></a>P.load(url)
+          </h3>
+          <ul class="list">
+            <li><code>url</code> - <em>String</em> - Url to load.</li>
+          </ul>
+          <p>
+            A helper function to load an audio buffer from a URL. Returns a
+            promise which will either resolve to an <code>AudioBuffer</code>, or
+            throw an error.
+          </p>
+          <h3 id="p.noise([config])">
+            <a class="header-link" href="#p.noise([config])"></a
+            >P.Noise([config])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Object | String</em> - Either the noise
+              color or the following config object:
+              <ul class="list">
+                <li>
+                  <code>color</code> - <em>String</em> - The type of noise. One
+                  of <code>brown</code>, <code>pink</code> or
+                  <code>white</code>. Defaults to <code>white</code>.
+                </li>
+                <li>
+                  <code>startTime</code> - <em>Number</em> - The AudioContext
+                  time at which to start the node. Defaults to immediately.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>Returns a Sample node that plays the specified type of noise.</p>
+          <h4 id="p.brownnoise()">
+            <a class="header-link" href="#p.brownnoise()"></a>P.BrownNoise()
+          </h4>
+          <h4 id="p.pinknoise()">
+            <a class="header-link" href="#p.pinknoise()"></a>P.PinkNoise()
+          </h4>
+          <h4 id="p.whitenoise()">
+            <a class="header-link" href="#p.whitenoise()"></a>P.WhiteNoise()
+          </h4>
+          <p>Aliases for the Noise node with different color settings.</p>
+          <h3 id="p.osc([config])">
+            <a class="header-link" href="#p.osc([config])"></a>P.Osc([config])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Object | Number</em> - Either the
+              frequency or the following config object:
+              <ul class="list">
+                <li>
+                  <code>frequency</code> - <em>Number</em> - The oscillator
+                  frequency in Hz. Defaults to 440.
+                </li>
+                <li>
+                  <code>frequencyCv</code> - <em>Number</em> - The scaled amount
+                  to add to the frequency. Defaults to 0.
+                </li>
+                <li>
+                  <code>octave</code> - <em>Number</em> - The number of octaves
+                  (positive or negative) by which to offset the frequency.
+                  Defaults to 0.
+                </li>
+                <li>
+                  <code>detune</code> - <em>Number</em> - The offset to add to
+                  the frequency, in cents. Defaults to 0.
+                </li>
+                <li>
+                  <code>type</code> - <em>String</em> - The oscillator waveform.
+                  One of <code>sine</code>, <code>square</code>,
+                  <code>sawtooth</code> or <code>triangle</code>. Defaults to
+                  <code>sine</code>.
+                </li>
+                <li>
+                  <code>startTime</code> - <em>Number</em> - The AudioContext
+                  time at which to start the node. Defaults to immediately.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Returns a Web Audio API
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode"
+              >OscillatorNode</a
+            >. The node has an additional AudioParam, <code>frequencyCv</code>,
+            which is scaled to make a 0-1 input signal cover the whole audible
+            frequency range.
+          </p>
+          <h4 id="p.saw([config])">
+            <a class="header-link" href="#p.saw([config])"></a>P.Saw([config])
+          </h4>
+          <h4 id="p.sin([config])">
+            <a class="header-link" href="#p.sin([config])"></a>P.Sin([config])
+          </h4>
+          <h4 id="p.sqr([config])">
+            <a class="header-link" href="#p.sqr([config])"></a>P.Sqr([config])
+          </h4>
+          <h4 id="p.tri([config])">
+            <a class="header-link" href="#p.tri([config])"></a>P.Tri([config])
+          </h4>
+          <p>Aliases for the Osc node with different waveform types.</p>
+          <h3 id="p.over([config])">
+            <a class="header-link" href="#p.over([config])"></a>P.Over([config])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Number</em> - Either the drive amount or
+              the following config object:
+              <ul class="list">
+                <li>
+                  <code>drive</code> - <em>Number</em> - Gain applied before
+                  waveshaping. Defaults to 1.
+                </li>
+                <li>
+                  <code>shape</code> - <em>Number</em> - Number from 0-1
+                  representing the how much the waveshape distorts the signal.
+                  Defaults to 0.725.
+                </li>
+                <li>
+                  <code>algo</code> - <em>Number</em> - Number from 0-5
+                  specifying which shaping algorithm to use. Default is 0.
+                </li>
+                <li>
+                  <code>makeup</code> - <em>Number</em> - Gain applied after
+                  waveshaping. Defaults to 1.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Returns a custom Overdrive node adapted from
+            <a href="https://github.com/Theodeus/tuna/wiki">Tuna.js</a>.
+          </p>
+          <h3 id="p.parallel(nodes,-[count])">
+            <a class="header-link" href="#p.parallel(nodes,-[count])"></a
+            >P.Parallel(nodes, [count])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>nodes</code> - <em>Array | Function</em> - Either an array
+              of nodes or a function which takes a 0-based index and returns a
+              node.
+            </li>
+            <li>
+              <code>count</code> - <em>Number</em> - If <code>nodes</code> is a
+              function, the number of nodes to create.
+            </li>
+          </ul>
+          <p>
+            Returns a patch with the given nodes connected in parallel, i.e.
+            with the input connected to every node input and every node output
+            connected to the output.
+          </p>
+          <h3 id="p.sample([config])">
+            <a class="header-link" href="#p.sample([config])"></a
+            >P.Sample([config])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Object | AudioBuffer</em> - Either the
+              buffer or the following config object:
+              <ul class="list">
+                <li>
+                  <code>buffer</code> - <em>AudioBuffer</em> - The
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/AudioBuffer"
+                    >AudioBuffer</a
+                  >
+                  to play.
+                </li>
+                <li>
+                  <code>detune</code> - <em>Number</em> - The factor to adjust
+                  the frequency, in cents. Defaults to 0.
+                </li>
+                <li>
+                  <code>loop</code> - <em>Boolean</em> - Whether or not to loop
+                  the sample. Defaults to false.
+                </li>
+                <li>
+                  <code>loopStart</code> - <em>Number</em> - Start of the loop
+                  in seconds. Defaults to 0.
+                </li>
+                <li>
+                  <code>loopEnd</code> - <em>Number</em> - End of the loop in
+                  seconds. Defaults to 0.
+                </li>
+                <li>
+                  <code>playbackRate</code> - <em>Number</em> - The rate at
+                  which to play the sample where 1 is its natural rate. Defaults
+                  to 1.
+                </li>
+                <li>
+                  <code>startTime</code> - <em>Number</em> - The AudioContext
+                  time at which to start the node. Defaults to immediately.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Returns a Web Audio API
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/AudioBufferSourceNode"
+              >AudioBufferSourceNode</a
+            >.
+            <del
+              >The node has an additional AudioParam,
+              <code>playbackRateCv</code>, which is scaled to make a 0-1 input
+              signal cover the whole audible frequency range</del
+            >.
+          </p>
+          <h3 id="p.shaper([config])">
+            <a class="header-link" href="#p.shaper([config])"></a
+            >P.Shaper([config])
+          </h3>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Object | Float32Array</em> - Either the
+              curve or the following config object:
+              <ul class="list">
+                <li>
+                  <code>curve</code> - <em>Float32Array</em> - The shaping
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode/curve"
+                    >curve</a
+                  >.
+                </li>
+                <li>
+                  <code>oversample</code> - <em>String</em> - The
+                  <a
+                    href="https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode/oversample"
+                    >oversample</a
+                  >
+                  setting. One of <code>none</code>, <code>2x</code> or
+                  <code>4x</code>.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Returns a Web Audio API
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/API/WaveShaperNode"
+              >WaveShaperNode</a
+            >.
+          </p>
+          <h3 id="p.synth(voice)">
+            <a class="header-link" href="#p.synth(voice)"></a>P.Synth(Voice)
+          </h3>
+          <ul class="list">
+            <li>
+              <code>Voice</code> - <em>Function</em> - A factory function which
+              will construct the synth voice. Should take one parameter, the
+              object passed to <code>synth.play</code> with an additional
+              <code>frequency</code> property giving the frequency of the played
+              note in standard equal temperament tuning.
+            </li>
+          </ul>
+          <p>
+            Returns a node which can create new voices with the passed-in
+            factory function and connect them to its output. In addition to the
+            standard node methods it implements the <code>play</code> and
+            <code>sequence</code> method.
+          </p>
+          <h4 id="synth.play(options)">
+            <a class="header-link" href="#synth.play(options)"></a
+            >synth.play(options)
+          </h4>
+          <ul class="list">
+            <li>
+              <code>options</code> - <em>Object</em>
+              <ul class="list">
+                <li>
+                  <code>nn</code> - <em>Number</em> - The MIDI note number to
+                  play. Defaults to 69 (middle A).
+                </li>
+                <li>
+                  <code>time</code> or <code>t</code> - <em>Number</em> - The
+                  AudioContext time at which to play the note. Defaults to
+                  immediately.
+                </li>
+                <li>
+                  <code>dur</code> - <em>Number</em> - The length of time in
+                  seconds to play the note for. If falsey, note will not be
+                  released. Defaults to 0.2.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            Calls the voice function with the passed in MIDI note number
+            converted to a frequency. Returns the new voice node.
+          </p>
+          <h4 id="synth.sequence(events,-[options])">
+            <a class="header-link" href="#synth.sequence(events,-[options])"></a
+            >synth.sequence(events, [options])
+          </h4>
+          <ul class="list">
+            <li>
+              <code>events</code> - <em>Array</em> - An array of sequencer event
+              objects.
+            </li>
+            <li>
+              <code>options</code> - <em>Object</em>
+              <ul class="list">
+                <li>
+                  <code>loopLength</code> - <em>Number</em> - The time at which
+                  to loop the sequence, in Whole Notes.
+                </li>
+                <li>
+                  <code>tempo</code> - <em>Number</em> - The tempo in bpm.
+                  Defaults to 120.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <p>
+            This is a simple wrapper around the functionality of
+            <a href="https://github.com/debrisapron/um-sequencer"
+              >um-sequencer</a
+            >. Each sequencer event object can contain the same keys as the
+            <code>synth.play</code> options object, but here the
+            <code>time</code> attribute is the <em>musical</em> time in Whole
+            Notes from the start of the sequence. If looping is required, the
+            loopLength option must be set.
+          </p>
+          <p>
+            Returns a sequencer object with <code>stop</code> and
+            <code>changeTempo(tempo)</code> methods (see the um-sequencer docs
+            for more information).
+          </p>
+          <h3 id="audio-node-extension-api">
+            <a class="header-link" href="#audio-node-extension-api"></a>Audio
+            Node Extension API
+          </h3>
+          <p>
+            On top of the standard Web Audio API
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioNode"
+              >AudioNode</a
+            >
+            interface, Partch makes some enhancements. Firstly, it patches
+            <code>connect</code> and <code>disconnect</code> so that they can
+            handle nodes which have an <code>input</code> property. Secondly, it
+            adds the following members:
+          </p>
+          <h4 id="node.input">
+            <a class="header-link" href="#node.input"></a>node.input
+          </h4>
+          <p>
+            On a native Web Audio API this is just an alias for the node itself.
+            On a patch node this is an alias for <code>patch.nodes.in</code>.
+            When connecting from a native Web Audio API node to a patch, this
+            should be the connection destination.
+          </p>
+          <h4 id="node.monitor()">
+            <a class="header-link" href="#node.monitor()"></a>node.monitor()
+          </h4>
+          <p>
+            Connects the patch to the <code>context.destination</code>. Returns
+            the node.
+          </p>
+          <h4 id="node.set(config)">
+            <a class="header-link" href="#node.set(config)"></a>node.set(config)
+          </h4>
+          <ul class="list">
+            <li>
+              <code>config</code> - <em>Object | Any</em> - A config object or
+              value used to update the node parameters.
+            </li>
+          </ul>
+          <p>
+            This method takes the same config object or value as the factory
+            method for the node. On a patch node it should be an object whose
+            keys correspond with the nodes in the patch, and whose values are
+            objects or values to be passed on to the set function on those
+            nodes. As a result it is possible to recursively set the params of a
+            whole &quot;tree&quot; of nested patches by simply passing in a
+            nested object. Returns the node.
+          </p>
+          <h4 id="node.test([dur],-[type])">
+            <a class="header-link" href="#node.test([dur],-[type])"></a
+            >node.test([dur], [type])
+          </h4>
+          <ul class="list">
+            <li>
+              <code>dur</code> - <em>Number</em> - The duration of the test in
+              seconds. Defaults to 0.2.
+            </li>
+            <li>
+              <code>type</code> - <em>String | Number</em> - The type of test
+              sound to use or the note to play. If the former, one of
+              <code>bleep</code> or <code>noise</code>. Defaults to
+              <code>bleep</code>.
+            </li>
+          </ul>
+          <p>
+            This is a function for quickly testing a node. Firstly it monitors
+            the node. Then, for nodes without an input, it will simply stop it
+            after the given duration. For nodes with a <code>play</code> method
+            it will play for the given duration, with the type param specifying
+            the note. For nodes with an input, it will create a sound source of
+            the type indicated, stop the source after the given duration, and
+            stop the node 10 seconds after.
+          </p>
+          <h4 id="node.triggerattack([time])">
+            <a class="header-link" href="#node.triggerattack([time])"></a
+            >node.triggerAttack([time])
+          </h4>
+          <ul class="list">
+            <li>
+              <code>time</code> - <em>Number</em> - The AudioContext time at
+              which to trigger attack. Defaults to immediately.
+            </li>
+          </ul>
+          <p>
+            If the node is an envelope, or a patch containing an envelope,
+            triggers the attack portion of the envelope(s) at <code>time</code>.
+            Returns the node.
+          </p>
+          <h4 id="node.triggerrelease([time])">
+            <a class="header-link" href="#node.triggerrelease([time])"></a
+            >node.triggerRelease([time])
+          </h4>
+          <ul class="list">
+            <li>
+              <code>time</code> - <em>Number</em> - The AudioContext time at
+              which to trigger release. Defaults to immediately.
+            </li>
+          </ul>
+          <p>
+            If the node is an envelope, or a patch containing an envelope,
+            triggers the release portion of the envelope(s) at
+            <code>time</code> and then stops the node. Returns the node.
+          </p>
+          <h2 id="cookbook">
+            <a class="header-link" href="#cookbook"></a>Cookbook
+          </h2>
+          <p>
+            The philosophy of Partch is to give you a small number of
+            fundamental building blocks while making it as easy as possible to
+            build your own high-level abstractions from those blocks. In that
+            spirit, components such as phasers, chorus effects, analogue-style
+            delays, autopanners and so on are not included. Instead, here are
+            some example patches for you to copy and paste, in the hope that you
+            will modify them to your own taste, creating effects and instruments
+            that are entirely unique to you.
+          </p>
+          <h3 id="simple-delay">
+            <a class="header-link" href="#simple-delay"></a>Simple delay
+          </h3>
+          <pre class="hljs"><code>P({
   <span class="hljs-attr">dry</span>: P.Gain(<span class="hljs-number">1</span>),
   <span class="hljs-attr">wet</span>: P.Gain(<span class="hljs-number">0.5</span>),
   <span class="hljs-attr">delay</span>: P.Delay(<span class="hljs-number">0.5</span>),
@@ -351,8 +1027,11 @@
   <span class="hljs-string">'in &gt; dry &gt; out'</span>,
   <span class="hljs-string">'in &gt; delay &gt; wet &gt; out'</span>,
   <span class="hljs-string">'delay &gt; feedback &gt; delay'</span>
-).test()</code></pre><h3 id="tape-style-delay"><a class="header-link" href="#tape-style-delay"></a>Tape-style delay</h3>
-<pre class="hljs"><code>P({
+).test()</code></pre>
+          <h3 id="tape-style-delay">
+            <a class="header-link" href="#tape-style-delay"></a>Tape-style delay
+          </h3>
+          <pre class="hljs"><code>P({
   <span class="hljs-attr">dry</span>: P.Gain(<span class="hljs-number">1</span>),
   <span class="hljs-attr">wet</span>: P.Gain(<span class="hljs-number">0.5</span>),
   <span class="hljs-attr">delay</span>: P.Delay(<span class="hljs-number">0.5</span>),
@@ -370,8 +1049,11 @@
   <span class="hljs-string">'delay &gt; feedback &gt; od'</span>,
   <span class="hljs-string">'wow &gt; wowLevel &gt; delay.delayTime'</span>,
   <span class="hljs-string">'flutter &gt; flutterLevel &gt; delay.delayTime'</span>
-).test()</code></pre><h3 id="flanger"><a class="header-link" href="#flanger"></a>Flanger</h3>
-<pre class="hljs"><code>P({
+).test()</code></pre>
+          <h3 id="flanger">
+            <a class="header-link" href="#flanger"></a>Flanger
+          </h3>
+          <pre class="hljs"><code>P({
   <span class="hljs-attr">dry</span>: P.Gain(<span class="hljs-number">1</span>),
   <span class="hljs-attr">wet</span>: P.Gain(<span class="hljs-number">1</span>),
   <span class="hljs-attr">dryDelay</span>: P.Delay(<span class="hljs-number">0.02</span>),
@@ -384,8 +1066,14 @@
   <span class="hljs-string">'in &gt; wetDelay &gt; wet &gt; out'</span>,
   <span class="hljs-string">'wetDelay &gt; feedback &gt; wetDelay'</span>,
   <span class="hljs-string">'lfo &gt; depth &gt; wetDelay.delayTime'</span>
-).test(<span class="hljs-number">5</span>, <span class="hljs-string">'noise'</span>)</code></pre><h3 id="classic-three-osc-synth"><a class="header-link" href="#classic-three-osc-synth"></a>Classic three-osc synth</h3>
-<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">{ frequency: f }</span>) =&gt;</span> P({
+).test(<span class="hljs-number">5</span>, <span class="hljs-string">'noise'</span>)</code></pre>
+          <h3 id="classic-three-osc-synth">
+            <a class="header-link" href="#classic-three-osc-synth"></a>Classic
+            three-osc synth
+          </h3>
+          <pre
+            class="hljs"
+          ><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">{ frequency: f }</span>) =&gt;</span> P({
   <span class="hljs-attr">osc1</span>: P.Saw(f),
   <span class="hljs-attr">osc2</span>: P.Saw(f * <span class="hljs-number">1.01</span>),
   <span class="hljs-attr">osc3</span>: P.Sqr(f / <span class="hljs-number">2</span>),
@@ -402,62 +1090,79 @@
   <span class="hljs-string">'filter &gt; filterFb &gt; filter'</span>,
   <span class="hljs-string">'filterEnv &gt; filter.frequencyCv'</span>,
   <span class="hljs-string">'ampEnv &gt; amp.gainCv'</span>
-)).test(<span class="hljs-number">1</span>, <span class="hljs-number">45</span>)</code></pre><h3 id="organ"><a class="header-link" href="#organ"></a>Organ</h3>
-<pre class="hljs"><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">f</span>) =&gt;</span> P({
+)).test(<span class="hljs-number">1</span>, <span class="hljs-number">45</span>)</code></pre>
+          <h3 id="organ"><a class="header-link" href="#organ"></a>Organ</h3>
+          <pre
+            class="hljs"
+          ><code>P.Synth(<span class="hljs-function">(<span class="hljs-params">f</span>) =&gt;</span> P({
   <span class="hljs-attr">partials</span>: [P.Sin(f), P.Sin(f * <span class="hljs-number">2</span>), P.Sin(f * <span class="hljs-number">3</span>)],
 },
   <span class="hljs-string">'partials &gt; out'</span>
-)).test(<span class="hljs-number">1</span>, <span class="hljs-number">45</span>)</code></pre>      </div>
+)).test(<span class="hljs-number">1</span>, <span class="hljs-number">45</span>)</code></pre>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <a href="https://github.com/debrisapron/partch"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+    <a href="https://github.com/debrisapron/partch"
+      ><img
+        style="position: absolute; top: 0; right: 0; border: 0"
+        src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"
+        alt="Fork me on GitHub"
+    /></a>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/mode/javascript/javascript.min.js"></script>
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-    crossorigin="anonymous"></script>
-  <script src="dist/partch.js"></script>
-  <script>
-    (function () {
-      let P = Partch()
-      let _uniqueId = 0
-      let AsyncFunction = Object.getPrototypeOf(async function(){}).constructor
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.35.0/mode/javascript/javascript.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+      crossorigin="anonymous"
+    ></script>
+    <script src="dist/partch.js"></script>
+    <script>
+      ;(function () {
+        let P = Partch()
+        let _uniqueId = 0
+        let AsyncFunction = Object.getPrototypeOf(
+          async function () {}
+        ).constructor
 
-      document.querySelectorAll('pre code').forEach((codeEl) => {
-        // Don't make the setup block interactive!
-        if (codeEl.textContent.includes('Partch()')) { return }
-        let cm = createCodeMirror(codeEl)
-        insertButtonsIntoCodeMirror(cm)
-      })
-
-      function createCodeMirror(codeEl) {
-        return CodeMirror((cmEl) => {
-          codeEl.parentNode.replaceChild(cmEl, codeEl)
-        }, {
-          value: codeEl.textContent.trim(),
-          mode: 'javascript',
-          lineNumbers: true,
-          viewportMargin: Infinity
-        })
-      }
-
-      function insertButtonsIntoCodeMirror(cm) {
-        let id = `cm-ctrl-${_uniqueId++}`
-        $(`<div id="${id}" class="cm-ctrl"><button>▶</button><button>■</button></div>`)
-          .insertBefore($(cm.display.wrapper).find('.CodeMirror-scroll'))
-        $(`#${id}`).click((e) => {
-          if (e.target.textContent === '▶') {
-            new AsyncFunction('P', `'use strict';${cm.getValue()}`)(P)
+        document.querySelectorAll("pre code").forEach((codeEl) => {
+          // Don't make the setup block interactive!
+          if (codeEl.textContent.includes("Partch()")) {
+            return
           }
-          else {
-            P.panic()
-          }
+          let cm = createCodeMirror(codeEl)
+          insertButtonsIntoCodeMirror(cm)
         })
-      }
-    })()
-  </script>
-</body>
+
+        function createCodeMirror(codeEl) {
+          return CodeMirror(
+            (cmEl) => {
+              codeEl.parentNode.replaceChild(cmEl, codeEl)
+            },
+            {
+              value: codeEl.textContent.trim(),
+              mode: "javascript",
+              lineNumbers: true,
+              viewportMargin: Infinity,
+            }
+          )
+        }
+
+        function insertButtonsIntoCodeMirror(cm) {
+          let id = `cm-ctrl-${_uniqueId++}`
+          $(
+            `<div id="${id}" class="cm-ctrl"><button>▶</button><button>■</button></div>`
+          ).insertBefore($(cm.display.wrapper).find(".CodeMirror-scroll"))
+          $(`#${id}`).click((e) => {
+            if (e.target.textContent === "▶") {
+              new AsyncFunction("P", `'use strict';${cm.getValue()}`)(P)
+            } else {
+              P.panic()
+            }
+          })
+        }
+      })()
+    </script>
+  </body>
 </html>

@@ -19,25 +19,33 @@ let P = Partch()
 then
 
 ```js
-P.Synth(({ frequency }) => P({
-  saw: P.Saw(frequency),
-  sqr: P.Sqr({ frequency, octave: -2, detune: 10 }),
-  vcf: P.Lpf(20),
-  vca: P.Gain(0),
-  env: P.Adsr({ a: 0.01, d: 0.1, s: 0.6, r: 1 })
-},
-  'saw > vcf > vca > out',
-  'sqr > vcf',
-  'env > vcf.frequencyCv',
-  'env > vca.gainCv'
-)).monitor().sequence([
-  { t: 0/8, nn: 69 },
-  { t: 1/8, nn: 72 },
-  { t: 2/8, nn: 76 },
-  { t: 3/8, nn: 81 },
-  { t: 4/8, nn: 76 },
-  { t: 5/8, nn: 72 }
-], { loopLength: 6/8, tempo: 190 })
+P.Synth(({ frequency }) =>
+  P(
+    {
+      saw: P.Saw(frequency),
+      sqr: P.Sqr({ frequency, octave: -2, detune: 10 }),
+      vcf: P.Lpf(20),
+      vca: P.Gain(0),
+      env: P.Adsr({ a: 0.01, d: 0.1, s: 0.6, r: 1 }),
+    },
+    "saw > vcf > vca > out",
+    "sqr > vcf",
+    "env > vcf.frequencyCv",
+    "env > vca.gainCv"
+  )
+)
+  .monitor()
+  .sequence(
+    [
+      { t: 0 / 8, nn: 69 },
+      { t: 1 / 8, nn: 72 },
+      { t: 2 / 8, nn: 76 },
+      { t: 3 / 8, nn: 81 },
+      { t: 4 / 8, nn: 76 },
+      { t: 5 / 8, nn: 72 },
+    ],
+    { loopLength: 6 / 8, tempo: 190 }
+  )
 ```
 
 ## Introduction
@@ -75,7 +83,7 @@ Returns a patch node which implements the standard Audio Node Extension API plus
 
 #### Connection Strings
 
-Connection strings take the form of a list of nodes separated by a `>` character. Each node may be either a node name specified in the `nodes` object, or a dot-separated node path, e.g. `synth.filter.frequencyCv`. When using a node path, any onward connections after the node will be from the __top-level__ node, i.e. the node whose name comes first in the path.
+Connection strings take the form of a list of nodes separated by a `>` character. Each node may be either a node name specified in the `nodes` object, or a dot-separated node path, e.g. `synth.filter.frequencyCv`. When using a node path, any onward connections after the node will be from the **top-level** node, i.e. the node whose name comes first in the path.
 
 ### P.Adsr([config])
 
@@ -119,12 +127,19 @@ Returns a Web Audio API [DelayNode](https://developer.mozilla.org/en-US/docs/Web
 Returns a Web Audio API [BiquadFilterNode](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode). The node has an additional AudioParam, `frequencyCv`, which is scaled to make a 0-1 input signal cover the whole audible frequency range.
 
 #### P.Apf([config])
+
 #### P.Bpf([config])
+
 #### P.HighShelf([config])
+
 #### P.Hpf([config])
+
 #### P.LowShelf([config])
+
 #### P.Lpf([config])
+
 #### P.Notch([config])
+
 #### P.Peak([config])
 
 Aliases for the Filter node with different filter types.
@@ -162,7 +177,9 @@ A helper function to load an audio buffer from a URL. Returns a promise which wi
 Returns a Sample node that plays the specified type of noise.
 
 #### P.BrownNoise()
+
 #### P.PinkNoise()
+
 #### P.WhiteNoise()
 
 Aliases for the Noise node with different color settings.
@@ -180,8 +197,11 @@ Aliases for the Noise node with different color settings.
 Returns a Web Audio API [OscillatorNode](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode). The node has an additional AudioParam, `frequencyCv`, which is scaled to make a 0-1 input signal cover the whole audible frequency range.
 
 #### P.Saw([config])
+
 #### P.Sin([config])
+
 #### P.Sqr([config])
+
 #### P.Tri([config])
 
 Aliases for the Osc node with different waveform types.
@@ -231,6 +251,7 @@ Returns a Web Audio API [WaveShaperNode](https://developer.mozilla.org/en-US/doc
 Returns a node which can create new voices with the passed-in factory function and connect them to its output. In addition to the standard node methods it implements the `play` and `sequence` method.
 
 #### synth.play(options)
+
 - `options` - _Object_
   - `nn` - _Number_ - The MIDI note number to play. Defaults to 69 (middle A).
   - `time` or `t` - _Number_ - The AudioContext time at which to play the note. Defaults to immediately.
@@ -293,90 +314,99 @@ The philosophy of Partch is to give you a small number of fundamental building b
 ### Simple delay
 
 ```js
-P({
-  dry: P.Gain(1),
-  wet: P.Gain(0.5),
-  delay: P.Delay(0.5),
-  feedback: P.Gain(0.5)
-},
-  'in > dry > out',
-  'in > delay > wet > out',
-  'delay > feedback > delay'
+P(
+  {
+    dry: P.Gain(1),
+    wet: P.Gain(0.5),
+    delay: P.Delay(0.5),
+    feedback: P.Gain(0.5),
+  },
+  "in > dry > out",
+  "in > delay > wet > out",
+  "delay > feedback > delay"
 ).test()
 ```
 
 ### Tape-style delay
 
 ```js
-P({
-  dry: P.Gain(1),
-  wet: P.Gain(0.5),
-  delay: P.Delay(0.5),
-  feedback: P.Gain(0.4),
-  od: P.Over({ drive: 0.5, shape: 0.7, makeup: 0.7 }),
-  highCut: P.Lpf(6000),
-  lowCut: P.Hpf(60),
-  wow: P.Sin(0.1),
-  wowLevel: P.Gain(0.005),
-  flutter: P.Sin(5.3),
-  flutterLevel: P.Gain(0.00015)
-},
-  'in > dry > out',
-  'in > od > highCut > lowCut > delay > wet > out',
-  'delay > feedback > od',
-  'wow > wowLevel > delay.delayTime',
-  'flutter > flutterLevel > delay.delayTime'
+P(
+  {
+    dry: P.Gain(1),
+    wet: P.Gain(0.5),
+    delay: P.Delay(0.5),
+    feedback: P.Gain(0.4),
+    od: P.Over({ drive: 0.5, shape: 0.7, makeup: 0.7 }),
+    highCut: P.Lpf(6000),
+    lowCut: P.Hpf(60),
+    wow: P.Sin(0.1),
+    wowLevel: P.Gain(0.005),
+    flutter: P.Sin(5.3),
+    flutterLevel: P.Gain(0.00015),
+  },
+  "in > dry > out",
+  "in > od > highCut > lowCut > delay > wet > out",
+  "delay > feedback > od",
+  "wow > wowLevel > delay.delayTime",
+  "flutter > flutterLevel > delay.delayTime"
 ).test()
 ```
 
 ### Flanger
 
 ```js
-P({
-  dry: P.Gain(1),
-  wet: P.Gain(1),
-  dryDelay: P.Delay(0.02),
-  wetDelay: P.Delay(0.02),
-  depth: P.Gain(0.02),
-  feedback: P.Gain(-0.5),
-  lfo: P.Sin(0.1)
-},
-  'in > dryDelay > dry > out',
-  'in > wetDelay > wet > out',
-  'wetDelay > feedback > wetDelay',
-  'lfo > depth > wetDelay.delayTime'
-).test(5, 'noise')
+P(
+  {
+    dry: P.Gain(1),
+    wet: P.Gain(1),
+    dryDelay: P.Delay(0.02),
+    wetDelay: P.Delay(0.02),
+    depth: P.Gain(0.02),
+    feedback: P.Gain(-0.5),
+    lfo: P.Sin(0.1),
+  },
+  "in > dryDelay > dry > out",
+  "in > wetDelay > wet > out",
+  "wetDelay > feedback > wetDelay",
+  "lfo > depth > wetDelay.delayTime"
+).test(5, "noise")
 ```
 
 ### Classic three-osc synth
 
 ```js
-P.Synth(({ frequency: f }) => P({
-  osc1: P.Saw(f),
-  osc2: P.Saw(f * 1.01),
-  osc3: P.Sqr(f / 2),
-  filter: P.Lpf(40),
-  filterFb: P.Gain(0.3),
-  filterEnv: P.Adsr({ a: 0.1, d: 0.2, s: 0.6, r: 1, level: 0.7 }),
-  amp: P.Gain(0),
-  ampEnv: P.Adsr({ a: 0.01, r: 1.5 })
-},
-  'osc1 > filter',
-  'osc2 > filter',
-  'osc3 > filter',
-  'filter > amp > out',
-  'filter > filterFb > filter',
-  'filterEnv > filter.frequencyCv',
-  'ampEnv > amp.gainCv'
-)).test(1, 45)
+P.Synth(({ frequency: f }) =>
+  P(
+    {
+      osc1: P.Saw(f),
+      osc2: P.Saw(f * 1.01),
+      osc3: P.Sqr(f / 2),
+      filter: P.Lpf(40),
+      filterFb: P.Gain(0.3),
+      filterEnv: P.Adsr({ a: 0.1, d: 0.2, s: 0.6, r: 1, level: 0.7 }),
+      amp: P.Gain(0),
+      ampEnv: P.Adsr({ a: 0.01, r: 1.5 }),
+    },
+    "osc1 > filter",
+    "osc2 > filter",
+    "osc3 > filter",
+    "filter > amp > out",
+    "filter > filterFb > filter",
+    "filterEnv > filter.frequencyCv",
+    "ampEnv > amp.gainCv"
+  )
+).test(1, 45)
 ```
 
 ### Organ
 
 ```js
-P.Synth((f) => P({
-  partials: [P.Sin(f), P.Sin(f * 2), P.Sin(f * 3)],
-},
-  'partials > out'
-)).test(1, 45)
+P.Synth((f) =>
+  P(
+    {
+      partials: [P.Sin(f), P.Sin(f * 2), P.Sin(f * 3)],
+    },
+    "partials > out"
+  )
+).test(1, 45)
 ```
