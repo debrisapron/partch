@@ -29,7 +29,7 @@ function getBuggedWebAudioApi() {
 beforeAll(async () => {
   const buggedWebAudioApi = getBuggedWebAudioApi()
   Object.assign(globalThis, buggedWebAudioApi, { describe, expect, test })
-  const { partch } = await import("../src/index.js")
+  const { partch } = await import("../../src/index.js")
   const P = partch()
   globalThis.P = P
 })

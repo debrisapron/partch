@@ -20,7 +20,22 @@ function createOctave(node) {
   return constNode
 }
 
-function defineOctave(node) {
+function createFrequencyCv(node) {
+  const constNode = createConst(node.context, 0)
+  const gainNode = createGain(node.context, AUDIBLE_RANGE_IN_CENTS)
+  constNode.connect(gainNode).connect(node.detune)
+  constNode.start()
+  return constNode.offset
+}
+
+function customize(node) {
+  let audioParam
+  Object.defineProperty(node, "frequencyCv", {
+    get() {
+      return (audioParam ??= createFrequencyCv(node))
+    },
+  })
+
   let octaveNode
   let octave = 0
   Object.defineProperty(node, "octave", {
@@ -30,25 +45,7 @@ function defineOctave(node) {
     set(value) {
       octaveNode ??= createOctave(node)
       octave = value
-      octaveNode.offset = octave * 1200
-    },
-  })
-  return node
-}
-
-function createFrequencyCv(node) {
-  const constNode = createConst(node.context, 0)
-  const gainNode = createGain(node.context, AUDIBLE_RANGE_IN_CENTS)
-  constNode.connect(gainNode).connect(node.detune)
-  constNode.start()
-  return constNode.offset
-}
-
-function defineFrequencyCv(node) {
-  let audioParam
-  Object.defineProperty(node, "frequencyCv", {
-    get() {
-      return (audioParam ??= createFrequencyCv(node))
+      octaveNode.offset.value = octave * 1200
     },
   })
   return node
@@ -61,10 +58,7 @@ export function createOsc(context, config, oscType) {
 
   return createCoreNode(
     CREATION_OPTIONS,
-    () =>
-      defineOctave(
-        defineFrequencyCv(new OscillatorNode(context, { type: oscType }))
-      ),
+    () => customize(new OscillatorNode(context, { type: oscType })),
     config
   )
 }

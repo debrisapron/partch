@@ -1,2 +1,2 @@
 [test]
-preload = ["./test/_serverSetup.js"]
+preload = ["./test/support/serverSetup.js"]
