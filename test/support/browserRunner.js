@@ -1,4 +1,15 @@
 import { partch } from "../../src/index.js"
+import { getBuggedWaaConstructors } from "./getBuggedWaaConstructors.js"
+
+const BUGS = {
+  AudioBufferSourceNode,
+  BiquadFilterNode,
+  ConstantSourceNode,
+  DelayNode,
+  GainNode,
+  OscillatorNode,
+  WaveShaperNode,
+}
 
 function _expect(thing) {
   return {
@@ -13,7 +24,8 @@ function _expect(thing) {
 
 async function main() {
   mocha.setup("bdd")
-  Object.assign(globalThis, {
+  const buggedConstructors = getBuggedWaaConstructors(BUGS)
+  Object.assign(globalThis, buggedConstructors, {
     P: partch(),
     expect: _expect,
     test: it,

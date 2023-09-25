@@ -1,5 +1,5 @@
 import * as utils from "../utils.js"
-import { createCoreNode, addAlias } from "./_shared.js"
+import { createCoreNode } from "./_shared.js"
 
 // A child may be a node itself (in __nodes) or an AudioParam
 function resolveChild(node, path) {
@@ -17,11 +17,25 @@ function resolveChild(node, path) {
   return resolveChild(child, restOfPath)
 }
 
+function addNamedInput(node, name, dest) {
+  if (name.includes(".")) {
+    throw new Error(`Invalid input name "${name}"`)
+  }
+  Object.defineProperty(node, name, {
+    value: resolveChild(node, dest),
+    writable: false,
+  })
+}
+
 // NOTE This must be run **before** monkeypatching connect!
 // TODO Too complicated, figure out a way to make it clearer
 function wireSrcToDest(node, src, dest) {
-  const srcArr = src.split(".")
-  const srcIsInput = srcArr[0] === "in"
+  if (src.startsWith("in.")) {
+    addNamedInput(node, src.slice(3), dest)
+    return
+  }
+
+  const srcIsInput = src === "in"
   const destIsOutput = dest === "out"
   if (srcIsInput && destIsOutput) {
     throw new Error("Cannot connect patch input directly to patch output")
@@ -30,11 +44,6 @@ function wireSrcToDest(node, src, dest) {
   const srcNode = srcIsInput ? node : resolveChild(node, src)
   if (destIsOutput) {
     return srcNode
-  }
-
-  if (srcIsInput && srcArr.length > 1) {
-    addAlias(node, srcArr.slice(1).join("."), node.__nodes, dest)
-    return
   }
 
   const destNode = resolveChild(node, dest)

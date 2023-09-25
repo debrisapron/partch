@@ -7,11 +7,6 @@ const AUDIBLE_RANGE_IN_CENTS = 12000
 
 const CREATION_OPTIONS = {
   defaultParam: "frequency",
-  // defaults: { type: "lowpass", frequency: 350 },
-  aliases: {
-    freq: "frequency",
-    freqCv: "frequencyCv",
-  },
 }
 
 function createFrequencyCv(node) {
@@ -22,13 +17,23 @@ function createFrequencyCv(node) {
   return constNode.offset
 }
 
-function defineFrequencyCv(node) {
-  let audioParam
-  Object.defineProperty(node, "frequencyCv", {
-    get() {
-      return (audioParam ??= createFrequencyCv(node))
+function customize(node) {
+  let frequencyCvAudioParam
+
+  const frequencyCvGetter = function () {
+    return (frequencyCvAudioParam ??= createFrequencyCv(node))
+  }
+
+  Object.defineProperties(node, {
+    freq: {
+      get() {
+        return this.frequency
+      },
     },
+    frequencyCv: { get: frequencyCvGetter },
+    freqCv: { get: frequencyCvGetter },
   })
+
   return node
 }
 
@@ -39,8 +44,7 @@ export function createFilter(context, config, filterType) {
 
   return createCoreNode(
     CREATION_OPTIONS,
-    () =>
-      defineFrequencyCv(new BiquadFilterNode(context, { type: filterType })),
+    () => customize(new BiquadFilterNode(context, { type: filterType })),
     config
   )
 }

@@ -7,11 +7,6 @@ const AUDIBLE_RANGE_IN_CENTS = 12000
 
 const CREATION_OPTIONS = {
   defaultParam: "frequency",
-  // defaults: { frequency: 440 },
-  aliases: {
-    freq: "frequency",
-    freqCv: "frequencyCv",
-  },
 }
 
 function createOctave(node) {
@@ -29,25 +24,34 @@ function createFrequencyCv(node) {
 }
 
 function customize(node) {
-  let audioParam
-  Object.defineProperty(node, "frequencyCv", {
-    get() {
-      return (audioParam ??= createFrequencyCv(node))
+  let frequencyCvAudioParam
+  let octaveNode
+  let octave = 0
+
+  const frequencyCvGetter = function () {
+    return (frequencyCvAudioParam ??= createFrequencyCv(node))
+  }
+
+  Object.defineProperties(node, {
+    freq: {
+      get() {
+        return this.frequency
+      },
+    },
+    frequencyCv: { get: frequencyCvGetter },
+    freqCv: { get: frequencyCvGetter },
+    octave: {
+      get() {
+        return octave
+      },
+      set(value) {
+        octaveNode ??= createOctave(node)
+        octave = value
+        octaveNode.offset.value = octave * 1200
+      },
     },
   })
 
-  let octaveNode
-  let octave = 0
-  Object.defineProperty(node, "octave", {
-    get() {
-      return octave
-    },
-    set(value) {
-      octaveNode ??= createOctave(node)
-      octave = value
-      octaveNode.offset.value = octave * 1200
-    },
-  })
   return node
 }
 
