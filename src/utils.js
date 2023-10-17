@@ -3,6 +3,10 @@
 //   Object.defineProperty(obj, prop, { value, writable: false })
 // }
 
+export function isNumeric(thing) {
+  return !isNaN(parseFloat(thing))
+}
+
 export function isPlainObject(thing) {
   return typeof thing === "object" && thing.constructor === Object
 }
@@ -56,4 +60,16 @@ export function withoutKey(thing, key) {
       r[k] = v
     })
   return r
+}
+
+export function assignDeep(target, source) {
+  Object.entries(source).forEach(([k, v]) => {
+    const t = target[k]
+    if (isPlainObject(t) && isPlainObject(v)) {
+      assignDeep(t, v)
+    } else if (v !== undefined) {
+      target[k] = v
+    }
+  })
+  return target
 }

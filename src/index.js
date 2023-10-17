@@ -1,16 +1,40 @@
-import * as coreNodes from "./coreNodes/index.js"
+import { assignDeep } from "./utils.js"
+import * as webAudioNodes from "./webAudioNodes/index.js"
+import { Patch } from "./Patch.js"
+import { Auto } from "./Auto.js"
+import { Block } from "./Block.js"
+import { Note } from "./Note.js"
+import { Seq } from "./Seq.js"
 
-export function partch({ context = new AudioContext() } = {}) {
-  const withContext = (fn) => (config) => fn(context, config)
+function getDefaults(options) {
+  const defaults = assignDeep(
+    {
+      timebase: {
+        bpm: 120,
+        sig: [4, 4],
+        grid: 16,
+      },
+      // TODO default octave, tuning
+    },
+    options
+  )
+  defaults.context ??= new AudioContext()
+  return defaults
+}
 
-  const P = withContext(coreNodes.createPatch)
-  P.context = context
-  Object.entries(coreNodes).map(([name, fn]) => {
-    // Remove "create" from start of name
-    P[name.slice(6)] = withContext(fn)
-  })
+export function partch(options = {}) {
+  const defaults = getDefaults(options)
 
-  // _Patch.panic = stopAllNodes
-  // _Patch.load = (url) => loadAudioFile(ctx, url)
+  const withDefaults = (fn) => (config) => fn(defaults, config)
+
+  const P = withDefaults(Patch)
+  P.defaults = defaults
+  P.context = defaults.context
+  Object.entries({ ...webAudioNodes, Auto, Block, Note, Seq }).map(
+    ([name, fn]) => {
+      P[name] = withDefaults(fn)
+    }
+  )
+
   return P
 }

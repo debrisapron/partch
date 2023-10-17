@@ -31,7 +31,7 @@ async function main() {
     test: it,
   })
 
-  const testPromises = "const delay filters gain oscs patch sample shaper"
+  const testPromises = "auto const delay filters gain oscs patch sample shaper"
     .split(" ")
     .map((t) => import(`../${t}.test.js`))
   await Promise.all(testPromises)

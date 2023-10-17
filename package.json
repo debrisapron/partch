@@ -18,10 +18,14 @@
     "marked": "^0.3.17",
     "node-web-audio-api": "^0.11.0",
     "prettier": "^3.0.3",
-    "showdown": "^1.8.6"
+    "showdown": "^1.8.6",
+    "terminal-image": "^2.0.0",
+    "waveform-data": "^4.3.0",
+    "wavesurfer": "^1.3.4"
   },
   "scripts": {
-    "build-docs": "rm -f index.html && rm -rf assets && generate-md --layout docs-layout --input README.md --output tmp && mv tmp/* . && mv README.html index.html && rm -r tmp"
+    "build-docs": "rm -f index.html && rm -rf assets && generate-md --layout docs-layout --input README.md --output tmp && mv tmp/* . && mv README.html index.html && rm -r tmp",
+    "demo": "bun --watch demo.js"
   },
   "dependencies": {
     "audio-loader": "^1.0.3",

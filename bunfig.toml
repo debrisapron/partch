@@ -1,2 +1,2 @@
 [test]
-preload = ["./test/support/serverSetup.js"]
+preload = ["./test/support/nativeSetup.js"]
