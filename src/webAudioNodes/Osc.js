@@ -1,5 +1,5 @@
 import * as utils from "../utils"
-import { setNodeParams, defineAudioParam } from "../helpers"
+import { setNodeProps, defineAudioParam } from "../helpers"
 import { Const } from "./Const.js"
 import { Gain } from "./Gain.js"
 
@@ -58,8 +58,6 @@ export function Osc(defaults, config, oscType) {
   const node = customize(
     new OscillatorNode(defaults.context, { type: oscType })
   )
-  node.__defaults = defaults
-  node.__config = config
-  setNodeParams(node, params)
+  setNodeProps(defaults, node, params)
   return node
 }

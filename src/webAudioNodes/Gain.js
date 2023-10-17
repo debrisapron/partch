@@ -1,5 +1,5 @@
 import * as utils from "../utils"
-import { setNodeParams, defineAudioParam } from "../helpers"
+import { setNodeProps, defineAudioParam } from "../helpers"
 import { Const } from "./Const.js"
 import { Shaper } from "./Shaper.js"
 
@@ -33,8 +33,6 @@ function customize(node) {
 export function Gain(defaults, config) {
   const params = utils.forcePlainObject(config, "gain")
   const node = customize(new GainNode(defaults.context))
-  node.__defaults = defaults
-  node.__config = config
-  setNodeParams(node, params)
+  setNodeProps(defaults, node, params)
   return node
 }

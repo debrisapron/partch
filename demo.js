@@ -7,8 +7,9 @@ const P = partch({
   },
 })
 
-const Moog = (f) =>
+const Moog = (_props) =>
   P({
+    _props,
     osc1: P.Saw(f),
     osc2: P.Saw(f * 1.01),
     osc3: P.Sqr(f / 2),
@@ -50,15 +51,14 @@ const blocks = THEME.split(/\s/)
     } else if (s === "<") {
       oct--
     } else {
-      return { pitch: `${s}${oct}`, notes: len }
+      return { _pitch: `${s}${oct}`, _notes: len }
     }
   })
   .filter((x) => x)
 
 console.log(blocks.map((b) => b.pitch))
-P.Seq(blocks.map((b) => ({ ...b, node: Moog(440) })))
-  .monitor()
-  .start()
+P.Seq(blocks.map((b) => Moog(b)))
+
 // P({
 //   m1: Moog(440),
 //   m2: Moog(523),

@@ -3,6 +3,14 @@
 //   Object.defineProperty(obj, prop, { value, writable: false })
 // }
 
+export function filterObj(obj, callback) {
+  return Object.fromEntries(Object.entries(obj).filter(([key, val]) => callback(key,val)))
+}
+
+export function pick(obj, ...keys) {
+  return filterObj(obj, (k) => keys.includes(k))
+}
+
 export function isNumeric(thing) {
   return !isNaN(parseFloat(thing))
 }

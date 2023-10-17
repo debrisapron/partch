@@ -1,31 +1,32 @@
 import * as utils from "./utils.js"
-import { setNodeParams, defineAudioParam } from "./helpers.js"
+import { setNodeProps, defineAudioParam } from "./helpers.js"
 
-function testNode(node, dur = 0.2) {
-  // Monitor the node if it's not connected to anything.
-  // Then, if the node is a destination send a test sound
-  // through it, otherwise just start & stop it after a bit.
+// function testNode(node, dur = 0.2) {
+//   // Monitor the node if it's not connected to anything.
+//   // Then, if the node is a destination send a test sound
+//   // through it, otherwise just start & stop it after a bit.
 
-  // TODO Only monitor if node not connected to anything
-  node.monitor()
-  if (node.numberOfInputs > 0) {
-    let src = new OscillatorNode(node.context, {
-      type: "sawtooth",
-      frequency: 440,
-    })
-    src.connect(node)
-    src.start()
-    src.stop(node.context.currentTime + dur)
-  } else {
-    node.start()
-    node.stop(node.context.currentTime + dur)
-  }
-}
+//   // TODO Only monitor if node not connected to anything
+//   node.monitor()
+//   if (node.numberOfInputs > 0) {
+//     let src = new OscillatorNode(node.context, {
+//       type: "sawtooth",
+//       frequency: 440,
+//     })
+//     src.connect(node)
+//     src.start()
+//     src.stop(node.context.currentTime + dur)
+//   } else {
+//     node.start()
+//     node.stop(node.context.currentTime + dur)
+//   }
+// }
 
 function createDetune(node) {
   const constNode = new ConstantSourceNode(node.context, { offset: 0 })
   Object.values(node.__nodes).forEach((child) => {
-    if (child.detune) {
+    if (child.detune && child.__params._follow) {
+      // TODO follow amount
       constNode.connect(child.detune)
     }
   })
@@ -116,11 +117,15 @@ function connectOutputs(outputs, ...connectArgs) {
   return outputs.map((output) => output.connect(...connectArgs))[0]
 }
 
-function customize(node, config) {
-  const wires = config.__
-  node.__nodes = utils.withoutKey(config, "__")
+export function Patch(defaults, config) {
+  const node = new GainNode(defaults.context, { gain: 1 })
+
+  const props = utils.filterObj(config, (k) => k.startsWith("_") && k !== "__")
+  setNodeProps(defaults, node, props)
+  node.__nodes = utils.filterObj(config, (k) => !k.startsWith("_"))
   node.__inputs = []
   node.__outputs = []
+  const wires = config.__
   wireGraph(node, wires)
 
   Object.defineProperties(node, {
@@ -133,44 +138,39 @@ function customize(node, config) {
   })
 
   node.connect = (...args) => connectOutputs(node.__outputs, ...args)
+
+  node.__release = true
   node.start = (t) => {
-    Object.values(node.__nodes).forEach((child) => {
-      if (child.start) {
+    Object.values(node.__nodes)
+      .filter((ch) => ch.start)
+      .forEach((child) => {
         child.start(t)
-      }
-    })
+      })
   }
-  node.stop = (t) => {
-    let stopTime = t ?? 0
-    Object.values(node.__nodes).forEach((child) => {
-      if (child.__release) {
-        stopTime = Math.max(child.stop(t), stopTime)
-      }
-    })
-    Object.values(node.__nodes).forEach((child) => {
-      if (child.stop && !child.__release) {
+  node.stop = (t = 0) => {
+    let stopTime = t
+    Object.values(node.__nodes)
+      .filter((ch) => ch.__release)
+      .forEach((ch) => {
+        stopTime = Math.max(ch.stop(t), stopTime)
+      })
+    Object.values(node.__nodes)
+      .filter((ch) => ch.stop && !ch.__release)
+      .forEach((child) => {
         child.stop(stopTime)
-      }
-    })
+      })
     return stopTime
   }
-  node.set = (config) => setNodeParams(node, config)
-  node.monitor = () => {
-    node.connect(node.context.destination)
-    return node
-  }
-  node.test = (...args) => {
-    testNode(node, ...args)
-  }
+  // node.set = (config) => setNodeProps(node, config)
+  // node.monitor = () => {
+  //   node.connect(node.context.destination)
+  //   return node
+  // }
+  // node.test = (...args) => {
+  //   testNode(node, ...args)
+  // }
 
   defineAudioParam(node, "detune", createDetune)
 
-  return node
-}
-
-export function Patch(defaults, config) {
-  const node = customize(new GainNode(defaults.context), config)
-  node.__defaults = defaults
-  node.__config = config
   return node
 }

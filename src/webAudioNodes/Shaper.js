@@ -1,5 +1,5 @@
 import * as utils from "../utils"
-import { setNodeParams } from "../helpers"
+import { setNodeProps } from "../helpers"
 
 // NOTE
 // Currently updating the waveshaper curve in node-web-audio-api
@@ -8,8 +8,6 @@ import { setNodeParams } from "../helpers"
 export function Shaper(defaults, config) {
   const params = utils.forcePlainObject(config, "curve")
   const node = new WaveShaperNode(defaults.context)
-  node.__defaults = defaults
-  node.__config = config
-  setNodeParams(node, params)
+  setNodeProps(defaults, node, params)
   return node
 }
