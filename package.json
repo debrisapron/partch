@@ -14,13 +14,13 @@
   "author": "DEBRIS APRON <debrisapron@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "markdown-styles": "^3.1.10",
-    "marked": "^0.3.17",
-    "node-web-audio-api": "^0.11.0",
-    "prettier": "^3.0.3",
-    "showdown": "^1.8.6",
+    "markdown-styles": "^3.2.0",
+    "marked": "^0.3.19",
+    "node-web-audio-api": "^1.0.9",
+    "prettier": "^3.8.3",
+    "showdown": "^1.9.1",
     "terminal-image": "^2.0.0",
-    "waveform-data": "^4.3.0",
+    "waveform-data": "^4.5.2",
     "wavesurfer": "^1.3.4"
   },
   "scripts": {
@@ -30,6 +30,6 @@
   "dependencies": {
     "audio-loader": "^1.0.3",
     "freeverb": "^1.1.2",
-    "um-sequencer": "^0.5.0"
+    "um-sequencer": "^0.5.2"
   }
 }

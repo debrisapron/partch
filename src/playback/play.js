@@ -4,7 +4,7 @@ import * as utils from "../utils.js"
 // Ultimately scheduling should be controlled by a squarewave clock
 
 function durationInSeconds(defaults, durationObj) {
-  const noTimebase = !(defaults.timebase)
+  const noTimebase = !defaults.timebase
   const noDurParams = Object.keys(durationObj).length === 0
   if (noTimebase || noDurParams) {
     return null
@@ -37,11 +37,12 @@ function durationInSeconds(defaults, durationObj) {
 
 export function play(node, t = 0) {
   if (!(node.start && node.stop)) {
-    throw new Error(
-      "Cannot play a node without start and stop methods"
-    )
+    throw new Error("Cannot play a node without start and stop methods")
   }
-  const durationObj = utils.pick(node.__config ?? {}, ..."secs ticks beats bars notes".split(" "))
+  const durationObj = utils.pick(
+    node.__props ?? {},
+    ..."secs ticks beats bars notes".split(" ")
+  )
   const duration = durationInSeconds(node.__defaults ?? {}, durationObj)
   const currTime = node.context.currentTime
   const startTime = t > currTime ? t : currTime

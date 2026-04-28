@@ -1,31 +1,31 @@
 import * as utils from "./utils.js"
 import { setNodeProps, defineAudioParam } from "./helpers.js"
 
-// function testNode(node, dur = 0.2) {
-//   // Monitor the node if it's not connected to anything.
-//   // Then, if the node is a destination send a test sound
-//   // through it, otherwise just start & stop it after a bit.
+function testNode(node, dur = 0.2) {
+  // Monitor the node if it's not connected to anything.
+  // Then, if the node is a destination send a test sound
+  // through it, otherwise just start & stop it after a bit.
 
-//   // TODO Only monitor if node not connected to anything
-//   node.monitor()
-//   if (node.numberOfInputs > 0) {
-//     let src = new OscillatorNode(node.context, {
-//       type: "sawtooth",
-//       frequency: 440,
-//     })
-//     src.connect(node)
-//     src.start()
-//     src.stop(node.context.currentTime + dur)
-//   } else {
-//     node.start()
-//     node.stop(node.context.currentTime + dur)
-//   }
-// }
+  // TODO Only monitor if node not connected to anything
+  node.monitor()
+  if (node.numberOfInputs > 0) {
+    let src = new OscillatorNode(node.context, {
+      type: "sawtooth",
+      frequency: 440,
+    })
+    src.connect(node)
+    src.start()
+    src.stop(node.context.currentTime + dur)
+  } else {
+    node.start()
+    node.stop(node.context.currentTime + dur)
+  }
+}
 
 function createDetune(node) {
   const constNode = new ConstantSourceNode(node.context, { offset: 0 })
   Object.values(node.__nodes).forEach((child) => {
-    if (child.detune && child.__params._follow) {
+    if (child.detune && child.__props._follow) {
       // TODO follow amount
       constNode.connect(child.detune)
     }
@@ -120,8 +120,6 @@ function connectOutputs(outputs, ...connectArgs) {
 export function Patch(defaults, config) {
   const node = new GainNode(defaults.context, { gain: 1 })
 
-  const props = utils.filterObj(config, (k) => k.startsWith("_") && k !== "__")
-  setNodeProps(defaults, node, props)
   node.__nodes = utils.filterObj(config, (k) => !k.startsWith("_"))
   node.__inputs = []
   node.__outputs = []
@@ -161,16 +159,19 @@ export function Patch(defaults, config) {
       })
     return stopTime
   }
-  // node.set = (config) => setNodeProps(node, config)
-  // node.monitor = () => {
-  //   node.connect(node.context.destination)
-  //   return node
-  // }
-  // node.test = (...args) => {
-  //   testNode(node, ...args)
-  // }
+  node.set = (config) => setNodeProps(node, config)
+  node.monitor = () => {
+    node.connect(node.context.destination)
+    return node
+  }
+  node.test = (...args) => {
+    testNode(node, ...args)
+  }
 
   defineAudioParam(node, "detune", createDetune)
+
+  const props = utils.filterObj(config, (k) => k.startsWith("_") && k !== "__")
+  setNodeProps(defaults, node, props)
 
   return node
 }

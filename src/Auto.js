@@ -41,9 +41,11 @@ function trigger(node, config, shapeId, t) {
   return time
 }
 
-function customize(node, params) {
-  // TODO this should happen in base
-  params = utils.forcePlainObject(params, "attack")
+// TODO replace with automation based on a buffer, as it can much more easily
+// react to tempo changes
+export function Auto(defaults, config) {
+  const params = utils.forcePlainObject(config, "attack")
+  const node = new ConstantSourceNode(defaults.context)
 
   node.offset.value = 0
   node.__start = node.start
@@ -60,14 +62,8 @@ function customize(node, params) {
     node.__stop(endTime)
     return endTime
   }
-  return node
-}
 
-// TODO replace with automation based on a buffer, as it can much more easily
-// react to tempo changes
-export function Auto(defaults, config) {
-  const params = utils.forcePlainObject(config, "attack")
-  const node = customize(new ConstantSourceNode(defaults.context), params)
-  node.__defaults = defaults
+  // setNodeProps(defaults, node, props)
+
   return node
 }

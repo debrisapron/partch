@@ -1,10 +1,9 @@
 import { assignDeep } from "./utils.js"
-import * as webAudioNodes from "./webAudioNodes/index.js"
+import * as webAudioNodes from "./webAudio/index.js"
+import * as extendedNodes from "./extended/index.js"
 import { Patch } from "./Patch.js"
 import { Auto } from "./Auto.js"
-import { Block } from "./Block.js"
-import { Note } from "./Note.js"
-import { Seq } from "./Seq.js"
+import { Seq } from "./playback/Seq.js"
 
 function getDefaults(options) {
   const defaults = assignDeep(
@@ -30,7 +29,7 @@ export function partch(options = {}) {
   const P = withDefaults(Patch)
   P.defaults = defaults
   P.context = defaults.context
-  Object.entries({ ...webAudioNodes, Auto, Block, Note, Seq }).map(
+  Object.entries({ ...webAudioNodes, ...extendedNodes, Auto, Seq }).map(
     ([name, fn]) => {
       P[name] = withDefaults(fn)
     }

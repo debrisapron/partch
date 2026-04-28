@@ -1,4 +1,4 @@
-import { Osc } from "./Osc.js"
+import { Osc } from "../webAudio/Osc.js"
 
 export function Sqr(defaults, config) {
   return Osc(defaults, config, "square")
