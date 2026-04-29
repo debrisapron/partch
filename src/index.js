@@ -1,9 +1,55 @@
 import { assignDeep } from "./utils.js"
-import * as webAudioNodes from "./webAudio/index.js"
-import * as extendedNodes from "./extended/index.js"
 import { Patch } from "./Patch.js"
-import { Auto } from "./Auto.js"
-import { Seq } from "./playback/Seq.js"
+
+//// Nodes ////
+
+import { Amp } from "./nodes/Amp.js"
+import { Apf } from "./nodes/Apf.js"
+import { Auto } from "./nodes/Auto.js"
+import { Bpf } from "./nodes/Bpf.js"
+import { Const } from "./nodes/Const.js"
+import { Delay } from "./nodes/Delay.js"
+import { Exp } from "./nodes/Exp.js"
+import { Filter } from "./nodes/Filter.js"
+import { Gain } from "./nodes/Gain.js"
+import { HighShelf } from "./nodes/HighShelf.js"
+import { Hpf } from "./nodes/Hpf.js"
+import { LowShelf } from "./nodes/LowShelf.js"
+import { Lpf } from "./nodes/Lpf.js"
+import { Notch } from "./nodes/Notch.js"
+import { Osc } from "./nodes/Osc.js"
+import { Peak } from "./nodes/Peak.js"
+import { Sample } from "./nodes/Sample.js"
+import { Saw } from "./nodes/Saw.js"
+import { Shaper } from "./nodes/Shaper.js"
+import { Sin } from "./nodes/Sin.js"
+import { Sqr } from "./nodes/Sqr.js"
+import { Tri } from "./nodes/Tri.js"
+
+const nodeFns = {
+  Amp,
+  Apf,
+  Auto,
+  Bpf,
+  Const,
+  Delay,
+  Exp,
+  Filter,
+  Gain,
+  HighShelf,
+  Hpf,
+  LowShelf,
+  Lpf,
+  Notch,
+  Osc,
+  Peak,
+  Sample,
+  Saw,
+  Shaper,
+  Sin,
+  Sqr,
+  Tri,
+}
 
 function getDefaults(options) {
   const defaults = assignDeep(
@@ -29,11 +75,9 @@ export function partch(options = {}) {
   const P = withDefaults(Patch)
   P.defaults = defaults
   P.context = defaults.context
-  Object.entries({ ...webAudioNodes, ...extendedNodes, Auto, Seq }).map(
-    ([name, fn]) => {
-      P[name] = withDefaults(fn)
-    }
-  )
+  Object.entries(nodeFns).map(([name, fn]) => {
+    P[name] = withDefaults(fn)
+  })
 
   return P
 }

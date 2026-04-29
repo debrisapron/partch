@@ -1,6 +1,6 @@
 // TODO: Rename to Log because that's what it is
 // Alternatively Curve? For a node that can do different curves?
-import { Shaper } from "../webAudio/Shaper.js"
+import { Shaper } from "./Shaper.js"
 
 function upTo(length) {
   return Array(length)

@@ -1,7 +1,7 @@
 import * as utils from "../utils.js"
 import { setNodeProps } from "../helpers.js"
-import { Const } from "../webAudio/Const.js"
-import { Gain } from "../webAudio/Gain.js"
+import { Const } from "./Const.js"
+import { Gain } from "./Gain.js"
 import { Exp } from "./Exp.js"
 
 export function Amp(defaults, config) {
