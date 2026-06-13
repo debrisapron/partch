@@ -1,5 +1,5 @@
 import * as utils from "./utils.js"
-import { setNodeProps, defineAudioParam } from "./helpers.js"
+import { setNodeProps, defineLazyAudioParam } from "./helpers.js"
 
 function testNode(node, dur = 0.2) {
   // Monitor the node if it's not connected to anything.
@@ -168,7 +168,7 @@ export function Patch(defaults, config) {
     testNode(node, ...args)
   }
 
-  defineAudioParam(node, "detune", createDetune)
+  defineLazyAudioParam(node, "detune", createDetune)
 
   const props = utils.filterObj(config, (k) => k.startsWith("_") && k !== "__")
   setNodeProps(defaults, node, props)

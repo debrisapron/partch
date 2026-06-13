@@ -1,6 +1,6 @@
 import * as utils from "./utils.js"
 
-export function defineAudioParam(node, name, factory) {
+export function defineLazyAudioParam(node, name, factory) {
   let audioParam
   Object.defineProperty(node, name, {
     get() {
