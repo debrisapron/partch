@@ -1,5 +1,5 @@
-import * as utils from "../utils"
-import { setNodeProps } from "../helpers"
+import * as utils from "../utils.js"
+import { setNodeProps } from "../helpers.js"
 
 export function Gain(defaults, config) {
   const params = utils.forcePlainObject(config, "gain")

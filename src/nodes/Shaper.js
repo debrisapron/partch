@@ -1,5 +1,5 @@
-import * as utils from "../utils"
-import { setNodeProps } from "../helpers"
+import * as utils from "../utils.js"
+import { setNodeProps } from "../helpers.js"
 
 // NOTE
 // Currently updating the waveshaper curve in node-web-audio-api

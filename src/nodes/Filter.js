@@ -1,5 +1,5 @@
 import * as utils from "../utils.js"
-import { setNodeProps } from "../helpers"
+import { setNodeProps } from "../helpers.js"
 
 export function Filter(defaults, config, filterType) {
   const params = { ...utils.forcePlainObject(config, "frequency") }

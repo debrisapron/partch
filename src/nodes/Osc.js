@@ -1,5 +1,5 @@
-import * as utils from "../utils"
-import { setNodeProps } from "../helpers"
+import * as utils from "../utils.js"
+import { setNodeProps } from "../helpers.js"
 
 export function Osc(defaults, config, oscType) {
   const props = { ...utils.forcePlainObject(config, "frequency") }
