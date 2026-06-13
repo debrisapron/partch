@@ -159,7 +159,7 @@ export function Patch(defaults, config) {
       })
     return stopTime
   }
-  node.set = (config) => setNodeProps(node, config)
+  node.set = (patch) => setNodeProps(node, patch)
   node.monitor = () => {
     node.connect(node.context.destination)
     return node
