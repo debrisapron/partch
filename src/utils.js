@@ -4,7 +4,9 @@
 // }
 
 export function filterObj(obj, callback) {
-  return Object.fromEntries(Object.entries(obj).filter(([key, val]) => callback(key,val)))
+  return Object.fromEntries(
+    Object.entries(obj).filter(([key, val]) => callback(key, val))
+  )
 }
 
 export function pick(obj, ...keys) {
@@ -70,11 +72,11 @@ export function withoutKey(thing, key) {
   return r
 }
 
-export function assignDeep(target, source) {
+export function assignDeepInPlace(target, source) {
   Object.entries(source).forEach(([k, v]) => {
     const t = target[k]
     if (isPlainObject(t) && isPlainObject(v)) {
-      assignDeep(t, v)
+      assignDeepInPlace(t, v)
     } else if (v !== undefined) {
       target[k] = v
     }

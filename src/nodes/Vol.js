@@ -1,13 +1,12 @@
-import * as utils from "../utils.js"
-import { setNodeProps } from "../helpers.js"
+import { setNodeProps, getPropsFromConfig } from "../helpers.js"
 import { Const } from "./Const.js"
 import { Gain } from "./Gain.js"
-import { Log } from "./Log.js"
+import { Exp } from "./Exp.js"
 
-export function Amp(defaults, config) {
-  const props = utils.forcePlainObject(config, "level")
+export function Vol(defaults, config) {
+  const props = getPropsFromConfig(config, "level", { level: 1 })
   const node = Gain(defaults, { gain: 0 })
-  const exp = Log(defaults)
+  const exp = Exp(defaults, 5 / 3)
   const level = Const(defaults, { offset: 0 })
   level.connect(exp).connect(node.gain)
   node.level = level.offset

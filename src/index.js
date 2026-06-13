@@ -1,15 +1,15 @@
-import { assignDeep } from "./utils.js"
+import { assignDeepInPlace } from "./utils.js"
 import { Patch } from "./Patch.js"
 
 //// Nodes ////
 
-import { Amp } from "./nodes/Amp.js"
+import { Vol } from "./nodes/Vol.js"
 import { Apf } from "./nodes/Apf.js"
 import { Auto } from "./nodes/Auto.js"
 import { Bpf } from "./nodes/Bpf.js"
 import { Const } from "./nodes/Const.js"
 import { Delay } from "./nodes/Delay.js"
-import { Log } from "./nodes/Log.js"
+import { Exp } from "./nodes/Exp.js"
 import { Filter } from "./nodes/Filter.js"
 import { Gain } from "./nodes/Gain.js"
 import { HighShelf } from "./nodes/HighShelf.js"
@@ -27,13 +27,13 @@ import { Sqr } from "./nodes/Sqr.js"
 import { Tri } from "./nodes/Tri.js"
 
 const nodeFns = {
-  Amp,
+  Vol,
   Apf,
   Auto,
   Bpf,
   Const,
   Delay,
-  Log,
+  Exp,
   Filter,
   Gain,
   HighShelf,
@@ -52,7 +52,7 @@ const nodeFns = {
 }
 
 function getDefaults(options) {
-  const defaults = assignDeep(
+  const defaults = assignDeepInPlace(
     {
       timebase: {
         bpm: 120,

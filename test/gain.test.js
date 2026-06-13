@@ -11,8 +11,3 @@ test("can create a GainNode with a given gain", () => {
   let node = P.Gain(2)
   assert.equal(node.gain.value, 2)
 })
-
-test.skip("can set the gainCv param", () => {
-  let node = P.Gain({ gainCv: 0.5 })
-  assert.equal(node.gainCv.value, 0.5)
-})

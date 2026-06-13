@@ -78,3 +78,9 @@ export function setNodeProps(defaults, node, props) {
     setNodePitch(defaults, node, props._pitch)
   }
 }
+
+// NOTE Mutates defaultValues!
+export function getPropsFromConfig(config, defaultProp, defaultValues) {
+  const configObj = utils.forcePlainObject(config, defaultProp)
+  return utils.assignDeepInPlace(defaultValues, configObj)
+}

@@ -25,9 +25,9 @@ src/
   helpers.js      # setNodeProps, defineAudioParam, pitch utilities
   utils.js        # general-purpose utility functions
   nodes/          # individual node factory functions
-    Amp.js        # amplitude node (Gain + Const + Log)
+    Vol.js        # perceptual volume node (Gain + Const + Exp at 5/3)
     Auto.js       # automation/envelope node (ConstantSourceNode with shape triggers)
-    Log.js        # logarithmic CV-to-gain shaper (built on Shaper)
+    Exp.js        # WaveShaperNode power curve with configurable exponent
     Const.js, Delay.js, Filter.js, Gain.js, Osc.js, Sample.js, Shaper.js
     Apf.js, Bpf.js, HighShelf.js, Hpf.js, LowShelf.js, Lpf.js, Notch.js, Peak.js
     Saw.js, Sin.js, Sqr.js, Tri.js
@@ -111,7 +111,7 @@ These exist in master or the README but are not yet in `next`:
 
 | Feature | Notes |
 |---|---|
-| `gainCv` AudioParam on `Gain` | Skipped test in `gain.test.js` |
+| `gainCv` AudioParam on `Gain` | |
 | `frequencyCv` AudioParam on `Filter`/`Osc` | Skipped tests in `filters.test.js`, `oscs.test.js` |
 | `Parallel` (array of nodes auto-wrapped) | Skipped test in `patch.test.js` |
 | `octave` property on `Osc` | Stored on node but does not yet affect frequency |
@@ -127,8 +127,7 @@ These exist in master or the README but are not yet in `next`:
 
 - **WaveShaperNode caveat**: In `node-web-audio-api`, assigning the `curve` property twice throws `InvalidStateError - cannot assign curve twice`. This is noted in `Shaper.js` with a TODO to check if it also happens in browsers.
 - **Auto node shape format**: Trigger shapes are space-separated segments of `value/duration` (e.g. `"0/0 1/0.01 0.8/0.1"`). A duration of 0 means an instant step; two consecutive instant steps are spaced one tick apart.
-- **Log node**: Maps 0-1 CV input to gain using a cubic power curve (0→0, 0.5→0.1, 1→1). Used internally by `Amp`.
-- **Test setup monkey-patching**: `test/__setup.js` subclasses all `*Node` constructors from `node-web-audio-api` to record `__connections` arrays, enabling connection-graph assertions in tests.
+- **Exp node**: `P.Exp(exponent)` creates a WaveShaperNode applying `cv^exponent` to a 0-1 input. Default exponent is 1 (linear). `Amp` uses `Exp(5/3)` for Stevens' power law perceptual loudness scaling (cv=0.5 → ~0.316 gain / -10 dB ≈ half as loud).- **Test setup monkey-patching**: `test/__setup.js` subclasses all `*Node` constructors from `node-web-audio-api` to record `__connections` arrays, enabling connection-graph assertions in tests.
 
 ## Code style
 
