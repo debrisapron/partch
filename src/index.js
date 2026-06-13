@@ -9,7 +9,7 @@ import { Auto } from "./nodes/Auto.js"
 import { Bpf } from "./nodes/Bpf.js"
 import { Const } from "./nodes/Const.js"
 import { Delay } from "./nodes/Delay.js"
-import { Exp } from "./nodes/Exp.js"
+import { Log } from "./nodes/Log.js"
 import { Filter } from "./nodes/Filter.js"
 import { Gain } from "./nodes/Gain.js"
 import { HighShelf } from "./nodes/HighShelf.js"
@@ -33,7 +33,7 @@ const nodeFns = {
   Bpf,
   Const,
   Delay,
-  Exp,
+  Log,
   Filter,
   Gain,
   HighShelf,

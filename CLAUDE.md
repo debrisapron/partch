@@ -25,9 +25,9 @@ src/
   helpers.js      # setNodeProps, defineAudioParam, pitch utilities
   utils.js        # general-purpose utility functions
   nodes/          # individual node factory functions
-    Amp.js        # amplitude node (Gain + Const + Exp)
+    Amp.js        # amplitude node (Gain + Const + Log)
     Auto.js       # automation/envelope node (ConstantSourceNode with shape triggers)
-    Exp.js        # exponential CV-to-gain shaper (built on Shaper)
+    Log.js        # logarithmic CV-to-gain shaper (built on Shaper)
     Const.js, Delay.js, Filter.js, Gain.js, Osc.js, Sample.js, Shaper.js
     Apf.js, Bpf.js, HighShelf.js, Hpf.js, LowShelf.js, Lpf.js, Notch.js, Peak.js
     Saw.js, Sin.js, Sqr.js, Tri.js
@@ -127,7 +127,7 @@ These exist in master or the README but are not yet in `next`:
 
 - **WaveShaperNode caveat**: In `node-web-audio-api`, assigning the `curve` property twice throws `InvalidStateError - cannot assign curve twice`. This is noted in `Shaper.js` with a TODO to check if it also happens in browsers.
 - **Auto node shape format**: Trigger shapes are space-separated segments of `value/duration` (e.g. `"0/0 1/0.01 0.8/0.1"`). A duration of 0 means an instant step; two consecutive instant steps are spaced one tick apart.
-- **Exp node**: Maps 0-1 CV input to gain using a cubic power curve (0→0, 0.5→0.1, 1→1). Used internally by `Amp`. TODO comment suggests renaming to `Log`.
+- **Log node**: Maps 0-1 CV input to gain using a cubic power curve (0→0, 0.5→0.1, 1→1). Used internally by `Amp`.
 - **Test setup monkey-patching**: `test/__setup.js` subclasses all `*Node` constructors from `node-web-audio-api` to record `__connections` arrays, enabling connection-graph assertions in tests.
 
 ## Code style
